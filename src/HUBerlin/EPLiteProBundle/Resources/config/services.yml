@@ -1,0 +1,23 @@
+parameters:
+    ldap.data.provider.class: HUBerlin\EPLiteProBundle\Security\LdapDataSource
+    ldap.data.provider.host: "ldaps://amor.cms.hu-berlin.de"
+    ldap.data.provider.port: 636
+    ldap.data.provider.dn: "ou=users,ou=Benutzerverwaltung,ou=Computer- und Medienservice,o=Humboldt-Universitaet zu Berlin,c=DE"
+    ldap.data.provider.uidAttribute: "uid"
+
+services:
+    ldap.data.provider:
+        class: %ldap.data.provider.class%
+        arguments: [%ldap.data.provider.host%, %ldap.data.provider.port%, %ldap.data.provider.dn%, %ldap.data.provider.uidAttribute%]
+    
+    ldap.security.authentication.provider:
+        class: HUBerlin\EPLiteProBundle\Security\Authentication\Provider\LdapProvider
+        arguments: ['', @ldap.data.provider]
+
+    ldap.security.authentication.listener:
+        class:  HUBerlin\EPLiteProBundle\Security\Firewall\LdapListener
+        arguments: [@security.context, @security.authentication.manager, @security.authentication.session_strategy, @security.http_utils, 'ldap', null, null, [ ], null, null, @form.csrf_provider ]        
+    
+    ldap_user_provider:
+        class: HUBerlin\EPLiteProBundle\Entity\UserRepository
+        arguments: [ @doctrine.orm.entity_manager ]

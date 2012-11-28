@@ -1,0 +1,18 @@
+login:
+    pattern:  /login
+    defaults: { _controller: HUBerlinEPLiteProBundle:Security:login }
+
+login_check:
+    pattern:   /login_check
+    
+logout:
+    pattern:   /logout
+    
+hu_base:
+    pattern:   /
+    defaults: { _controller: HUBerlinEPLiteProBundle:Default:index }
+    
+hu_berlin_ep_lite_pro_homepage:
+    pattern:  /hello/{name}
+    defaults: { _controller: HUBerlinEPLiteProBundle:Default:index }
+    
