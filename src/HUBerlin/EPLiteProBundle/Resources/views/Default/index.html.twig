@@ -1,5 +1,29 @@
 {% extends 'HUBerlinEPLiteProBundle::layout.html.twig' %}
 
- {% block content %}
-    Hello {{ name }}!
+{% block content %}
+    <h1>Gruppen</h1>
+    <table id="groups">
+    {% for group in groups %}
+    <tr class="group">
+        <td><a href="{{ path('hu_group', {id: group.id}) }}" class="name">{{ group.name }}</a>
+        <td><span class="creationdate">{{ group.creationdate.date }}</span></td>
+    </tr>
+    <tr>
+        <td colspan="2"><h3>{% for user in group.user %} {{ user.name }}&nbsp;&nbsp;{% endfor %}</h3></td>
+    </tr>
+    {% endfor %}
+    </table>
+    
+    <br/>
+
+    <h2>Neue Gruppe</h2>
+    <form action="{{ path('hu_base') }}" method="post" {{ form_enctype(form) }}>
+        {{ form_errors(form) }}
+        <div>
+            {{ form_errors(form.name) }}
+            {{ form_widget(form.name) }}
+        </div>
+        {{ form_rest(form) }}
+        <input type="submit" />
+    </form>
 {% endblock %}

@@ -12,7 +12,11 @@ hu_base:
     pattern:   /
     defaults: { _controller: HUBerlinEPLiteProBundle:Default:index }
     
-hu_berlin_ep_lite_pro_homepage:
-    pattern:  /hello/{name}
-    defaults: { _controller: HUBerlinEPLiteProBundle:Default:index }
+hu_group:
+    pattern:   /group/{id}
+    defaults: { _controller: HUBerlinEPLiteProBundle:Default:group, id: 0 }
+    
+hu_pad:
+    pattern:   /pad/{padid}
+    defaults:  { _controller: HUBerlinEPLiteProBundle:Default:pad, padid: 0 }
     

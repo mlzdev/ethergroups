@@ -33,11 +33,46 @@ class User implements UserInterface
     private $uid;
     
     /**
+     * @var string $name
+     * 
+     * @ORM\Column(name="name", type="string", length=45, nullable=false)
+     */
+    private $name;
+    
+    /**
+     * @var \DateTime $lasttimestamp
+     * 
+     * @ORM\Column(name="lasttimestamp", type="datetime", nullable=false)
+     */
+    private $lasttimestamp;
+    
+    /**
+     * @var string $authorid
+     * 
+     * @ORM\Column(name="authorid", type="string", length=45, nullable=false)
+     */
+    private $authorid;
+    
+    /**
+     * @var boolean $isenbaled
+     * 
+     * @ORM\Column(name="isenabled", type="boolean", nullable=false)
+     */
+    private $isenabled;
+    
+    /**
      * @var boolean $isadmin
      * 
      * @ORM\Column(name="isadmin", type="boolean", nullable=false)
      */
     private $isadmin;
+    
+    /**
+     * @var Groups $groups
+     *
+     * @ORM\ManyToMany(targetEntity="Groups", indexBy="name", mappedBy="user")
+     */
+    private $groups;
 
     // LDAP Attributes
     protected $attributes;
@@ -205,4 +240,129 @@ class User implements UserInterface
         return $this->isadmin;
     }
     
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return User
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string 
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set lasttimestamp
+     *
+     * @param \DateTime $lasttimestamp
+     * @return User
+     */
+    public function setLasttimestamp($lasttimestamp)
+    {
+        $this->lasttimestamp = $lasttimestamp;
+    
+        return $this;
+    }
+
+    /**
+     * Get lasttimestamp
+     *
+     * @return \DateTime 
+     */
+    public function getLasttimestamp()
+    {
+        return $this->lasttimestamp;
+    }
+
+    /**
+     * Set isenabled
+     *
+     * @param boolean $isenabled
+     * @return User
+     */
+    public function setIsenabled($isenabled)
+    {
+        $this->isenabled = $isenabled;
+    
+        return $this;
+    }
+
+    /**
+     * Get isenabled
+     *
+     * @return boolean 
+     */
+    public function getIsenabled()
+    {
+        return $this->isenabled;
+    }
+
+    /**
+     * Add groups
+     *
+     * @param \HUBerlin\EPLiteProBundle\Entity\Groupds $groups
+     * @return User
+     */
+    public function addGroup(\HUBerlin\EPLiteProBundle\Entity\Groupds $groups)
+    {
+        $this->groups[] = $groups;
+    
+        return $this;
+    }
+
+    /**
+     * Remove groups
+     *
+     * @param \HUBerlin\EPLiteProBundle\Entity\Groupds $groups
+     */
+    public function removeGroup(\HUBerlin\EPLiteProBundle\Entity\Groupds $groups)
+    {
+        $this->groups->removeElement($groups);
+    }
+
+    /**
+     * Get groups
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getGroups()
+    {
+        return $this->groups;
+    }
+
+    /**
+     * Set authorid
+     *
+     * @param string $authorid
+     * @return User
+     */
+    public function setAuthorid($authorid)
+    {
+        $this->authorid = $authorid;
+    
+        return $this;
+    }
+
+    /**
+     * Get authorid
+     *
+     * @return string 
+     */
+    public function getAuthorid()
+    {
+        return $this->authorid;
+    }
 }

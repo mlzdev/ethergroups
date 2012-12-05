@@ -34,6 +34,9 @@ class LdapProvider implements AuthenticationProviderInterface
 			// Save the user attributes in the user record
 			$user->setAttributes($result);
 			
+			// update the db (and check, if the name from the user has changed)
+			$this->userProvider->updateUser($user);
+			
 			// Generate a new authentication token that reflects the authenticated state
 			$token = new LdapUserToken($user->getUid(), $token->getCredentials(), $user->getRoles());
 			$token->setUser($user);
