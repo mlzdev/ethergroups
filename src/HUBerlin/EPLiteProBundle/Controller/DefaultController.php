@@ -39,23 +39,15 @@ class DefaultController extends Controller {
 		}
 
 		$groups = $user->getGroups();
-		
-// 		$contributors = '';
-// 		foreach ($groups as $group) {
-// 		    $groupuser = $group->getUser();
-		    
-// 		    foreach ($groupuser as $gu)
-// 		    $groups
-		    
-// 		}
 
 		$this->updateCookie($etherpadlite, $groups, $user);
 
 		return $this
 				->render('HUBerlinEPLiteProBundle:Default:index.html.twig',
-						array('form' => $form->createView(), 'groups' => $groups));
+						array('form' => $form->createView(),
+								'groups' => $groups));
 	}
-	
+
 	public function deleteGroupAction($groupID = null) {
 	}
 
@@ -131,6 +123,7 @@ class DefaultController extends Controller {
 		if (!isset($groups)) {
 			$groups = $user->getGroups();
 		}
+		if (empty($groups)) return;
 
 		foreach ($groups as $group) {
 			$groupIDs[$group->getGroupid()] = 0;
@@ -145,28 +138,27 @@ class DefaultController extends Controller {
 		$sessions = get_object_vars($sessions);
 
 		$sessionIDs = "";
-
 		if (!empty($sessions)) {
 			foreach ($sessions as $sessionID => $value) {
 				$sessionIDs .= $sessionID . ' ';
 				if (array_key_exists($value->groupID, $groupIDs)) {
 					unset($groupIDs[$value->groupID]);
 				}
-// 				$etherpadlite->deleteSession($sessionID);
+				// Comment this out, if you want to delete all sessions
+				// 				$etherpadlite->deleteSession($sessionID);
 			}
 		}
 
 		foreach ($groupIDs as $groupID => $value) {
-				try {
-					$sessionID = $etherpadlite
-							->createSession($groupID, $authorID, $validUntil);
-				} catch (Exception $e) {
-					echo "\n\ncreateSession failed with message: "
-							. $e->getMessage();
-				}
-				$sessionIDs .= $sessionID->sessionID . ' ';
+			try {
+				$sessionID = $etherpadlite
+						->createSession($groupID, $authorID, $validUntil);
+			} catch (Exception $e) {
+				echo "\n\ncreateSession failed with message: "
+						. $e->getMessage();
+			}
+			$sessionIDs .= $sessionID->sessionID . ' ';
 		}
-
 
 		// if we reach the etherpadlite server over https, then the cookie should only be delivered over ssl 
 		//$ssl = (stripos($CFG->etherpadlite_url, 'https://')===0)?true:false;
