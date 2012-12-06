@@ -110,13 +110,18 @@ class DefaultController extends Controller {
 
 		$url = $this->container->getParameter('etherpadlite.url') . '/p/'
 				. $padid;
+		
+		$this->updateCookieIfNecessary();
 
 		return $this
 				->render('HUBerlinEPLiteProBundle:Default:pad.html.twig',
 						array('name' => $padid, 'url' => $url));
 	}
 
-	private function updateCookie($etherpadlite, $groups = null, $user = null) {
+	private function updateCookie($etherpadlite=null, $groups = null, $user = null) {
+	    if(!isset($etherpadlite)) {
+	        $etherpadlite = $this->get('etherpadlite');
+	    }
 		if (!isset($user)) {
 			$user = $this->getUser();
 		}
@@ -135,20 +140,30 @@ class DefaultController extends Controller {
 		// TODO Needs a config
 		$validUntil = time() + 10000;
 
-		$sessions = $etherpadlite->listSessionsOfAuthor($authorID);
-		if(isset($sessions)) {
-		    $sessions = get_object_vars($sessions);
-		}
-
 		$sessionIDs = "";
+		$sessions = $etherpadlite->listSessionsOfAuthor($authorID);
+		$sessions = get_object_vars($sessions);
+		
+		/**
+		 * Here we have the possibility to disallow the creation of new sessions by unsetting the sessionIDs, which the etherpad server already knows
+		 * If one of the servers sessions isn't valid anymore, it will be deleted and afterwards a session for the group will be created
+		 * TODO Maybe a Problem, because we can only set one cookie with one specific time until it is valid
+		 * On the other hand, when the session doesn't exist on the server anymore, It won't be included in the cookie anymore
+		 * TODO Test this! - Result: even if the sessions are not valid anymore, the server still sends them
+		 *     A check, if they are valid? - done
+		 */
 		if (!empty($sessions)) {
+		    $now = time();
 			foreach ($sessions as $sessionID => $value) {
-				$sessionIDs .= $sessionID . ' ';
-				if (array_key_exists($value->groupID, $groupIDs)) {
-					unset($groupIDs[$value->groupID]);
-				}
-				// Comment this out, if you want to delete all sessions
-				// 				$etherpadlite->deleteSession($sessionID);
+			    if($value->validUntil > $now) {
+				    $sessionIDs .= $sessionID . ',';
+    				if (array_key_exists($value->groupID, $groupIDs)) {
+    					unset($groupIDs[$value->groupID]);
+    				}
+			    }
+			    else {
+			        $etherpadlite->deleteSession($sessionID);
+			    }
 			}
 		}
 
@@ -160,8 +175,10 @@ class DefaultController extends Controller {
 				echo "\n\ncreateSession failed with message: "
 						. $e->getMessage();
 			}
-			$sessionIDs .= $sessionID->sessionID . ' ';
+			$sessionIDs .= $sessionID->sessionID . ',';
 		}
+		
+		$sessionIDs = substr($sessionIDs, 0, -1);
 
 		// if we reach the etherpadlite server over https, then the cookie should only be delivered over ssl 
 		//$ssl = (stripos($CFG->etherpadlite_url, 'https://')===0)?true:false;
@@ -170,6 +187,15 @@ class DefaultController extends Controller {
 		// TODO needs a config for the URL
 		setcookie("sessionID", $sessionIDs, $validUntil, '/', '.hu-berlin.de',
 				$ssl); // Set a cookie
+	}
+	
+	private function updateCookieIfNecessary() {
+	    /**
+	     * Always update Cookies
+	     */
+// 	    if(empty($_COOKIE['sessionID'])) {
+	        $this->updateCookie();
+// 	    }
 	}
 
 }
