@@ -123,11 +123,12 @@ class DefaultController extends Controller {
 		if (!isset($groups)) {
 			$groups = $user->getGroups();
 		}
-		if (empty($groups)) return;
 
 		foreach ($groups as $group) {
 			$groupIDs[$group->getGroupid()] = 0;
 		}
+		
+		if(!isset($groupIDs)) return;
 
 		$authorID = $user->getAuthorid();
 
@@ -135,7 +136,9 @@ class DefaultController extends Controller {
 		$validUntil = time() + 10000;
 
 		$sessions = $etherpadlite->listSessionsOfAuthor($authorID);
-		$sessions = get_object_vars($sessions);
+		if(isset($sessions)) {
+		    $sessions = get_object_vars($sessions);
+		}
 
 		$sessionIDs = "";
 		if (!empty($sessions)) {
