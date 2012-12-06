@@ -4,7 +4,7 @@ parameters:
     ldap.data.provider.port: 636
     ldap.data.provider.dn: "ou=users,ou=Benutzerverwaltung,ou=Computer- und Medienservice,o=Humboldt-Universitaet zu Berlin,c=DE"
     ldap.data.provider.uidAttribute: "uid"
-    etherpadlite.apikey: 'lfTKxj6YUfekjXdYnTw75SWCOsaW5YeK'
+    etherpadlite.apikey: 'Y2Kt4J6owojPkjhG7MlJjWJA7Y79HzU5'
     etherpadlite.baseurl: 'http://peter.cms.hu-berlin.de:9001/api'
     etherpadlite.class: HUBerlin\EPLiteProBundle\Helper\EtherpadLiteClient
     etherpadlite.url: 'http://peter.cms.hu-berlin.de:9001'
