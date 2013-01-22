@@ -5,7 +5,7 @@
     <table id="pads">
     {% for pad in pads %}
     <tr class="pad">
-    <td><a href="{{ path('hu_pad', {padid: pad.id}) }}" class="name">{{ pad.name }}</a></td>
+    <td><a href="{{ path('pad', {padid: pad.id}) }}" class="name">{{ pad.name }}</a></td>
     </tr>
     {% endfor %}
     </table>
@@ -13,7 +13,7 @@
     <br/>
 
     <h2>Neues Pad</h2>
-    <form action="{{ path('hu_group', {id: group.id}) }}" method="post" {{ form_enctype(form) }}>
+    <form action="{{ path('group', {id: group.id}) }}" method="post" {{ form_enctype(form) }}>
         {{ form_errors(form) }}
         <div>
             {{ form_errors(form.name) }}

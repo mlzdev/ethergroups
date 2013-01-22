@@ -8,15 +8,19 @@ login_check:
 logout:
     pattern:   /logout
     
-hu_base:
+base:
     pattern:   /
     defaults: { _controller: HUBerlinEPLiteProBundle:Default:index }
     
-hu_group:
+group:
     pattern:   /group/{id}
     defaults: { _controller: HUBerlinEPLiteProBundle:Default:group, id: 0 }
     
-hu_pad:
+group_delete:
+    pattern:  /group/delete/{id}
+    defaults: { _controller: HUBerlinEPLiteProBundle:Default:deleteGroup, id: 0 }
+    
+pad:
     pattern:   /pad/{padid}
     defaults:  { _controller: HUBerlinEPLiteProBundle:Default:pad, padid: 0 }
     

@@ -48,7 +48,44 @@ class DefaultController extends Controller {
 								'groups' => $groups));
 	}
 
-	public function deleteGroupAction($groupID = null) {
+	public function deleteGroupAction($id = null) {
+	    $eplite = $this->get('etherpadlite');
+	    
+	    $em = $this->getDoctrine()->getManager();
+	    $group = $em->getRepository('HUBerlinEPLiteProBundle:Groups')->find($id);
+	    
+	    if(!$group) {
+	        $this->get('session')
+	        ->setFlash('notice', 'Diese Gruppe existiert nicht');
+	        
+	        return $this->redirect($this->generateUrl('base'));
+	    }
+	    
+	    try {
+	        $eplite->deleteGroup($group->getGroupid()); 
+	        $em->remove($group);
+	        
+	        $this->get('session')
+	        ->setFlash('notice', 'Gruppe gelöscht');
+	        
+	    }
+	    catch (\Exception $e) {
+	        if($e instanceof \InvalidArgumentException)
+	        {
+	            $em->remove($group);
+    	        $this->get('session')
+    	        ->setFlash('notice', 'Gruppe existiert nicht auf dem Etherpad Lite Server. Gruppe gelöscht.');
+	        }
+	        else {
+	            $this->get('session')
+	            ->setFlash('notice', 'Gruppe konnte nicht gelöscht werden');
+	        }
+	    }
+	    
+	    $em->flush();
+	    
+	    return $this->redirect($this->generateUrl('base'));
+	    
 	}
 
 	public function groupAction(Request $request, $id = null) {

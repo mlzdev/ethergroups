@@ -93,11 +93,11 @@ class EtherpadLiteClient {
         return $result->data;
       case self::CODE_INVALID_PARAMETERS:
       case self::CODE_INVALID_API_KEY:
-        throw new \InvalidArgumentException($result->message);
+        throw new \InvalidArgumentException($result->message, $result->code);
       case self::CODE_INTERNAL_ERROR:
-        throw new \RuntimeException($result->message);
+        throw new \RuntimeException($result->message, $result->code);
       case self::CODE_INVALID_FUNCTION:
-        throw new \BadFunctionCallException($result->message);
+        throw new \BadFunctionCallException($result->message, $result->code);
       default:
         throw new \RuntimeException("An unexpected error occurred whilst handling the response");
     }

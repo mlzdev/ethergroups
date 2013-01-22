@@ -5,8 +5,9 @@
     <table id="groups">
     {% for group in groups %}
     <tr class="group">
-        <td><a href="{{ path('hu_group', {id: group.id}) }}" class="name">{{ group.name }}</a>
+        <td><a href="{{ path('group', {id: group.id}) }}" class="name">{{ group.name }}</a>
         <td><span class="creationdate">{{ group.creationdate.date }}</span></td>
+        <td><a href="{{ path('group_delete', {id: group.id}) }}"> <img src="{{ asset('bundles/huberlineplitepro/images/delete.png') }}" /> </a></td>
     </tr>
     <tr>
         <td colspan="2"><h3>{% for user in group.user %} {{ user.name }}&nbsp;&nbsp;{% endfor %}</h3></td>
@@ -17,7 +18,7 @@
     <br/>
 
     <h2>Neue Gruppe</h2>
-    <form action="{{ path('hu_base') }}" method="post" {{ form_enctype(form) }}>
+    <form action="{{ path('base') }}" method="post" {{ form_enctype(form) }}>
         {{ form_errors(form) }}
         <div>
             {{ form_errors(form.name) }}
