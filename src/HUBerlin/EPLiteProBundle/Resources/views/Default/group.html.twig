@@ -1,14 +1,17 @@
 {% extends 'HUBerlinEPLiteProBundle::layout.html.twig' %}
 
 {% block content %}
-    <h1>Pads</h1>
-    <table id="pads">
+    <h1>{{ group.name }}</h1>
+    <h2>Pads</h2>
+    <div id="pads">
     {% for pad in pads %}
-    <tr class="pad">
-    <td><a href="{{ path('pad', {padid: pad.id}) }}" class="name">{{ pad.name }}</a></td>
-    </tr>
+        <div class="pad">
+        <a href="{{ path('pad', {padid: pad.id}) }}" class="name">{{ pad.name }}</a>
+        <span class="lastEdited">{{ pad.lastEdited }}</span>
+        <a href="{{ path('pad_delete', {padid: pad.id}) }}"> <img src="{{ asset('bundles/huberlineplitepro/images/delete.png') }}" /> </a>
+        </div>
     {% endfor %}
-    </table>
+    </div>
     
     <br/>
 

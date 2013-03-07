@@ -61,6 +61,13 @@ class User implements UserInterface
     private $isenabled;
     
     /**
+     * @var boolean $isactivated
+     *
+     * @ORM\Column(name="isactivated", type="boolean", nullable=false)
+     */
+    private $isactivated;
+    
+    /**
      * @var boolean $isadmin
      * 
      * @ORM\Column(name="isadmin", type="boolean", nullable=false)
@@ -70,7 +77,7 @@ class User implements UserInterface
     /**
      * @var Groups $groups
      *
-     * @ORM\ManyToMany(targetEntity="Groups", indexBy="name", mappedBy="user")
+     * @ORM\ManyToMany(targetEntity="Groups", indexBy="id", mappedBy="user")
      */
     private $groups;
 
@@ -308,6 +315,29 @@ class User implements UserInterface
     public function getIsenabled()
     {
         return $this->isenabled;
+    }
+    
+    /**
+     * Set isactivated
+     * 
+     * @param boolean $isactivated
+     * @return User
+     */
+    public function setIsactivated($isactivated)
+    {
+        $this->isactivated = $isactivated;
+        
+        return $this;
+    }
+    
+    /**
+     * Get isactivated
+     *
+     * @return boolean
+     */
+    public function getIsactivated()
+    {
+        return $this->isactivated;
     }
 
     /**

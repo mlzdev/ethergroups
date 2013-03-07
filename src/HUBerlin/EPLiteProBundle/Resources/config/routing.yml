@@ -20,7 +20,22 @@ group_delete:
     pattern:  /group/delete/{id}
     defaults: { _controller: HUBerlinEPLiteProBundle:Default:deleteGroup, id: 0 }
     
+group_addUser:
+    pattern:    /group/add/user/{id}
+    defaults:   { _controller: HUBerlinEPLiteProBundle:Default:addUser, id: 0 }
+    
 pad:
     pattern:   /pad/{padid}
     defaults:  { _controller: HUBerlinEPLiteProBundle:Default:pad, padid: 0 }
     
+pad_delete:
+    pattern:   /pad/delete/{padid}
+    defaults:  { _controller: HUBerlinEPLiteProBundle:Default:deletePad, padid: 0 }
+    
+pad_switchPublic:
+    pattern:    /pad/switch/{padid}
+    defaults:  { _controller: HUBerlinEPLiteProBundle:Default:switchPublic, padid: 0 }
+    
+pad_deletePassword:
+    pattern:    /pad/deletepass/{padid}
+    defaults:   { _controller: HUBerlinEPLiteProBundle:Default:deletePassword, padid: 0 }

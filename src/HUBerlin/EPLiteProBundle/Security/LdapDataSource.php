@@ -62,6 +62,19 @@ class LdapDataSource
 		}
 	}
 	
+	public function getUserRecordExtended($user, $resourceLink = NULL) {
+	    // Try to retrieve the user attributes
+	    $result = $this->searchRecords('(|('.$this->ldapUserAttribute . "=" . $user.')(sn='.$user.')(cn='.$user.')(givenName='.$user.'))', array("uid", "sn", "cn", "mail", "givenName"), $resourceLink);
+	    
+	    // Check if only one result was fetched
+	    if (!$result || !array_key_exists("count", $result) || $result["count"] != 1) {
+	        // Appearantly the user was not found or multiple records were returned
+	        return false;
+	    } else {
+	        return $result[0];
+	    }
+	}
+	
 	public function searchRecords($filter, $attributes, $resourceLink = NULL) {
 		// Try to connect if no established connection was given
 		$connect = false;

@@ -48,7 +48,7 @@ class Groups
     /**
      * @var User $user
      *
-     * @ORM\ManyToMany(targetEntity="User", indexBy="name", inversedBy="groups")
+     * @ORM\ManyToMany(targetEntity="User", indexBy="uid", inversedBy="groups")
      */
     private $user;
     
@@ -147,9 +147,13 @@ class Groups
      */
     public function addUser(\HUBerlin\EPLiteProBundle\Entity\User $user)
     {
-        $this->user[] = $user;
-    
-        return $this;
+        if(!$this->user->containsKey($user->getUid())) {
+            $this->user[] = $user;
+            return $this;
+        }
+        else {
+            return false;            
+        }
     }
 
     /**

@@ -22,7 +22,7 @@ class UserRepository implements UserProviderInterface {
         $this->etherpadlite = $etherpadlite;
     }
 
-    public function loadUserByUsername($username) {
+    public function loadUserByUsername($username, $activate = true) {
         // Build the query to fetch the user
         $q = $this->entityManager
                 ->getRepository('HUBerlin\EPLiteProBundle\Entity\User')
@@ -41,6 +41,8 @@ class UserRepository implements UserProviderInterface {
             $user->setUid($username);
             $user->setIsadmin(false);
             $user->setIsenabled(true);
+            $user->setIsactivated(false);
+            $user->newUser = true;
             
             try {
                 $authorid = $this->etherpadlite->createAuthorIfNotExistsFor($user->getUid(), $user->getName());
@@ -53,6 +55,10 @@ class UserRepository implements UserProviderInterface {
         
         if($user->getIsenabled() === false) {
             throw new DisabledException(sprintf('Benutzer "%s" wurde vom System gesperrt', $username));
+        }
+        
+        if($activate && $user->getIsactivated() === false) {
+            $user->setIsactivated(true);
         }
 
         return $user;

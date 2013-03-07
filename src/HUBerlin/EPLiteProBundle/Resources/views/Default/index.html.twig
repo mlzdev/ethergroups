@@ -1,20 +1,74 @@
 {% extends 'HUBerlinEPLiteProBundle::layout.html.twig' %}
 
+{% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('bundles/huberlineplitepro/css/jquery-ui-1.9.2.custom.css') }}" />
+{% endblock %}
+
+{% block javascript %}
+<script src="{{ asset('bundles/huberlineplitepro/js/jquery-1.8.3.js') }}"></script>
+<script src="{{ asset('bundles/huberlineplitepro/js/jquery-ui-1.9.2.custom.js') }}"></script>
+<script type="text/javascript">
+$(function() {
+
+    // Ajax call to display the pads here
+    $('.group .showPads').click(function(e) {
+        e.preventDefault();
+        var obj = $(this);
+        obj.parent().find('.pads .loader').show();
+        obj.parent().find('.pads .content').empty();
+        $.get(obj.attr('href'), function(data) {
+            data = $(data);
+            obj.parent().find('.pads .content').append(data.find('#pads').html());
+            obj.parent().find('.pads .loader').hide();
+            });
+        });
+	
+	// Handle the user forms
+	$('.adduserform').hide();
+    var adduser = $('.adduser');
+    adduser.show();
+    adduser.addClass('hiddenform');
+    adduser.click(function(e) {
+    	e.preventDefault();
+    	var obj = $(this);
+    	if(obj.hasClass('hiddenform')) {
+    		obj.parent().parent().find('.adduserform').show('blind');
+    		obj.removeClass('hiddenform');
+    		obj.empty().append('minus');
+        }
+    	else {
+    		obj.parent().parent().find('.adduserform').hide('blind');
+    		obj.addClass('hiddenform');
+    		obj.empty().append('plus');
+        }
+    		
+    });
+});
+</script>
+{% endblock %}
+
 {% block content %}
     <h1>Gruppen</h1>
-    <table id="groups">
+    <div id="groups">
     {% for group in groups %}
-    <tr class="group">
-        <td><a href="{{ path('group', {id: group.id}) }}" class="name">{{ group.name }}</a>
-        <td><span class="creationdate">{{ group.creationdate.date }}</span></td>
-        <td><a href="{{ path('group_delete', {id: group.id}) }}"> <img src="{{ asset('bundles/huberlineplitepro/images/delete.png') }}" /> </a></td>
-    </tr>
-    <tr>
-        <td colspan="2"><h3>{% for user in group.user %} {{ user.name }}&nbsp;&nbsp;{% endfor %}</h3></td>
-    </tr>
+    <div class="group">
+        <a href="{{ path('group', {id: group.id}) }}" class="name">{{ group.name }}</a>
+        <span class="creationdate">{{ group.creationdate.date | date('d.m.Y H:i:s')}}</span>
+        <a href="{{ path('group_delete', {id: group.id}) }}"> <img src="{{ asset('bundles/huberlineplitepro/images/delete.png') }}" /> </a>
+        <h3>{% for user in group.user %} {{ user.name }}&nbsp;&nbsp;{% endfor %}<a href="#" class='adduser' style="display:none">plus</a></h3>
+        <form class="adduserform" action="{{ path('group_addUser', {id: group.id}) }}" method="post">
+            <input type="text" placeholder="Benutzername" name="username" />
+            <input type="submit" />
+        </form>
+        <a class="showPads" href="{{ path('group', {id: group.id}) }}">Show Pads</a> 
+        <div class="pads">
+            <img width="20" class="loader" style="display: none" src="{{ asset('bundles/huberlineplitepro/images/loader.gif') }}"/>
+            <div class="content"></div>
+        </div>
+        </div>
     {% endfor %}
-    </table>
-    
+    </div>    
     <br/>
 
     <h2>Neue Gruppe</h2>

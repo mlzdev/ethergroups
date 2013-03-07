@@ -10,7 +10,7 @@ class DefaultController extends Controller {
 		$etherpadlite = $this->get('etherpadlite');
 
 		$user = $this->getUser();
-
+		
 		$em = $this->getDoctrine()->getManager();
 
 		$group = new Groups();
@@ -34,7 +34,7 @@ class DefaultController extends Controller {
 
 				$this->get('session')->setFlash('notice', 'Gruppe erstellt!');
 
-				return $this->redirect($this->generateUrl('hu_base'));
+				return $this->redirect($this->generateUrl('base'));
 			}
 		}
 
@@ -61,34 +61,64 @@ class DefaultController extends Controller {
 	        return $this->redirect($this->generateUrl('base'));
 	    }
 	    
-	    try {
-	        $eplite->deleteGroup($group->getGroupid()); 
-	        $em->remove($group);
+	    $user = $group->getUser();
+	    $thisUser = $this->getUser();
+	    
+	    if($user->containsKey($thisUser->getUid())) { // Is the user in the group
 	        
+	        if($user->count()==1) { // Last user -> remove group
+	            $this->deleteGroup($group);
+	        }
+	        else { // Just remove user from group
+	            $group->removeUser($thisUser);
+	            $this->get('session')
+	            ->setFlash('notice', 'Sie wurden aus dieser Gruppe ausgetragen!');
+	        }
+	        
+	        $em->flush();
+	    }
+	    else {
+	        $this->get('session')
+	        ->setFlash('notice', 'Sie sind in dieser Gruppe nicht eingetragen!');
+	    }
+
+	    return $this->redirect($this->generateUrl('base'));
+	    
+	}
+	
+	public function deleteGroup($group) {
+	    $eplite = $this->get('etherpadlite');
+	    $em = $this->getDoctrine()->getManager();
+	    
+	    try {
+	        $eplite->deleteGroup($group->getGroupid());
+	        $em->remove($group);
+	         
 	        $this->get('session')
 	        ->setFlash('notice', 'Gruppe gelöscht');
-	        
+	         
 	    }
 	    catch (\Exception $e) {
 	        if($e instanceof \InvalidArgumentException)
 	        {
 	            $em->remove($group);
-    	        $this->get('session')
-    	        ->setFlash('notice', 'Gruppe existiert nicht auf dem Etherpad Lite Server. Gruppe gelöscht.');
+	            $this->get('session')
+	            ->setFlash('notice', 'Gruppe existiert nicht auf dem Etherpad Lite Server. Gruppe gelöscht.');
 	        }
 	        else {
 	            $this->get('session')
 	            ->setFlash('notice', 'Gruppe konnte nicht gelöscht werden');
 	        }
 	    }
-	    
-	    $em->flush();
-	    
-	    return $this->redirect($this->generateUrl('base'));
-	    
 	}
 
 	public function groupAction(Request $request, $id = null) {
+	    if(!$id) {
+	        $this->get('session')
+	            ->setFlash('notice', 'Bitte geben Sie eine korrekte ID an');
+	        return $this->redirect($this->generateUrl('base'));
+	    }
+	    
 		$etherpadlite = $this->get('etherpadlite');
 
 		$em = $this->getDoctrine()->getManager();
@@ -105,22 +135,14 @@ class DefaultController extends Controller {
 		if ($request->isMethod('POST')) {
 			$form->bind($request);
 			if ($form->isValid()) {
-
 				try {
-					$pad = $etherpadlite
-							->createGroupPad($group->getGroupid(), $pad->name,
-									null);
+					$pad = $etherpadlite->createGroupPad($group->getGroupid(), $pad->name, null);
 					$this->get('session')->setFlash('notice', 'Pad erstellt!');
 				} catch (\Exception $e) {
-					$this->get('session')
-							->setFlash('notice', 'Padname existiert bereits!');
+					$this->get('session')->setFlash('notice', 'Padname existiert bereits!');
 				}
 
-				return $this
-						->redirect(
-								$this
-										->generateUrl('hu_group',
-												array('id' => $id)));
+				return $this->redirect($this->generateUrl('group', array('id' => $id)));
 			}
 		}
 
@@ -133,26 +155,204 @@ class DefaultController extends Controller {
 			$pads[$i]->id = $padID;
 			$pads[$i]->name = explode('$', $padID);
 			$pads[$i]->name = $pads[$i]->name[1];
+			$pads[$i]->lastEdited = \date('d.m.Y H:i:s' ,substr_replace($etherpadlite->getLastEdited($padID)->lastEdited, "", -3));
 			$i++;
 		}
+		
+		$this->updateCookieIfNecessary();
 
 		return $this
 				->render('HUBerlinEPLiteProBundle:Default:group.html.twig',
 						array('form' => $form->createView(), 'group' => $group,
 								'pads' => $pads));
 	}
+	
+	public function addUserAction ($id=0, Request $request) {
+	    $em = $this->getDoctrine()->getManager();
+	    if(!$id) {
+	        $this->get('session')
+	        ->setFlash('notice', 'Bitte geben Sie eine gültige id an.');
+	        return $this->redirect($this->generateUrl('base'));
+	    }
+	    
+	    $group = $em->getRepository('HUBerlinEPLiteProBundle:Groups')->find($id);
+	    
+	    if($group) {
+	        if($request->isMethod('POST')) {
+	            $username = $request->request->get('username');
+	            if(!$username) {
+	                $this->get('session')
+	                ->setFlash('notice', 'Bitte geben Sie eine Benutzernamen an.');
+	                
+	                return $this->redirect($this->generateUrl('base'));
+	            }
+	            
+	            // TODO Mit ldap User herausfinden und der DB hinzufügen
+	            // Bei nicht bestätigten Usern sollte das neben dem namen stehen
+	             $ldap = $this->get('ldap.data.provider');
+	             $ldapuser = $ldap->getUserRecordExtended($username);
+	             
+	             if($ldapuser) {
+	                 $userProvider = $this->get('ldap_user_provider');
+	                 $user = $userProvider->loadUserByUsername($ldapuser['uid'][0], false);
+	                 $user->setAttributes($ldapuser);
+	                 $userProvider->updateUser($user);
+	                 if(!$group->addUser($user)) {
+	                     $this->get('session')
+	                     ->setFlash('notice', 'Dieser Nutzer existiert bereits in der Gruppe!');
+	                 }
+	                 else {
+                         $em->flush();
+                         $this->get('session')
+                         ->setFlash('notice', 'Nutzer zu der Gruppe hinzugefügt!');
+	                 }
+	             }
+	             else {
+	                 $this->get('session')
+	                 ->setFlash('notice', 'Mehrere Nutzer gefunden. Bitte spezifizieren Sie Ihre Angabe.');
+  	             }
+	        }
+	        else {
+	            $this->get('session')
+	            ->setFlash('notice', 'Diese Url kann nur über ein Formular angesprochen werden');
+	        }
+	    }
+	    else {
+	        $this->get('session')
+	        ->setFlash('notice', 'Die angegebene Gruppe existiert nicht');
+	    }
+	    
 
-	public function padAction($padid = 0) {
-		//         $etherpadlite = $this->get('etherpadlite');
+	    
+	    return $this->redirect($this->generateUrl('base'));
+	}
+
+	public function padAction($padid = 0, Request $request) {
+        $etherpadlite = $this->get('etherpadlite');
+		
+	    $padsplit = $this->splitPadid($padid);
+	    
+	    $group = $this->getGroupFromGroupid($padsplit[0]);
+	    $padname = $padsplit[1];
 
 		$url = $this->container->getParameter('etherpadlite.url') . '/p/'
 				. $padid;
 		
+		$ispublic = $etherpadlite->getPublicStatus($padid)->publicStatus;
+		
 		$this->updateCookieIfNecessary();
-
-		return $this
-				->render('HUBerlinEPLiteProBundle:Default:pad.html.twig',
-						array('name' => $padid, 'url' => $url));
+		
+		$pad = new \stdClass();
+		$pad->pass = null;
+		$form = $this->createFormBuilder($pad)
+		->add('pass', 'text',
+		        array('attr' => array('placeholder' => 'Passwort')))
+		        ->getForm();
+		
+		if ($request->isMethod('POST')) {
+		    $form->bind($request);
+		    if ($form->isValid()) {
+		        try {
+		            $pad = $etherpadlite->setPassword($padid, $pad->pass);
+		            $this->get('session')->setFlash('notice', 'Passwort erstellt!');
+		        } catch (\Exception $e) {
+		            $this->get('session')->setFlash('notice', 'FEHLER! setPassword');
+		        }
+		        return $this->redirect($this->generateUrl('pad', array('padid' => $padid)));
+		    }
+		}
+		
+		try {
+		    $isPasswordProtected = $etherpadlite->isPasswordProtected($padid)->isPasswordProtected;
+		}
+		catch (\Exception $e) {
+		    $this->get('session')->setFlash('notice', 'FEHLER! isPasswordProtected');
+		}
+		
+		return $this->render('HUBerlinEPLiteProBundle:Default:pad.html.twig',
+						array('group' => $group, 'padid' => $padid, 'padname' => $padname, 'url' => $url, 'ispublic' => $ispublic, 'form' => $form->createView(), 'isPasswordProtected' => $isPasswordProtected));
+	}
+	
+	public function deletePasswordAction($padid = 0) {
+	    $eplite = $this->get('etherpadlite');
+	    
+	    if(!$padid) {
+	        $this->get('session')
+	        ->setFlash('notice', 'Bitte geben Sie eine gültige padid an.');
+	        return $this->redirect($this->generateUrl('base'));
+	    }
+	    
+	    try {
+	        $eplite->setPassword($padid, null);
+	        $this->get('session')->setFlash('notice', 'Passwort gelöscht');
+	    }
+	    catch (\Exception $e) {
+	        $this->get('session')->setFlash('notice', 'FEHLER! setPublicStatus');
+	    }
+	    
+	    return $this->redirect($this->generateUrl('pad', array('padid' => $padid)));
+	}
+	
+	public function deletePadAction($padid = 0) {
+	    $eplite = $this->get('etherpadlite');
+	    
+	    if(!$padid) {
+	        $this->get('session')
+	        ->setFlash('notice', 'Bitte geben Sie eine gültige padid an.');
+	        return $this->redirect($this->generateUrl('base'));
+	    }
+	    
+	    try {
+	        $eplite->deletePad($padid);
+	    }
+	    catch (\Exception $e) {
+	        $this->get('session')
+	        ->setFlash('notice', 'Pad konnte nicht gelöscht werden');
+	    }
+	    
+	    $padsplit = $this->splitPadid($padid);
+	    $group = $this->getGroupFromGroupid($padsplit[0]);
+	         
+	    return $this->redirect($this->generateUrl('group', array('id'=>$group->getId())));
+	}
+	
+	public function switchPublicAction($padid = 0) {
+	    if(!$padid) {
+	        $this->get('session')
+	        ->setFlash('notice', 'Bitte geben Sie eine gültige padid an.');
+	    }
+	    
+	    $etherpadlite = $this->get('etherpadlite');
+	    
+	    try {
+	        $ispublic = $etherpadlite->getPublicStatus($padid)->publicStatus;
+	    }
+	    catch (\Exception $e) {
+	        $this->get('session')
+	        ->setFlash('notice', 'FEHLER! getPublicStatus');
+	    }
+	    
+	    try {
+	        $etherpadlite->setPublicStatus($padid, !$ispublic);
+	    }
+	    catch (\Exception $e) {
+	        $this->get('session')->setFlash('notice', 'FEHLER! setPublicStatus');
+	    }
+	    
+	    return $this->redirect($this->generateUrl('pad', array('padid' => $padid)));
+	    
+	    
+	}
+	
+	private function splitPadid($padid) {
+	    return \preg_split('.\$.', $padid);
+	}
+	
+	private function getGroupFromGroupid($groupid) {
+	    $em = $this->getDoctrine()->getManager();
+	    
+	    return $em->getRepository('HUBerlinEPLiteProBundle:Groups')
+	    ->findOneByGroupid($groupid);
 	}
 
 	private function updateCookie($etherpadlite=null, $groups = null, $user = null) {
@@ -179,7 +379,9 @@ class DefaultController extends Controller {
 
 		$sessionIDs = "";
 		$sessions = $etherpadlite->listSessionsOfAuthor($authorID);
-		$sessions = get_object_vars($sessions);
+		if(!empty($sessions)) {
+		    $sessions = get_object_vars($sessions);
+		}
 		
 		/**
 		 * Here we have the possibility to disallow the creation of new sessions by unsetting the sessionIDs, which the etherpad server already knows
@@ -199,7 +401,7 @@ class DefaultController extends Controller {
     				}
 			    }
 			    else {
-			        $etherpadlite->deleteSession($sessionID);
+// 			        $etherpadlite->deleteSession($sessionID); // Throws an error on server side o.O?
 			    }
 			}
 		}
