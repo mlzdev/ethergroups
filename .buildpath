@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<buildpath>
-	<buildpathentry kind="src" path="framework-standard-edition/app"/>
-	<buildpathentry kind="src" path="framework-standard-edition/src/Acme/DemoBundle"/>
-	<buildpathentry kind="src" path="framework-standard-edition/vendor"/>
-	<buildpathentry kind="src" path="framework-standard-edition/web"/>
-	<buildpathentry kind="con" path="org.eclipse.php.core.LANGUAGE"/>
-</buildpath>
