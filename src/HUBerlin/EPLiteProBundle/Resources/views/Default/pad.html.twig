@@ -43,12 +43,15 @@ function flashtimeout() {
 }
 
 $(function() {
+	// Make the etherpad iframe resizable
     $("#eplitewrap").resizable();
 
+	// possibility to hide flash-messages with a click
     $('#flash-messages').click(function(e) {
         $(this).hide('blind');
         });
 
+	// Send the pass form via ajax
     $("#passForm").submit(function(event){
     	event.preventDefault();
 
@@ -75,6 +78,7 @@ $(function() {
             });
     });
 
+	// switchpublic
     $('#switchPublic').click(function(e) {
         e.preventDefault();
         $('#publicStatus .text').empty();
@@ -82,13 +86,14 @@ $(function() {
         switchPublic(this.href);
         });
 
+	// remove password if clicked
     $('#isPasswordProtected .link').click(function(e) {
         e.preventDefault();
         $('#isPasswordProtected .loader').show();
         removePassword(this.href);
         });
 
-    // Add Pass
+    // Hide/Show Passform
     $('#pass #passForm').hide();
     var addPass = $('#pass #addPass');
     addPass.show();
