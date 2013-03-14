@@ -1,0 +1,31 @@
+@CHARSET "UTF-8";
+
+
+#imgupload {
+	position: relative;
+	top: -21px;
+	float: right;
+	right: 5px;
+	overflow: hidden;
+	background-color: #036;
+	color: #fff;
+	margin: -5px;
+	padding: 4px;
+}
+
+#imghover {
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	margin: 0px;
+	padding: 0px;
+	cursor: pointer;
+	font-size: 118px;
+}
+
+#custompic {
+	position: absolute;
+	float:	right;
+	top:	3px;
+	right: 3px;
+}

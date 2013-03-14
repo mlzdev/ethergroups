@@ -1,5 +1,118 @@
 {% extends 'HUBerlinEPLiteProBundle::layout.html.twig' %}
 
+{% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('bundles/huberlineplitepro/css/group.css') }}" />
+<link rel="stylesheet" href="{{ asset('bundles/huberlineplitepro/css/jquery-ui-1.9.2.custom.css') }}" />
+{% endblock %}
+
+{% block javascript %}
+<script src="{{ asset('bundles/huberlineplitepro/js/jquery-1.8.3.js') }}"></script>
+<script src="{{ asset('bundles/huberlineplitepro/js/jquery-ui-1.9.2.custom.js') }}"></script>
+<script src="{{ asset('bundles/huberlineplitepro/js/jquery.iframe-post-form.js') }}"></script>
+<script type="text/javascript">
+$(function() {
+    var logo = $('#logo_left'); 
+
+    // Remove link from logo
+    var img = logo.find('img');
+    logo.empty().append(img);
+
+    // Add "delete image" if necessary
+    logo.append("<a id=\"custompic\" href=\"{{ path('group_removePicture', {id: group.id}) }}\"><img src=\"{{ asset('bundles/huberlineplitepro/images/delete.png') }}\"/></a>");
+    var custompic = logo.find('#custompic');
+    custompic.hide();
+    
+    // prepare upload section
+    logo.append("<div id=\"imgupload\"><div>Upload</div><form action=\"{{ path('group_addPicture', {id: group.id}) }}\" method=\"post\" enctype=\"multipart/form-data\"><input name=\"file\" type=\"file\" id=\"imghover\" /></form></div>");
+    var imgupload = $('#imgupload');
+    imgupload.hide();
+
+    // Handle upload
+    var imgform = $('#imgupload form');
+    imgform.iframePostForm({
+        json: true,
+        complete: function (response) {
+            var html='';
+			if (!response.success)
+			{
+				$('#flash-messages').slideUp(function ()
+				{
+					$(this).empty().append('<div class="flash-message"></div>');
+					var fm = $(this).children('.flash-message');
+					fm.html('There was a problem with the image you uploaded')
+					$(this).slideDown();
+				});
+			}
+			else
+			{
+
+				if(response.url) {
+				    $('#headerpic').attr('src', response.url);
+				    img.addClass('custom');
+					}
+				
+				/*
+				if (response.imageSize)
+				{
+					width = response.imageSize[0] > 500 ? 500 : response.imageSize[0];
+				}
+				
+				
+				if (response.imageSource)
+				{
+					html += '<img src="' + response.imageSource + '" width="' + width + '" alt="Your uploaded image" />';
+				}
+				
+				
+				$('#flash-messages').slideUp(function ()
+				{
+					$(this).empty().append('<div class="flash-message"></div>');
+					var fm = $(this).children('.flash-message');
+					fm.html(html);
+					$(this).slideDown();
+				});
+				*/
+			}
+
+            }
+        });
+
+	// Show upload link and delete img (if necessary)
+    logo.hover(function(e) {
+        imgupload.toggle();
+        if(img.hasClass('custom')) {
+            if(imgupload.is(":visible")) {
+            	custompic.show();
+                }
+            else {
+            	custompic.hide();
+                }
+        }
+    });
+
+    // if a file is selected, upload it
+    $('#imgupload #imghover').change(function() {
+        // Do the upload
+        imgform.submit();        
+        });
+
+    // click handler for "remove picture"
+    custompic.click(function(e) {
+        e.preventDefault();
+        });
+});
+</script>
+{% endblock %}
+
+{% block headerurl %}
+{% if group.getWebPath is not null %}
+{{ group.getWebPath }}
+{% else %}
+{{ parent() }}
+{% endif %}
+{% endblock %}
+
 {% block content %}
     <h1>{{ group.name }}</h1>
     <h2>Pads</h2>
@@ -7,7 +120,7 @@
     {% for pad in pads %}
         <div class="pad">
         <a href="{{ path('pad', {padid: pad.id}) }}" class="name">{{ pad.name }}</a>
-        <span class="lastEdited">{{ pad.lastEdited }}</span>
+        <span class="lastEdited">({{ pad.lastEdited }})</span>
         <a href="{{ path('pad_delete', {padid: pad.id}) }}"> <img src="{{ asset('bundles/huberlineplitepro/images/delete.png') }}" /> </a>
         </div>
     {% endfor %}

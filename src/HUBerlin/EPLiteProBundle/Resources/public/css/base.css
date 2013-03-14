@@ -1,14 +1,79 @@
 @CHARSET "UTF-8";
 
+#page
+{
+	background-color: #fff;
+    min-width:  1024px;
+    max-width:	1380px;
+    width:	100%;
+    margin: 0 auto;
+    border-right: 1px solid #CCCCB2;
+	border-bottom: 1px solid #CCCCB2;
+	border-left: 1px solid #CCCCB2;
+	line-height: 1.4;
+}
+
 #header {
 	position: relative;
-	/*margin-bottom: 40px;*/
-    padding: 20px 30px 0px 30px;
+	height: 132px;
+}
+
+#pre_spacer {
+	float: left;
+	width: 18%;
+	height: 132px;
+}
+
+#headernote {
+	left: 15px;
+	position: absolute;
+	top: 45px;
+}
+#headernote a{
+	color: #036;
+}
+
+#logo_left {
+	width: 360px;
+	height: 110px;
+	float: left;
+	margin-top: 22px;
+	position: relative;
 }
 
 #logo {
-	/*position: absolute;
-	left: 0px;*/
+	background: url(../images/logo.jpg) no-repeat right center;
+	height: 110px;
+	display: block;
+	margin: 0 25px 0 0;
+	min-width: 450px;
+}
+
+#headermenu {
+	background-color: #CCD6E0;
+	white-space: nowrap;
+	height: 18px;
+	padding-top: 4px;
+}
+
+#headermenu #logininfo {
+	display: inline;
+	padding: 0 5px;
+}
+
+#navcontainer {
+	background-color: #036;
+	width: 100%;
+	height: 3px;
+}
+
+.page-content
+{
+    background-color:           white;
+    padding:                    50px;
+    padding-top:				20px;
+    margin-bottom:              20px;
+    word-wrap:                  break-word;
 }
 
 #header_buttons {
@@ -39,14 +104,14 @@ html{color:#000;background:#FFF;}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pr
 
 html, body
 {
-    background-color: white;
+    background-color:	#F0F0E8;
 }
 
 body
 {
-    font-size:        14px;
-    font-family:      "Lucida Sans Unicode", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
-    color:            #313131;
+    font-size:        75%;
+    font-family:      Verdana, Helvetica, Arial, sans-serif;
+    color:            #000;
 }
 
 a
@@ -72,31 +137,37 @@ em
     font-style: italic;
 }
 
-h1, h2, h3
+h1, h2, h3, h4, h5, h6
 {
-    font-family:    Georgia, "Times New Roman", Times, serif;
-    color:          #404040;
+    color:          #036;
 }
 
 h1
 {
-    font-size:      45px;
+    font-size:      300%;
     padding-bottom: 30px;
 }
 
 h2
 {
+	font-size:		150%;
     font-weight:   bold;
-    color:         #FFFFFF;
-    /* Font is duplicated of body (sans-serif) */
-    font-family:      "Lucida Sans Unicode", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
-
     margin-bottom:    10px;
-    background-color: #036;
-    padding:          2px 4px;
-    display:          inline-block;
-    text-transform:   uppercase;
+}
 
+h3
+{
+	font-size:		150%;
+}
+
+h4
+{
+	font-size: 110%;
+	font-weight:   bold;
+}
+
+h5 {
+	font-weight:   bold;
 }
 
 p
@@ -130,58 +201,6 @@ ol li
 ul li
 {
     list-style-type: none;
-}
-
-#symfony-header
-{
-    position: relative;
-    padding: 30px 30px 20px 30px;
-}
-
-#symfony-wrapper
-{
-    width:  970px;
-    margin: 0 auto;
-}
-
-.symfony-content
-{
-    background-color:           white;
-    border:                     1px solid #DFDFDF;
-    padding:                    50px;
-    margin-bottom:              20px;
-    word-wrap:                  break-word;
-}
-
-#symfony-search
-{
-    position: absolute;
-    top:   50px;
-    right: 30px;
-}
-
-#symfony-search input[type="search"]
-{
-    -webkit-appearance: textfield;
-}
-
-#symfony-search-field
-{
-    width: 190px;
-}
-
-#symfony-search label
-{
-    display: block;
-    float: left;
-    width: 20px;
-    height: 25px;
-    background: url(../images/search.png) no-repeat left 5px;
-}
-
-#symfony-search label span
-{
-    display: none;
 }
 
 input[type=text], input[type=password]
@@ -304,13 +323,6 @@ input[type=text], input[type=password]
     display: block;
     float: left;
     width: 90px;
-}
-
-ul#menu
-{
-    float: right;
-    margin-bottom: 20px;
-    padding-left: 0;
 }
 
 #menu li

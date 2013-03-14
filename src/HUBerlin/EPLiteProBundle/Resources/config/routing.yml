@@ -23,6 +23,14 @@ group_delete:
 group_addUser:
     pattern:    /group/add/user/{id}
     defaults:   { _controller: HUBerlinEPLiteProBundle:Default:addUser, id: 0 }
+
+group_addPicture:
+    pattern:    /group/add/picture/{id}
+    defaults:   { _controller: HUBerlinEPLiteProBundle:Default:addPicture, id: 0  }
+    
+group_removePicture:
+    pattern:    /group/remove/picture/{id}
+    defaults:   { _controller: HUBerlinEPLiteProBundle:Default:removePicture, id: 0  }
     
 pad:
     pattern:   /pad/{padid}

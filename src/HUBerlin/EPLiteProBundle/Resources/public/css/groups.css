@@ -3,3 +3,33 @@
 .notactivated {
 	color: red;
 }
+
+.group {
+	border-bottom: 1px solid #B2C1D1;
+	margin-bottom: 10px;
+}
+
+.group .info {
+	margin-bottom: 4px;
+}
+
+.group .info .name {
+	font-size: 150%;
+	margin-bottom: -4px;
+}
+
+.group .info .name img {
+	margin-bottom: -2px;
+}
+
+.group .user {
+	margin-bottom: 4px;
+}
+
+.group .pads {
+	margin-left: 2%;
+}
+
+.group .pad .name {
+	font-size: 110%;
+}

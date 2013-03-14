@@ -21,17 +21,18 @@ class LdapProvider implements AuthenticationProviderInterface
     }
 
     public function authenticate(TokenInterface $token) {
-		// Ask the user provider to fetch the user record from database
-		$user = $this->userProvider->loadUserByUsername($token->getUsername());
-		
 		// Ask the ldap data provider to authenticate our user
-		//$result = $this->dataSource->authenticateUser($user->getUid(), $token->getCredentials());
-		$result = true;
+		$result = $this->dataSource->authenticateUser($token->getUsername(), $token->getCredentials());
+// 		$result = true;
 		
 		// Did the authentication succeeded?
 		if ($result) {
+		    
+		    // Ask the user provider to fetch the user record from database
+		    $user = $this->userProvider->loadUserByUsername($token->getUsername());
+		    
 			// Save the user attributes in the user record
-// 			$user->setAttributes($result);
+			$user->setAttributes($result);
 			
 			// update the db (and check, if the name from the user has changed)
 			$this->userProvider->updateUser($user);

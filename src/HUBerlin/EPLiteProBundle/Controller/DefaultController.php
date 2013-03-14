@@ -4,6 +4,9 @@ namespace HUBerlin\EPLiteProBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use HUBerlin\EPLiteProBundle\Entity\Groups;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Serializer\Encoder\JsonEncode;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class DefaultController extends Controller {
 	public function indexAction(Request $request) {
@@ -225,6 +228,24 @@ class DefaultController extends Controller {
 
 	    
 	    return $this->redirect($this->generateUrl('base'));
+	}
+	public function addPictureAction (Request $request, $id=0) {
+	    $em = $this->getDoctrine()->getManager();
+	    $group = $em->getRepository('HUBerlinEPLiteProBundle:Groups')
+				->find($id);
+	    $group->file = $request->files->get('file');
+	    
+	    $group->upload();
+	    
+	    $em->flush();
+	    
+	    $json = json_encode(array('url'=>$group->getWebPath(), 'success'=>true));
+	    
+	    return new Response($json);
+	}
+	
+	public function removePictureAction(Request $request, $id=0) {
+	    
 	}
 
 	public function padAction($padid = 0, Request $request) {

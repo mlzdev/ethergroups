@@ -50,18 +50,24 @@ $(function() {
 {% endblock %}
 
 {% block content %}
-    <h1>Gruppen</h1>
+    <h1>Meine Gruppen</h1>
     <div id="groups">
     {% for group in groups %}
     <div class="group">
-        <a href="{{ path('group', {id: group.id}) }}" class="name">{{ group.name }}</a>
-        <span class="creationdate">{{ group.creationdate.date | date('d.m.Y H:i:s')}}</span>
-        <a href="{{ path('group_delete', {id: group.id}) }}"> <img src="{{ asset('bundles/huberlineplitepro/images/delete.png') }}" /> </a>
-        <h3>{% for user in group.user %} <span class="{% if user.isactivated == false %}notactivated{% endif %}" title="{{ user.uid }}{% if user.isactivated == false %} (not activated){% endif %}">{{ user.name }}</span>&nbsp;&nbsp;{% endfor %}<a href="#" class='adduser' style="display:none">plus</a></h3>
-        <form class="adduserform" action="{{ path('group_addUser', {id: group.id}) }}" method="post">
-            <input type="text" placeholder="Benutzername" name="username" />
-            <input type="submit" />
-        </form>
+        <div class="info">
+            <div class="name">
+                <a href="{{ path('group', {id: group.id}) }}">{{ group.name }}</a>
+                <a href="{{ path('group_delete', {id: group.id}) }}"> <img src="{{ asset('bundles/huberlineplitepro/images/delete.png') }}" /> </a>
+            </div>
+            <span class="creationdate">({{ group.creationdate.date | date('d.m.Y H:i:s')}})</span>
+        </div>
+        <div class="user">
+            {% for user in group.user %} <span class="{% if user.isactivated == false %}notactivated{% endif %}" title="{{ user.uid }}{% if user.isactivated == false %} (not activated){% endif %}">{{ user.name }}</span>&nbsp;&nbsp;{% endfor %}<a href="#" class='adduser' style="display:none">plus</a></span>
+            <form class="adduserform" action="{{ path('group_addUser', {id: group.id}) }}" method="post">
+                <input type="text" placeholder="Benutzername" name="username" />
+                <input type="submit" />
+            </form>
+        </div>
         <a class="showPads" href="{{ path('group', {id: group.id}) }}">Show Pads</a> 
         <div class="pads">
             <img width="20" class="loader" style="display: none" src="{{ asset('bundles/huberlineplitepro/images/loader.gif') }}"/>
