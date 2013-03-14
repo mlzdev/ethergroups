@@ -7,6 +7,12 @@
 <link rel="stylesheet" href="{{ asset('bundles/ethergroupsmain/css/pad.css') }}" />
 <link rel="stylesheet" href="{{ asset('bundles/ethergroupsmain/css/onoffswitch.css') }}" />
 <link rel="stylesheet" href="{{ asset('bundles/ethergroupsmain/css/onoffswitch_custom.css') }}" />
+<style>
+  .ui-autocomplete-loading {
+    background: white url('{{ asset('bundles/huberlineplitepro/images/loader.gif') }}') right center no-repeat;
+    background-size: 18px;
+  }
+  </style>
 {% endblock %}
 
 {% block javascript %}
@@ -26,6 +32,12 @@
 <script type="text/javascript">
     $(function() {
         initIndex("{{ asset('bundles/ethergroupsmain/images/delete_red.png') }}");
+
+    	// Autocomplete for the user forms
+    	$('.adduserform input[type="text"]').autocomplete({
+        	source: "{{ path('group_searchUserAjax') }}",
+        	minLength: 2
+    	});
     })
 </script>
 {% endblock %}

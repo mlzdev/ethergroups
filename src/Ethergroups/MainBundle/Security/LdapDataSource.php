@@ -62,26 +62,36 @@ class LdapDataSource
 		}
 	}
 	
-	public function getUserRecordExtended($user, $resourceLink = NULL) {
+	public function getUserRecordExtended($user, $resourceLink = NULL, $returnall = false) {
         // strip off anything after @ (When someone wants to add a user via mail adress)
         $userExploded = explode('@', $user);
         $user = $userExploded[0];
 
 	    // Try to retrieve the user attributes
-	    $result = $this->searchRecords('(|('.$this->ldapUserAttribute . "=" . $user.')(sn='.$user.')(cn='.$user.')(givenName='.$user.')(mail='.$user.'))', array("uid", "sn", "cn", "mail", "givenName"), $resourceLink);
+	    if(!$returnall) {
+	        $result = $this->searchRecords('(|('.$this->ldapUserAttribute . "=" . $user.')(sn='.$user.')(cn='.$user.')(givenName='.$user.')(mail='.$user.'))', array("uid", "sn", "cn", "mail", "givenName"), $resourceLink);
+	    }
+	    else {
+	        $result = $this->searchRecords('(|('.$this->ldapUserAttribute . "=" . $user.')(cn='.$user.'*)(sn='.$user.'*))', array("uid", "sn", "cn", "givenName"), $resourceLink, 15, 1);
+	    }
 	    
-	    // Check if only one result was fetched
-	    if (!$result || !array_key_exists("count", $result) || $result["count"] == 0) {
-	        // Appearantly the user was not found or multiple records were returned
-	        return array(false, 0);
-	    } else if($result["count"] != 1) {
-	        return array(false, $result["count"]);
-	    } else {
-	        return array(true, $result[0]);
+	    if(!$returnall) {
+	    	// Check if only one result was fetched
+	    	if (!$result || !array_key_exists("count", $result) || $result["count"] == 0) {
+	        	// Appearantly the user was not found or multiple records were returned
+	        	return array(false, 0);
+	    	} else if($result["count"] != 1) {
+	        	return array(false, $result["count"]);
+	    	} else {
+	        	return array(true, $result[0]);
+    	    }
+	    }
+	    else {
+	        return $result;
 	    }
 	}
 	
-	public function searchRecords($filter, $attributes, $resourceLink = NULL) {
+	public function searchRecords($filter, $attributes, $resourceLink = NULL, $sizelimit = null, $timelimit = null) {
 		// Try to connect if no established connection was given
 		$connect = false;
 		if (!$resourceLink) {
@@ -98,7 +108,7 @@ class LdapDataSource
 		$result = false;
 		try {
 			// Grap the attributes and records from ldap
-			$resultLink = @ldap_search($resourceLink, $this->ldapUserDN, $filter, $attributes);
+			$resultLink = @ldap_search($resourceLink, $this->ldapUserDN, $filter, $attributes, null, $sizelimit, $timelimit);
 			$result = ldap_get_entries($resourceLink, $resultLink);
 			
 			// Free the result
