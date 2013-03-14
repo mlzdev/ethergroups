@@ -94,16 +94,17 @@ public function upload()
 
     // use the original file name here but you should
     // sanitize it at least to avoid any security issues
+    $filename = str_replace(' ','_',$this->file->getClientOriginalName());
 
     // move takes the target directory and then the
     // target filename to move to
     $this->file->move(
         $this->getUploadRootDir(),
-        $this->file->getClientOriginalName()
+        $filename
     );
 
     // set the path property to the filename where you've saved the file
-    $this->path = $this->file->getClientOriginalName();
+    $this->path = $filename;
 
     // clean up the file property as you won't need it anymore
     $this->file = null;
