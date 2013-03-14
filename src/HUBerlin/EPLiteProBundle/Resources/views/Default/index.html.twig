@@ -3,6 +3,7 @@
 {% block stylesheets %}
 {{ parent() }}
 <link rel="stylesheet" href="{{ asset('bundles/huberlineplitepro/css/jquery-ui-1.9.2.custom.css') }}" />
+<link rel="stylesheet" href="{{ asset('bundles/huberlineplitepro/css/groups.css') }}" />
 {% endblock %}
 
 {% block javascript %}
@@ -56,7 +57,7 @@ $(function() {
         <a href="{{ path('group', {id: group.id}) }}" class="name">{{ group.name }}</a>
         <span class="creationdate">{{ group.creationdate.date | date('d.m.Y H:i:s')}}</span>
         <a href="{{ path('group_delete', {id: group.id}) }}"> <img src="{{ asset('bundles/huberlineplitepro/images/delete.png') }}" /> </a>
-        <h3>{% for user in group.user %} {{ user.name }}&nbsp;&nbsp;{% endfor %}<a href="#" class='adduser' style="display:none">plus</a></h3>
+        <h3>{% for user in group.user %} <span class="{% if user.isactivated == false %}notactivated{% endif %}" title="{{ user.uid }}{% if user.isactivated == false %} (not activated){% endif %}">{{ user.name }}</span>&nbsp;&nbsp;{% endfor %}<a href="#" class='adduser' style="display:none">plus</a></h3>
         <form class="adduserform" action="{{ path('group_addUser', {id: group.id}) }}" method="post">
             <input type="text" placeholder="Benutzername" name="username" />
             <input type="submit" />
