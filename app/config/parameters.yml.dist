@@ -1,0 +1,21 @@
+parameters:
+    database_driver: pdo_mysql
+    database_host: localhost
+    database_port: '8889'
+    database_name: eplitepro
+    database_user: eplitepro-user
+    database_password: [password]
+    mailer_transport: smtp
+    mailer_host: localhost
+    mailer_user: null
+    mailer_password: null
+    locale: de
+    secret: [random_secret]
+    database_path: null
+    ldap.data.provider.host: "ldaps://ldap.example.com"
+    ldap.data.provider.port: 636
+    ldap.data.provider.dn: "ou=users,c=DE"
+    ldap.data.provider.uidAttribute: "uid"
+    etherpadlite.apikey: '[APIKEY]'
+    etherpadlite.baseurl: 'http://etherpad.example.com:9001/api'
+    etherpadlite.url: 'http://etherpad.example.com:9001'
