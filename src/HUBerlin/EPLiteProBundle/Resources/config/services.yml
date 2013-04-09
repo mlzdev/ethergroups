@@ -26,6 +26,12 @@ services:
         class: HUBerlin\EPLiteProBundle\Entity\UserRepository
         arguments: [ @doctrine.orm.entity_manager, @etherpadlite ]
         
+    my.localeListener:
+        class: HUBerlin\EPLiteProBundle\Listener\LocaleListener
+        arguments: [ %locale%, @security.context]
+        tags:
+            - { name: kernel.event_subscriber }
+        
     etherpadlite:
         class: %etherpadlite.class%
         arguments: [%etherpadlite.apikey%, %etherpadlite.baseurl%]

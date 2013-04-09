@@ -3,116 +3,14 @@
 {% block stylesheets %}
 {{ parent() }}
 <link rel="stylesheet" href="{{ asset('bundles/huberlineplitepro/css/pad.css') }}" />
-<link rel="stylesheet" href="{{ asset('bundles/huberlineplitepro/css/jquery-ui-1.9.2.custom.css') }}" />
 {% endblock %}
 
 {% block javascript %}
-<script src="{{ asset('bundles/huberlineplitepro/js/jquery-1.8.3.js') }}"></script>
-<script src="{{ asset('bundles/huberlineplitepro/js/jquery-ui-1.9.2.custom.js') }}"></script>
+{{ parent() }}
+<script src="{{ asset('bundles/huberlineplitepro/js/pad.js') }}"></script>
 <script type="text/javascript">
-
-function switchPublic(url) {
-	$.get(url, function(data) {
-		data = $(data);
-		var status = data.find('#publicStatus .text').html();
-	    $('#publicStatus .text').append(status);
-	    $('#publicStatus .loader').hide();
-		});
-}
-
-function removePassword(url) {
-	$.get(url, function(data) {
-	    data = $(data);
-	    $('#flash-messages').hide('blind');
-	    $('#flash-messages').empty().append(data.find('#flash-messages'));
-	    $('#flash-messages').show('blind');
-	    $('#isPasswordProtected .link').empty().append(data.find('#isPasswordProtected .link').html());
-	    $('#pass #addPass').empty().append(data.find('#pass #addPass').html());
-	    $('#isPasswordProtected .loader').hide();
-	    flashtimeout();
-		});
-}
-
-function flashtimeout() {
-	if(typeof flashTimeout != 'undefined') {
-		clearTimeout(flashTimeout);
-	}
-	flashTimeout = setTimeout(function() {
-		$('#flash-messages').hide('blind');
-	}, 5000);
-}
-
 $(function() {
-	// Make the etherpad iframe resizable
-    $("#eplitewrap").resizable();
-
-	// possibility to hide flash-messages with a click
-    $('#flash-messages').click(function(e) {
-        $(this).hide('blind');
-        });
-
-	// Send the pass form via ajax
-    $("#passForm").submit(function(event){
-    	event.preventDefault();
-
-    	$("#passForm .loader").show();
-
-    	var $form = $(this), 
-            fpass = $form.find('input[name="form[pass]"]').val(), 
-            ftoken = $form.find('input[name="form[_token]"]').val(), 
-            url = $form.attr('action');
-
-        var posting = $.post (url, {'form[pass]':fpass, 'form[_token]':ftoken });
-
-        posting.done(function (data) {
-            data = $(data);
-            $('#flash-messages').hide('blind');
-            $('#flash-messages').empty().append(data.find('#flash-messages'));
-            $('#flash-messages').show('blind');
-            $('#isPasswordProtected .link').empty().append(data.find('#isPasswordProtected .link').html());
-            $form.find('input[name="form[pass]"]').val('');
-            $("#passForm .loader").hide();
-            $('#pass #addPass').empty().append(data.find('#pass #addPass').html());
-            $('#pass #passForm').hide('blind');
-            flashtimeout();
-            });
-    });
-
-	// switchpublic
-    $('#switchPublic').click(function(e) {
-        e.preventDefault();
-        $('#publicStatus .text').empty();
-        $('#publicStatus .loader').show();
-        switchPublic(this.href);
-        });
-
-	// remove password if clicked
-    $('#isPasswordProtected .link').click(function(e) {
-        e.preventDefault();
-        $('#isPasswordProtected .loader').show();
-        removePassword(this.href);
-        });
-
-    // Hide/Show Passform
-    $('#pass #passForm').hide();
-    var addPass = $('#pass #addPass');
-    addPass.show();
-    addPass.addClass("hiddenform");
-    addPass.click(function(e) {
-        e.preventDefault();
-    	var obj = $(this);
-    	if(obj.hasClass('hiddenform')) {
-    		$('#pass #passForm').show('blind');
-    		obj.removeClass('hiddenform');
-    		//obj.empty().append('minus');
-        }
-    	else {
-    		$('#pass #passForm').hide('blind');
-    		obj.addClass('hiddenform');
-    		//obj.empty().append('plus');
-        }
-        });
-    
+	initPad();
 });
 </script>
 {% endblock %}
@@ -122,10 +20,10 @@ $(function() {
     
     <a id="switchPublic" href="{{ path('pad_switchPublic', {padid: padid}) }}">switchPublic</a>
     
-    <div id="publicStatus"><span class="text">{% if ispublic %}Public URL: <a href="{{ url }}" target="_blank">{{ url }}</a>{% else %}Not Public{% endif %}</span><img width="20" class="loader" style="display: none" src="{{ asset('bundles/huberlineplitepro/images/loader.gif') }}"/></div>
+    <div id="publicStatus"><span class="text">{% if ispublic %}{{ 'publicurl'|trans }}: <a href="{{ url }}" target="_blank">{{ url }}</a>{% else %}{{ 'notpublic'|trans }}{% endif %}</span><img width="20" class="loader" style="display: none" src="{{ asset('bundles/huberlineplitepro/images/loader.gif') }}"/></div>
     <div id="pass">
-        <a id="addPass" href="#" style="display: none">{% if isPasswordProtected %}Change Pass{% else %}Add Pass{% endif %}</a>
-        <span id="isPasswordProtected"><a class="link" href="{{ path('pad_deletePassword', {padid: padid}) }}">{% if isPasswordProtected %}Remove Password{% endif %}</a><img width="20" class="loader" style="display: none" src="{{ asset('bundles/huberlineplitepro/images/loader.gif') }}"/></span>
+        <a id="addPass" href="#" style="display: none">{% if isPasswordProtected %}{{ 'changePassword'|trans }}{% else %}{{ 'addpass'|trans }}{% endif %}</a>
+        <span id="isPasswordProtected"><a class="link" href="{{ path('pad_deletePassword', {padid: padid}) }}">{% if isPasswordProtected %}{{ 'removePassword'|trans }}{% endif %}</a><img width="20" class="loader" style="display: none" src="{{ asset('bundles/huberlineplitepro/images/loader.gif') }}"/></span>
         <form id="passForm" action="{{ path('pad', {padid: padid}) }}" method="post" {{ form_enctype(form) }}>
             {{ form_errors(form) }}
             <div>

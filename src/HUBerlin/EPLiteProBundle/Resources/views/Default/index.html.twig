@@ -2,29 +2,137 @@
 
 {% block stylesheets %}
 {{ parent() }}
-<link rel="stylesheet" href="{{ asset('bundles/huberlineplitepro/css/jquery-ui-1.9.2.custom.css') }}" />
 <link rel="stylesheet" href="{{ asset('bundles/huberlineplitepro/css/groups.css') }}" />
+<link rel="stylesheet" href="{{ asset('bundles/huberlineplitepro/css/grouppic.css') }}" />
 {% endblock %}
 
 {% block javascript %}
-<script src="{{ asset('bundles/huberlineplitepro/js/jquery-1.8.3.js') }}"></script>
-<script src="{{ asset('bundles/huberlineplitepro/js/jquery-ui-1.9.2.custom.js') }}"></script>
+{{ parent() }}
+<script src="{{ asset('bundles/huberlineplitepro/js/jquery.iframe-post-form.js') }}"></script>
+<script src="{{ asset('bundles/huberlineplitepro/js/jquery.blockUI.js') }}"></script>
+<script src="{{ asset('bundles/huberlineplitepro/js/groupPicture.js') }}"></script>
+<script src="{{ asset('bundles/huberlineplitepro/js/pad.js') }}"></script>
+<script src="{{ asset('bundles/huberlineplitepro/js/groups.js') }}" ></script>
+
 <script type="text/javascript">
 $(function() {
+	// Collapse other groups 
+    $('.group-content').hide();
 
-    // Ajax call to display the pads here
-    $('.group .showPads').click(function(e) {
+    // Hide usernames and enable showUsernamesHandler
+    usernamesHandler();
+
+    // Hide flash messages with a click
+    fmessagesClickHandler();
+
+    // Add Handler for "remove group"
+    $('.group_delete').each(function() {
+        removeGroupHandler($(this));
+    });
+    
+
+    // initialise group picture upload
+	var uploadGroupPicture = new UploadGroupPicture({
+	    pathRemovePic: "{{ asset('bundles/huberlineplitepro/images/delete_red.png') }}",
+	    pathOrigPic: $('#headerpic').attr('src')
+	});
+
+    // Click handler for "new pad"
+    $('.pads .newpadlink').show();
+	$('.pads .newpadlink').click(function(e) {
+		e.preventDefault();
+	    var obj = $(this);
+	    obj.parent().find('.newpadform').slideToggle();
+		});
+	
+    // Prepare newpadform 
+	var newpadform = $('.pads .newpadform');
+	
+    // Add submit handler for this form
+    newpadform.submit(function(e){
         e.preventDefault();
         var obj = $(this);
-        obj.parent().find('.pads .loader').show();
-        obj.parent().find('.pads .content').empty();
+        var padsloader = obj.parent().find('.loader'); 
+        padsloader.show();
+
+    	var $form = $(this), 
+        fname = $form.find('input[name="form[name]"]').val(), 
+        ftoken = $form.find('input[name="form[_token]"]').val(), 
+        url = $form.attr('action');
+
+    	// Hide the form
+    	$form.find('input[name="form[name]"]').val('');
+    	newpadform.slideUp();
+
+        var posting = $.post (url, {'form[name]':fname, 'form[_token]':ftoken })
+        .done(function (data) {
+            data = $(data);
+            padsloader.hide();
+            var padscontent = obj.parent().parent().find('.content');
+            padscontent.append(data.find('#pads .pad').last().hide());
+            padscontent.find('.pad:last').show('drop');
+            removePadHandler(padscontent);
+            });
+    
+        });
+
+    // Ajax call for expanding group, if clicked
+    $('.group-link').click(function(e) {
+        e.preventDefault();
+        
+        var obj = $(this);
+        var parent = obj.parent();
+        var group = obj.parent().parent();
+        var group_content = group.find('.group-content');
+
+        // Prepare loading process
+        parent.find('.loader').show();
+        group_content.slideUp();
+
+        // Get the pads
         $.get(obj.attr('href'), function(data) {
             data = $(data);
-            obj.parent().find('.pads .content').append(data.find('#pads').html());
-            obj.parent().find('.pads .loader').hide();
+
+            // Add the pads in this page
+            var padscontent = group.find('.pads .content');
+            padscontent.empty();
+            padscontent.append(data.find('#pads').html());
+
+            // Add click handler for openPad
+            openPadHandler(padscontent);
+            
+            // Add click handler for removePad
+            removePadHandler(padscontent);
+            parent.find('.loader').hide();
+
+            // Add "new pad" form under the pads
+            newpadform.empty().append(data.find('#newpad').html());
+            newpadform.hide();
+
+            // Collabse other groups and expand actual group
+            $('.group-content.expanded').slideUp();
+            $('.group-content.expanded').removeClass('expanded');
+            group_content.slideDown();
+
+            // Change the paths for the group picture
+            uploadGroupPicture.changePaths({
+            	pathAdd: group_content.find('input[name="pathAdd"]').val(),
+        		pathRemove: group_content.find('input[name="pathRemove"]').val()
+                });
+            uploadGroupPicture.changePic(group_content.find('input[name="picUrl"]').val());
+            group_content.addClass('expanded');
+
+            // If no pad is open yet, open first one
+            if($('#pad-content').hasClass('empty')) {
+                padscontent.find('a:first').click();    
+            }
+            
             });
         });
-	
+
+    // Trigger click for first group
+    $('.group:first .group-link').click();
+
 	// Handle the user forms
 	$('.adduserform').hide();
     var adduser = $('.adduser');
@@ -34,51 +142,107 @@ $(function() {
     	e.preventDefault();
     	var obj = $(this);
     	if(obj.hasClass('hiddenform')) {
-    		obj.parent().parent().find('.adduserform').show('blind');
+    		obj.parent().parent().find('.adduserform').slideDown();
     		obj.removeClass('hiddenform');
     		obj.empty().append('minus');
         }
     	else {
-    		obj.parent().parent().find('.adduserform').hide('blind');
+    		obj.parent().parent().find('.adduserform').slideUp();
     		obj.addClass('hiddenform');
     		obj.empty().append('plus');
         }
-    		
     });
+
+    // Show group_edit
+    var editgroup = $('.group .editgroup');
+    editgroup.show();
+
+    // Edit group, form click handler
+    editgroup.click(function(e) {
+        e.preventDefault();
+        var groupname = $(this).parent();
+        var name = groupname.find('.group-link').text();
+        groupname.find('.editform input[name="groupname"]').val(name);
+        groupname.find('.group-link').toggle();
+        groupname.find('.editform').toggle();
+        groupname.find('.editform input[name="groupname"]').focus();
+        });
+
+    // form submit handler
+    $('.group .editform').submit(function(e) {
+        e.preventDefault();
+        
+        var $form = $(this), 
+        fname = $form.find('input[name="groupname"]').val(), 
+        url = $form.attr('action');
+
+        var groupname = $form.parent(); 
+
+        var editloader = $form.find('.editloader');
+        editloader.show();
+        
+        $.post (url, {'groupname':fname })
+        .done(function (data) {
+            groupname.find('.group-link').text(data.newname);
+            editloader.hide();
+            groupname.find('.group-link').toggle();
+            groupname.find('.editform').toggle();
+            });
+        });
 });
 </script>
 {% endblock %}
 
 {% block content %}
-    <h1>Meine Gruppen</h1>
+<div id="groups-menu">
+    <h1>{{ 'mygroups'|trans }}</h1>
     <div id="groups">
     {% for group in groups %}
     <div class="group">
-        <div class="info">
-            <div class="name">
-                <a href="{{ path('group', {id: group.id}) }}">{{ group.name }}</a>
-                <a href="{{ path('group_delete', {id: group.id}) }}"> <img src="{{ asset('bundles/huberlineplitepro/images/delete.png') }}" /> </a>
-            </div>
-            <span class="creationdate">({{ group.creationdate.date | date('d.m.Y H:i:s')}})</span>
-        </div>
-        <div class="user">
-            {% for user in group.user %} <span class="{% if user.isactivated == false %}notactivated{% endif %}" title="{{ user.uid }}{% if user.isactivated == false %} (not activated){% endif %}">{{ user.name }}</span>&nbsp;&nbsp;{% endfor %}<a href="#" class='adduser' style="display:none">plus</a></span>
-            <form class="adduserform" action="{{ path('group_addUser', {id: group.id}) }}" method="post">
-                <input type="text" placeholder="Benutzername" name="username" />
-                <input type="submit" />
+        <div class="group-name">
+            <a class="group-link" href="{{ path('group', {id: group.id}) }}">{{ group.name }}</a>
+            <form class="editform" action="{{ path('group_rename', {id: group.id}) }}" method="post" style="display: none">
+                <input type="text" name="groupname" >
+                <img width="20" class="editloader" style="display: none" src="{{ asset('bundles/huberlineplitepro/images/loader.gif') }}"/>
             </form>
-        </div>
-        <a class="showPads" href="{{ path('group', {id: group.id}) }}">Show Pads</a> 
-        <div class="pads">
+            <a href="#" style="display: none" class="editgroup" ><img src="{{ asset('bundles/huberlineplitepro/images/edit.png') }}" /> </a>
+            <a href="{{ path('group_delete', {id: group.id}) }}" class="group_delete {% if group.user.count == 1 %}last{% endif %}"> <img src="{{ asset('bundles/huberlineplitepro/images/delete.png') }}" /> </a>
             <img width="20" class="loader" style="display: none" src="{{ asset('bundles/huberlineplitepro/images/loader.gif') }}"/>
-            <div class="content"></div>
         </div>
+        <div class="group-content">
+            <div class="info">
+                <span class="creationdate">({{ group.creationdate.date | date('d.m.Y')}})</span>
+            </div>
+            <div class="user">
+                <a href="#" class="userinfo" style="display: none">{{ 'user'|trans }} ({{ group.user.count }})</a>
+                <div class="usernames">
+                    {% for user in group.user %} <span class="{% if user.isactivated == false %}notactivated{% endif %}" title="{{ user.uid }}{% if user.isactivated == false %} (not activated){% endif %}">{{ user.name }}</span>&nbsp;&nbsp;{% endfor %}
+                <a href="#" class='adduser' style="display:none">plus</a>
+                <form class="adduserform" action="{{ path('group_addUser', {id: group.id}) }}" method="post">
+                    <input type="text" placeholder="Benutzername" name="username" />
+                    <input type="submit" />
+                </form>
+                </div>
+            </div>
+            <div class="pads">
+                <div class="content"></div>
+                <div class="newpad">
+                    <div><img width="20" class="loader" style="display: none" src="{{ asset('bundles/huberlineplitepro/images/loader.gif') }}"/></div>
+                    <a href="#" class="newpadlink" style="display: none;" >{{ 'newpad'|trans }}</a>
+                    <form class="newpadform" action="{{ path('group', {id: group.id}) }}" method="post" {{ form_enctype(form) }}>
+                    </form>
+                </div>
+            </div>
+            <input type="hidden" name="pathAdd" value="{{ path('group_addPicture', {id: group.id}) }}" />
+            <input type="hidden" name="pathRemove" value="{{ path('group_removePicture', {id: group.id}) }}" />
+            <input type="hidden" name="picUrl" value="{% if group.getWebPath is not null %}{{ group.getWebPath }}{% endif %}" />
         </div>
+    </div>
     {% endfor %}
     </div>    
     <br/>
 
-    <h2>Neue Gruppe</h2>
+    <h2>{{ 'newgroup'|trans }}</h2>
     <form action="{{ path('base') }}" method="post" {{ form_enctype(form) }}>
         {{ form_errors(form) }}
         <div>
@@ -88,4 +252,16 @@ $(function() {
         {{ form_rest(form) }}
         <input type="submit" />
     </form>
+    </div>
+    <div id="pad">
+        <img src="{{ asset('bundles/huberlineplitepro/images/loader-bar.gif') }}" id="pad-loader" style="display: none"></img>
+        <div id="pad-content" class="empty"></div>
+    </div>
+    
+    <div id="removeDialogs" style="display: none">
+        <div id="removeGroupDialog" style="display: none">{{ 'removeGroupDialog'|trans }}</div>
+        <div id="removeGroupLastDialog" style="display: none">{{ 'removeGroupLastDialog'|trans }}</div>
+        <input type="button" class="yes" value="{{ 'yes'|trans }}"/>
+        <input type="button" class="no" value="{{ 'no'|trans }}"/>
+    </div>
 {% endblock %}

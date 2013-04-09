@@ -7,12 +7,16 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Encoder\JsonEncode;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class DefaultController extends Controller {
 	public function indexAction(Request $request) {
 		$etherpadlite = $this->get('etherpadlite');
 
 		$user = $this->getUser();
+		
+		// TODO Sadly this is necessary, so that the localisation works
+		//$request->setLocale($request->getPreferredLanguage(array('en', 'de')));
 		
 		$em = $this->getDoctrine()->getManager();
 
@@ -112,6 +116,22 @@ class DefaultController extends Controller {
 	            $this->get('session')
 	            ->setFlash('notice', 'Gruppe konnte nicht gelöscht werden');
 	        }
+	    }
+	}
+	
+	public function renameAction(Request $request, $id=0) {
+	    if ($request->isMethod('POST') && $request->isXmlHttpRequest()) {
+	        
+	        $em = $this->getDoctrine()->getManager();
+	        $group = $em->getRepository('HUBerlinEPLiteProBundle:Groups')
+	        ->find($id);
+	        
+	        $newname = $request->request->get('groupname');
+	        $group->setName($newname);
+	        
+	        $em->flush();
+	        
+	        return new JsonResponse(array('newname'=>$newname));
 	    }
 	}
 
@@ -365,6 +385,26 @@ class DefaultController extends Controller {
 	    
 	}
 	
+	public function changeLanguageAction(Request $request) {
+	    if($request->isMethod('POST')) {
+	        if($lang = $request->request->get('lang')) {
+	            $user = $this->get('security.context')->getToken()->getUser();
+	            
+	            // Is the selected lang available? 
+	            $languages = array('de', 'en');
+	            if(\in_array($lang, $languages)) {
+	                /*
+	                $em = $this->getDoctrine()->getManager();
+	                $user->setLanguage($lang);
+	                $em->flush();
+	                */
+	                $request->getSession()->set('_locale', $lang);
+	            }
+	        }
+	    }
+	    return $this->redirect($request->headers->get('referer'));
+	}
+	
 	private function splitPadid($padid) {
 	    return \preg_split('.\$.', $padid);
 	}
@@ -397,6 +437,7 @@ class DefaultController extends Controller {
 
 		// TODO Needs a config
 		$validUntil = time() + 10000;
+// 		$validUntil = time() + 10;
 
 		$sessionIDs = "";
 		$sessions = $etherpadlite->listSessionsOfAuthor($authorID);
@@ -422,7 +463,7 @@ class DefaultController extends Controller {
     				}
 			    }
 			    else {
-// 			        $etherpadlite->deleteSession($sessionID); // Throws an error on server side o.O?
+ 			        //$etherpadlite->deleteSession($sessionID); // Throws an error on server side o.O?
 			    }
 			}
 		}
@@ -453,9 +494,9 @@ class DefaultController extends Controller {
 	    /**
 	     * Always update Cookies
 	     */
-// 	    if(empty($_COOKIE['sessionID'])) {
+ 	    if(empty($_COOKIE['sessionID'])) {
 	        $this->updateCookie();
-// 	    }
+ 	    }
 	}
 
 }

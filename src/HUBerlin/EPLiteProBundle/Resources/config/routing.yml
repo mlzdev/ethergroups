@@ -10,7 +10,7 @@ logout:
     
 base:
     pattern:   /
-    defaults: { _controller: HUBerlinEPLiteProBundle:Default:index }
+    defaults: { _controller: HUBerlinEPLiteProBundle:Default:index}
     
 group:
     pattern:   /group/{id}
@@ -32,6 +32,10 @@ group_removePicture:
     pattern:    /group/remove/picture/{id}
     defaults:   { _controller: HUBerlinEPLiteProBundle:Default:removePicture, id: 0  }
     
+group_rename:
+    pattern:    /group/rename/{id}
+    defaults:   { _controller: HUBerlinEPLiteProBundle:Default:rename, id: 0 }
+    
 pad:
     pattern:   /pad/{padid}
     defaults:  { _controller: HUBerlinEPLiteProBundle:Default:pad, padid: 0 }
@@ -47,3 +51,7 @@ pad_switchPublic:
 pad_deletePassword:
     pattern:    /pad/deletepass/{padid}
     defaults:   { _controller: HUBerlinEPLiteProBundle:Default:deletePassword, padid: 0 }
+    
+changeLanguage:
+    pattern:    /changeLanguage
+    defaults:   { _controller: HUBerlinEPLiteProBundle:Default:changeLanguage }

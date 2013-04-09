@@ -75,6 +75,13 @@ class User implements UserInterface
     private $isadmin;
     
     /**
+     * @var string $language
+     * 
+     * @ORM\Column(name="language", type="string", length=5, nullable=false)
+     */
+    private $language;
+    
+    /**
      * @var Groups $groups
      *
      * @ORM\ManyToMany(targetEntity="Groups", indexBy="id", mappedBy="user")
@@ -394,5 +401,28 @@ class User implements UserInterface
     public function getAuthorid()
     {
         return $this->authorid;
+    }
+
+    /**
+     * Set language
+     *
+     * @param string $language
+     * @return User
+     */
+    public function setLanguage($language)
+    {
+        $this->language = $language;
+    
+        return $this;
+    }
+
+    /**
+     * Get language
+     *
+     * @return string 
+     */
+    public function getLanguage()
+    {
+        return $this->language;
     }
 }

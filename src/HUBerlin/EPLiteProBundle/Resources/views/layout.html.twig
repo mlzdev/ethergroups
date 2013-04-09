@@ -6,9 +6,13 @@
         <link rel="icon" sizes="16x16" href="{{ asset('favicon.ico') }}" />
         {% block stylesheets %}
         <link rel="stylesheet" href="{{ asset('bundles/huberlineplitepro/css/base.css') }}" />
+        <link rel="stylesheet" href="{{ asset('bundles/huberlineplitepro/css/jquery-ui-1.9.2.custom.css') }}" />
         {% endblock %}
         
         {% block javascript %}
+        <script src="{{ asset('bundles/huberlineplitepro/js/jquery-1.8.3.js') }}"></script>
+        <script src="{{ asset('bundles/huberlineplitepro/js/jquery-ui-1.9.2.custom.js') }}"></script>
+        <script src="{{ asset('bundles/huberlineplitepro/js/base.js') }}"></script>
         {% endblock %}
     </head>
     <body>
@@ -17,8 +21,9 @@
             <div id="header">
                 <div id="pre_spacer">
                     <div id="headernote">
-                        <a href="{{ path('base') }}"><strong>Etherpad Lite Pro</strong><br>Synchrones Schreiben</a>
+                        <a href="{{ path('base') }}"><strong>Etherpad Lite Pro</strong><br>{{ 'headernote'|trans }}</a>
                     </div>
+                    <div id="left_menu"></div>
                 </div>
                 <div id="logo_left">
                     <a href="{{ path('base') }}">
@@ -28,9 +33,20 @@
                 <a id="logo" href="{{ path('base') }}"></a>
                 <div id="headermenu">
                     {% block headermenu %}
-                        <div id="logininfo">
-                            <span>{% if app.user.name is defined %}  {{ app.user.name }} {% else %} Gast {% endif %}</span>
-                            (<a href="{{ path('logout') }}">Logout</a>)
+                        <div id="rightmenu">
+                            <span id="logininfo">
+                                <span>{% if app.user.name is defined %}  {{ app.user.name }} {% else %} {{ 'guest'|trans }} {% endif %}</span>
+                                (<a href="{{ path('logout') }}">Logout</a>)
+                            </span>
+                            <span id="langselector">
+                                <form id="langform" action="{{ path('changeLanguage') }}" method="POST">
+                                    <select name="lang" >
+                                        <option value="de" {% if app.request.locale == 'de' %} selected {% endif %}>Deutsch</option>
+                                        <option value="en" {% if app.request.locale == 'en' %} selected {% endif %}>English</option>
+                                    </select>
+                                    <input type="submit" />
+                                </form>
+                            </span>
                         </div>
                     {% endblock %}
                 </div>

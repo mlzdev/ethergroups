@@ -4,6 +4,11 @@
 	color: red;
 }
 
+#groups-menu {
+	width: 30%;
+	float:left;
+}
+
 .group {
 	border-bottom: 1px solid #B2C1D1;
 	margin-bottom: 10px;
@@ -13,23 +18,47 @@
 	margin-bottom: 4px;
 }
 
-.group .info .name {
+.group-name {
 	font-size: 150%;
 	margin-bottom: -4px;
-}
-
-.group .info .name img {
-	margin-bottom: -2px;
 }
 
 .group .user {
 	margin-bottom: 4px;
 }
 
+.group .user span {
+	white-space: nowrap;
+}
+
 .group .pads {
 	margin-left: 2%;
 }
 
-.group .pad .name {
+.group .pad .padname {
 	font-size: 110%;
+}
+
+.group .editform {
+	display: inline;
+}
+
+.group .editform input[name="groupname"]{
+	height: 15px;
+	margin-bottom: 5px;
+}
+
+.group .editloader {
+	margin-left: -30px;
+	margin-bottom: -7px;
+}
+
+#pad {
+	float: right;
+	width: 69%;
+	min-height: 400px;
+}
+
+#pad-content {
+	margin-left: 1%;
 }

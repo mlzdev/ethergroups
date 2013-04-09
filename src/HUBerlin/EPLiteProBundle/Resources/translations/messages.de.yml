@@ -1,0 +1,15 @@
+guest: Gast
+mygroups: Meine Gruppen
+newgroup: Neue Gruppe
+newpad: Neues Pad
+publicurl: Öffentliche URL
+notpublic: Nicht Öffentlich
+addpass: Passwort erstellen
+user: Nutzer
+removePassword: Passwort entfernen
+changePassword: Passwort ändern
+headernote: Synchrones Schreiben
+removeGroupDialog: Möchten Sie sich wirklich aus dieser Gruppe austragen?
+removeGroupLastDialog: Sie sind der Letzte in dieser Gruppe. Wenn Sie sich austragen, wird die Gruppe gelöscht. Möchten Sie das wirklich?
+yes: Ja
+no: Nein
