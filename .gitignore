@@ -5,7 +5,7 @@
 /vendor/
 /app/config/parameters.yml
 .DS_Store
-/.settings/*
+/.settings/
 /.project
 /.buildpath
 /web/uploads/*
