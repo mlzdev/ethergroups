@@ -350,10 +350,10 @@ class User implements UserInterface
     /**
      * Add groups
      *
-     * @param \HUBerlin\EPLiteProBundle\Entity\Groupds $groups
+     * @param \HUBerlin\EPLiteProBundle\Entity\Groups $groups
      * @return User
      */
-    public function addGroup(\HUBerlin\EPLiteProBundle\Entity\Groupds $groups)
+    public function addGroup(\HUBerlin\EPLiteProBundle\Entity\Groups $groups)
     {
         $this->groups[] = $groups;
     
@@ -363,9 +363,9 @@ class User implements UserInterface
     /**
      * Remove groups
      *
-     * @param \HUBerlin\EPLiteProBundle\Entity\Groupds $groups
+     * @param \HUBerlin\EPLiteProBundle\Entity\Groups $groups
      */
-    public function removeGroup(\HUBerlin\EPLiteProBundle\Entity\Groupds $groups)
+    public function removeGroup(\HUBerlin\EPLiteProBundle\Entity\Groups $groups)
     {
         $this->groups->removeElement($groups);
     }
