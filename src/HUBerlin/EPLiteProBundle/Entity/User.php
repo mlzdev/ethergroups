@@ -77,7 +77,7 @@ class User implements UserInterface
     /**
      * @var string $language
      * 
-     * @ORM\Column(name="language", type="string", length=5, nullable=false)
+     * @ORM\Column(name="language", type="string", length=5, nullable=true)
      */
     private $language;
     
