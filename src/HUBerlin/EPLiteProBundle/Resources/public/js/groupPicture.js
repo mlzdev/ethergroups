@@ -2,7 +2,9 @@ function UploadGroupPicture(options) {
 	var logo = $('#logo_left'); 
 	var img = logo.find('img');
 	var custompic, imgupload;
-	this.pathOrigPic = options.pathOrigPic;
+	var leftlogo = $('#logo_left');
+	var pathOrigPic = options.pathOrigPic;
+	var headerpic = $('#headerpic');
 	
 	this.init = function(options) {
 		this.changePaths(options);
@@ -14,7 +16,6 @@ function UploadGroupPicture(options) {
 	};
 	
 	this.changePic = function(url) {
-		var headerpic = $('#headerpic'); 
         if(url) {
         	headerpic.fadeOut(function() {
         		headerpic.attr('src', url);
@@ -23,14 +24,17 @@ function UploadGroupPicture(options) {
 		    img.addClass('custom');
         }
         else {
-        	var pathOrigPic = this.pathOrigPic;
-        	headerpic.fadeOut(function() {
-        		headerpic.attr('src', pathOrigPic);
-            	headerpic.fadeIn();        		
-        	});
-        	img.removeClass('custom');
+        	setOrigPic();
         }
 	};
+	
+	function setOrigPic() {
+		headerpic.fadeOut(function() {
+    		headerpic.attr('src', pathOrigPic);
+        	headerpic.fadeIn();        		
+    	});
+    	img.removeClass('custom');
+	}
 	
     // Remove link from logo
     logo.empty().append(img);
@@ -49,8 +53,21 @@ function UploadGroupPicture(options) {
     var imgform = $('#imgupload form');
     imgform.iframePostForm({
         json: true,
+        post: function() {
+        	leftlogo.block({
+        		message: $('#loader-bar'),
+    			overlayCSS: { backgroundColor: 'lightgray' },
+    			centerX: false,
+    			css: { 
+    				border: 'none',
+    				left: '21%',
+    				backgroundColor: 'none',
+    			}
+        	});
+        },
         complete: function (response) {
             var html='';
+            leftlogo.unblock();
 			if (!response.success)
 			{
 				$('#flash-messages').slideUp(function ()
@@ -68,8 +85,7 @@ function UploadGroupPicture(options) {
 				    $('#headerpic').attr('src', response.url);
 				    img.addClass('custom');
 				    
-				    // TODO: This mapping is not optimal, better filename = groupid
-				    $('.group-content.expanded input[name="picUrl"]').val(response.url);
+				    changeGroupPicUrl(response.url);
 					}
 				
 				/*
@@ -85,6 +101,11 @@ function UploadGroupPicture(options) {
 
             }
         });
+    
+    function changeGroupPicUrl(url) {
+	    // TODO: This mapping is not optimal, better filename = groupid
+    	$('.group-content.expanded input[name="picUrl"]').val(url);
+    }
 
 	// Show upload link and delete img (if necessary)
     logo.hover(function(e) {
@@ -98,6 +119,10 @@ function UploadGroupPicture(options) {
                 }
         }
     });
+    logo.on('mouseleave', function() {
+    	imgupload.hide();
+    	custompic.hide();
+    });
 
     // if a file is selected, upload it
     $('#imgupload #imghover').change(function() {
@@ -108,6 +133,24 @@ function UploadGroupPicture(options) {
     // click handler for "remove picture"
     custompic.click(function(e) {
         e.preventDefault();
+        
+        leftlogo.block({
+    		message: $('#loader-bar'),
+			overlayCSS: { backgroundColor: 'lightgray' },
+			centerX: false,
+			css: { 
+				border: 'none',
+				left: '21%',
+				backgroundColor: 'none',
+			}
+    	});
+        
+        $.get($(this).attr('href'), function(data) {
+        	custompic.hide();
+        	setOrigPic();
+        	changeGroupPicUrl(null);
+        	leftlogo.unblock();
         });
+    });
 	    
 }

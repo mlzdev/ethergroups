@@ -86,7 +86,7 @@ function openPadHandler(obj) {
 		
 		var pad = $('#pad');
 		pad.block({
-			message: $('#pad-loader'),
+			message: $('#loader-bar'),
 			overlayCSS: { backgroundColor: 'lightgray' },
 			css: { 
 				border: 'none',

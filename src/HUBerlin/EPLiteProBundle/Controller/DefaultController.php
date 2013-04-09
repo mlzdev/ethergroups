@@ -265,7 +265,15 @@ class DefaultController extends Controller {
 	}
 	
 	public function removePictureAction(Request $request, $id=0) {
+	    $em = $this->getDoctrine()->getManager();
+	    $group = $em->getRepository('HUBerlinEPLiteProBundle:Groups')
+	    ->find($id);
 	    
+	    unset($group->path);
+	    
+	    $em->flush();
+	    
+	    return new JsonResponse(array('success'=>true));
 	}
 
 	public function padAction($padid = 0, Request $request) {
