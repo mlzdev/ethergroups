@@ -27,4 +27,4 @@ services:
         
     etherpadlite:
         class: %etherpadlite.class%
-        arguments: [%etherpadlite.apikey%, %etherpadlite.baseurl%]
+        arguments: [%etherpadlite.apikey%, %etherpadlite.url%/api]

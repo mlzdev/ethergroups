@@ -17,5 +17,4 @@ parameters:
     ldap.data.provider.dn: "ou=users,c=DE"
     ldap.data.provider.uidAttribute: "uid"
     etherpadlite.apikey: '[APIKEY]'
-    etherpadlite.baseurl: 'http://etherpad.example.com:9001/api'
     etherpadlite.url: 'http://etherpad.example.com:9001'
