@@ -9,3 +9,10 @@ user: User
 removePassword: Remove Password
 changePassword: Change Password
 headernote: Synchronised as you type
+removeGroupDialog: Do you really want to sign out of this group?
+removeGroupLastDialog: You are the last one in this group. If you decide to sign out of this group, it will be deleted. Do you want to continue?
+yes: yes
+no: no
+firstgroupname: My first Group
+firstpadname: My first Pad
+firstpadtext: Welcome to Etherpad Lite Pro (HU-Edition)

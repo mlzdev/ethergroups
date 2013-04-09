@@ -11,15 +11,19 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NoResultException;
 use HUBerlin\EPLiteProBundle\Helper\EtherpadLiteClient;
+use HUBerlin\EPLiteProBundle\Entity\Groups;
+use Symfony\Component\Translation\Translator;
 
 class UserRepository implements UserProviderInterface {
 
     private $entityManager;
     private $etherpadlite;
+    private $translator;
 
-    public function __construct(EntityManager $em, EtherpadLiteClient $etherpadlite) {
+    public function __construct(EntityManager $em, EtherpadLiteClient $etherpadlite, Translator $translator) {
         $this->entityManager = $em;
         $this->etherpadlite = $etherpadlite;
+        $this->translator = $translator;
     }
 
     public function loadUserByUsername($username, $activate = true) {
@@ -58,6 +62,17 @@ class UserRepository implements UserProviderInterface {
         }
         
         if($activate && $user->getIsactivated() === false) {
+            $newgroupid = $this->etherpadlite->createGroup();
+            
+            $group = new Groups();
+            $group->setName($this->translator->trans('firstgroupname'));
+            $group->setGroupid($newgroupid->groupID);
+            $group->setCreationDate(new \DateTime());
+            $group->addUser($user);
+            $this->entityManager->persist($group);
+            
+            $this->etherpadlite->createGroupPad($newgroupid->groupID, $this->translator->trans('firstpadname'), $this->translator->trans('firstpadtext'));
+            
             $user->setIsactivated(true);
         }
 

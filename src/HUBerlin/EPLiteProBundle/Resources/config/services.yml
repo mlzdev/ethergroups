@@ -17,7 +17,7 @@ services:
     
     ldap_user_provider:
         class: HUBerlin\EPLiteProBundle\Entity\UserRepository
-        arguments: [ @doctrine.orm.entity_manager, @etherpadlite ]
+        arguments: [ @doctrine.orm.entity_manager, @etherpadlite, @translator ]
         
     my.localeListener:
         class: HUBerlin\EPLiteProBundle\Listener\LocaleListener
