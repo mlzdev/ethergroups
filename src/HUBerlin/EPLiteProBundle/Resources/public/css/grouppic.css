@@ -21,6 +21,8 @@
 	padding: 0px;
 	cursor: pointer;
 	font-size: 118px;
+	opacity: 0.1;
+	filter:alpha(opacity=10);
 }
 
 #custompic {
