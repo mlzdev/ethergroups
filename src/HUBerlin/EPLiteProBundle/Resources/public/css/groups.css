@@ -39,6 +39,10 @@
 	font-size: 110%;
 }
 
+.selected {
+	font-weight: bold;
+}
+
 .group .editform {
 	display: inline;
 }

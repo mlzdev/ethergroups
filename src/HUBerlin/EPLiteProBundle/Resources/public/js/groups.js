@@ -77,12 +77,38 @@ function removePadHandler(obj) {
         });
 }
 
-function openPadHandler(obj) {
+function openPadHandler(obj, group, group_content, uploadGroupPicture) {
 	obj.find('.padname').off();
 	obj.find('.padname').click(function(e) {
 		e.preventDefault();
 		
+		// Collabse other groups and expand actual group
+		if(!group_content.hasClass('expanded')) {
+			$('.group-content.expanded').slideUp();
+	        $('.group-content.expanded').removeClass('expanded');
+	        
+	        var newgroup = $('.group-content.expanded-new');
+	        newgroup.removeClass('expanded-new');
+	        newgroup.addClass('expanded');
+	        
+	        $('.group-link.selected').removeClass('selected');
+	        group.find('.group-link').addClass('selected');
+        
+	        // Change the paths for the group picture
+	        uploadGroupPicture.changePaths({
+	        	pathAdd: newgroup.find('input[name="pathAdd"]').val(),
+	    		pathRemove: newgroup.find('input[name="pathRemove"]').val()
+	            });
+	        // Change the pic
+	        uploadGroupPicture.changePic(newgroup.find('input[name="picUrl"]').val());
+	        
+		}
+		
 		var obj = $(this);
+		
+		// deselect other pads & select this
+		$('.padname.selected').removeClass('selected');
+		obj.addClass('selected');
 		
 		var pad = $('#pad');
 		pad.block({

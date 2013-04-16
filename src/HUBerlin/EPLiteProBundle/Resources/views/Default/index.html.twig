@@ -86,49 +86,51 @@ $(function() {
         var group = obj.parent().parent();
         var group_content = group.find('.group-content');
 
-        // Prepare loading process
-        parent.find('.loader').show();
-        group_content.slideUp();
+        if (group_content.hasClass('expanded-new')) {
+            group_content.slideUp();
+            group_content.removeClass('expanded-new');
+        }
+        else if (!group_content.hasClass('expanded')) {
 
-        // Get the pads
-        $.get(obj.attr('href'), function(data) {
-            data = $(data);
+            // Close other new expanded groups
+            $('.group-content.expanded-new').slideUp();
+            $('.group-content.expanded-new').removeClass('expanded-new');
 
-            // Add the pads in this page
-            var padscontent = group.find('.pads .content');
-            padscontent.empty();
-            padscontent.append(data.find('#pads').html());
-
-            // Add click handler for openPad
-            openPadHandler(padscontent);
-            
-            // Add click handler for removePad
-            removePadHandler(padscontent);
-            parent.find('.loader').hide();
-
-            // Add "new pad" form under the pads
-            newpadform.empty().append(data.find('#newpad').html());
-            newpadform.hide();
-
-            // Collabse other groups and expand actual group
-            $('.group-content.expanded').slideUp();
-            $('.group-content.expanded').removeClass('expanded');
-            group_content.slideDown();
-
-            // Change the paths for the group picture
-            uploadGroupPicture.changePaths({
-            	pathAdd: group_content.find('input[name="pathAdd"]').val(),
-        		pathRemove: group_content.find('input[name="pathRemove"]').val()
+        	// Prepare loading process
+            parent.find('.loader').show();
+            group_content.slideUp();
+    
+            // Get the pads
+            $.get(obj.attr('href'), function(data) {
+                data = $(data);
+    
+                // Add the pads in this page
+                var padscontent = group.find('.pads .content');
+                padscontent.empty();
+                padscontent.append(data.find('#pads').html());
+    
+                // Add click handler for openPad
+                openPadHandler(padscontent, group, group_content, uploadGroupPicture);
+                
+                // Add click handler for removePad
+                removePadHandler(padscontent);
+                parent.find('.loader').hide();
+    
+                // Add "new pad" form under the pads
+                newpadform.empty().append(data.find('#newpad').html());
+                newpadform.hide();
+    
+                // expand actual group
+                group_content.slideDown();
+                group_content.addClass('expanded-new');
+    
+                // If no pad is open yet, open first one
+                if($('#pad-content').hasClass('empty')) {
+                    padscontent.find('a:first').click();    
+                }
+                
                 });
-            uploadGroupPicture.changePic(group_content.find('input[name="picUrl"]').val());
-            group_content.addClass('expanded');
-
-            // If no pad is open yet, open first one
-            if($('#pad-content').hasClass('empty')) {
-                padscontent.find('a:first').click();    
             }
-            
-            });
         });
 
     // Trigger click for first group
