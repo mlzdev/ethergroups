@@ -15,7 +15,8 @@
 
 #header {
 	position: relative;
-	height: 132px;
+	height: 135px;
+	overflow: hidden;
 }
 
 #pre_spacer {
