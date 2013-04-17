@@ -66,3 +66,11 @@
 #pad-content {
 	margin-left: 1%;
 }
+
+#etherpadiframe {
+	height: 100%;
+}
+
+#eplitewrap {
+	height: 500px;
+}

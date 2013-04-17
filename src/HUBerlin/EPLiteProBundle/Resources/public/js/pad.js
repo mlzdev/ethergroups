@@ -31,7 +31,23 @@ function flashtimeout() {
 
 function initPad() {
 	// Make the etherpad iframe resizable
-    $("#eplitewrap").resizable();
+    $("#eplitewrap").resizable({ 
+    	handles: { s: '#eplitehandle' },
+    	start: function(){
+    		ifr = $('#etherpadiframe');
+	        var d = $('<div></div>');
+	
+	        $('#eplitewrap').append(d[0]);
+	        d[0].id = 'temp_div';
+	        d.css({position:'absolute'});
+	        d.css({top: ifr.position().top, left:0});
+	        d.height(ifr.height());
+	        d.width('100%');
+	    },
+	    stop: function(){
+	    	$('#temp_div').remove();
+	    }
+      });
 
 	// Send the pass form via ajax
     $("#passForm").submit(function(event){
