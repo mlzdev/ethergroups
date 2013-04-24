@@ -65,15 +65,23 @@ function removePadHandler(obj) {
 	obj.find('.padremovelink').off();
 	obj.find('.padremovelink').click(function(e) {
         e.preventDefault();
+        
+        var dialog = $('#removePadDialog');
         var obj = $(this);
         var padloader = obj.parent().find('.loader');
-        padloader.show();
-        $.get(obj.attr('href'), function(data) {
-    		padloader.hide();
-    		obj.parent().hide('drop', function() {
-    		    $(this).remove();
+        
+        handleDialog(dialog, function(pageUnblock) {
+        	pageUnblock();
+        	
+        	padloader.show();
+            $.get(obj.attr('href'), function(data) {
+        		padloader.hide();
+        		obj.parent().hide('drop', function() {
+        		    $(this).remove();
+            		});
         		});
-    		});
+            });
+        	
         });
 }
 

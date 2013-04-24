@@ -11,6 +11,7 @@ changePassword: Passwort ändern
 headernote: Synchrones Schreiben
 removeGroupDialog: Möchten Sie sich wirklich aus dieser Gruppe austragen?
 removeGroupLastDialog: Sie sind der Letzte in dieser Gruppe. Wenn Sie sich austragen, wird die Gruppe gelöscht. Möchten Sie das wirklich?
+removePadDialog: ACHTUNG! Hiermit löschen Sie UNWIDERRUFLICH dieses Pad für ALLE Mitglieder!
 yes: Ja
 no: Nein
 firstgroupname: Meine erste Gruppe
