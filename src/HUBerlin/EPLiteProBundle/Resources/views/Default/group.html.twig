@@ -37,7 +37,7 @@ $(function() {
     {% for pad in pads %}
         <div class="pad">
         <a class="padname" href="{{ path('pad', {padid: pad.id}) }}" >{{ pad.name }}</a>
-        <span class="lastEdited">({{ pad.lastEdited }})</span>
+        <span class="lastEdited">({{ pad.lastEdited | date('d.m.Y H:i') }})</span>
         <a class="padremovelink" href="{{ path('pad_delete', {padid: pad.id}) }}"> <img src="{{ asset('bundles/huberlineplitepro/images/delete.png') }}" /> </a>
         <img width="20" class="loader" style="display: none" src="{{ asset('bundles/huberlineplitepro/images/loader.gif') }}"/>
         </div>
