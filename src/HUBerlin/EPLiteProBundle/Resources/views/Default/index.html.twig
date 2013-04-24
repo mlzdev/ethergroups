@@ -192,6 +192,13 @@ $(function() {
             groupname.find('.editform').toggle();
         });
     });
+
+    $('#togglegroups').click(function(e){
+        e.preventDefault();
+        $('#groups-menu').toggle();
+        $('#pad').toggleClass('fullwidth');
+    });
+    
 });
 </script>
 {% endblock %}
@@ -257,6 +264,9 @@ $(function() {
     </div>
     
     <div id="pad">
+        <div id="togglegroups" >
+            <a href="#">Toggle</a>
+        </div>
         <div id="pad-content" class="empty"></div>
     </div>
 

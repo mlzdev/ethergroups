@@ -6,7 +6,7 @@
 
 #groups-menu {
 	width: 30%;
-	float:left;
+	float: left;
 }
 
 .group {
@@ -59,13 +59,16 @@
 }
 
 #pad {
-	float: right;
-	width: 69%;
+	float: left;
+	width: 68%;
 	min-height: 400px;
+	background-color: white;
+	margin-left: 2%
 }
 
-#pad-content {
-	margin-left: 1%;
+#pad.fullwidth {
+	width: 100%;
+	margin-left: 0;
 }
 
 #pad-options {
