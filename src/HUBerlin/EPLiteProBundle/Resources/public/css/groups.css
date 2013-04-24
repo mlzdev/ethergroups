@@ -12,6 +12,7 @@
 .group {
 	border-bottom: 1px solid #B2C1D1;
 	margin-bottom: 10px;
+	padding-bottom: 10px;
 }
 
 .group .info {
