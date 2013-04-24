@@ -77,13 +77,13 @@ function removePadHandler(obj) {
         });
 }
 
-function openPadHandler(obj, group, group_content, uploadGroupPicture) {
+function openPadAndGroupHandler(obj, group, uploadGroupPicture) {
 	obj.find('.padname').off();
 	obj.find('.padname').click(function(e) {
 		e.preventDefault();
 		
 		// Collabse other groups and expand actual group
-		if(!group_content.hasClass('expanded')) {
+		if(!group.find('.group-content').hasClass('expanded')) {
 			$('.group-content.expanded').slideUp();
 	        $('.group-content.expanded').removeClass('expanded');
 	        
@@ -104,33 +104,46 @@ function openPadHandler(obj, group, group_content, uploadGroupPicture) {
 	        
 		}
 		
-		var obj = $(this);
+		clickedPadHandler(this);
+	});
+}
+
+function openPadHandler(obj) {
+	obj.find('.padname').off();
+	obj.find('.padname').click(function(e) {
+		e.preventDefault();
 		
-		// deselect other pads & select this
-		$('.padname.selected').removeClass('selected');
-		obj.addClass('selected');
-		
-		var pad = $('#pad');
-		pad.block({
-			message: $('#loader-bar'),
-			overlayCSS: { backgroundColor: 'lightgray' },
-			css: { 
-				border: 'none',
-				backgroundColor: 'none' },
-			onBlock: function() {
-				$.get(obj.attr('href'), function(data) {
-				    data = $(data);
-				    var content = data.find('.page-content').html();
-				    var padcontent = $('#pad-content');
-				    padcontent.empty().append(content);
-				    padcontent.removeClass('empty');
-				    pad.unblock();
-					});				
-				},
-			onUnblock: function() {
-				initPad();
-				}
-			});
+		clickedPadHandler(this);
+	});
+}
+
+function clickedPadHandler (obj) {
+	var obj = $(obj);
+	
+	// deselect other pads & select this
+	$('.padname.selected').removeClass('selected');
+	obj.addClass('selected');
+	
+	var pad = $('#pad');
+	pad.block({
+		message: $('#loader-bar'),
+		overlayCSS: { backgroundColor: 'lightgray' },
+		css: { 
+			border: 'none',
+			backgroundColor: 'none' },
+		onBlock: function() {
+			$.get(obj.attr('href'), function(data) {
+			    data = $(data);
+			    var content = data.find('.page-content').html();
+			    var padcontent = $('#pad-content');
+			    padcontent.empty().append(content);
+			    padcontent.removeClass('empty');
+			    pad.unblock();
+				});				
+			},
+		onUnblock: function() {
+			initPad();
+			}
 		});
 }
 

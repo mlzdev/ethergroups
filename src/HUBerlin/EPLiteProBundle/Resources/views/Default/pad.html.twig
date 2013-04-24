@@ -18,22 +18,21 @@ $(function() {
 {% block content %}
     <h1 id="test" >{{ group.name }}: {{ padname }}</h1>
     
-    <a id="switchPublic" href="{{ path('pad_switchPublic', {padid: padid}) }}">switchPublic</a>
-    
-    <div id="publicStatus"><span class="text">{% if ispublic %}{{ 'publicurl'|trans }}: <a href="{{ url }}" target="_blank">{{ url }}</a>{% else %}{{ 'notpublic'|trans }}{% endif %}</span><img width="20" class="loader" style="display: none" src="{{ asset('bundles/huberlineplitepro/images/loader.gif') }}"/></div>
-    <div id="pass">
-        <a id="addPass" href="#" style="display: none">{% if isPasswordProtected %}{{ 'changePassword'|trans }}{% else %}{{ 'addpass'|trans }}{% endif %}</a>
-        <span id="isPasswordProtected"><a class="link" href="{{ path('pad_deletePassword', {padid: padid}) }}">{% if isPasswordProtected %}{{ 'removePassword'|trans }}{% endif %}</a><img width="20" class="loader" style="display: none" src="{{ asset('bundles/huberlineplitepro/images/loader.gif') }}"/></span>
-        <form id="passForm" action="{{ path('pad', {padid: padid}) }}" method="post" {{ form_enctype(form) }}>
-            {{ form_errors(form) }}
-            <div>
-                {{ form_errors(form.pass) }}
-                {{ form_widget(form.pass) }}
-            </div>
-            {{ form_rest(form) }}
-            <input type="submit" />
-            <img width="20" class="loader" style="display: none" src="{{ asset('bundles/huberlineplitepro/images/loader.gif') }}"/>
-        </form>
+        <a id="switchPublic" href="{{ path('pad_switchPublic', {padid: padid}) }}">switchPublic</a>
+        <div id="publicStatus"><span class="text">{% if ispublic %}{{ 'publicurl'|trans }}: <a href="{{ url }}" target="_blank">{{ url }}</a>{% else %}{{ 'notpublic'|trans }}{% endif %}</span><img width="20" class="loader" style="display: none" src="{{ asset('bundles/huberlineplitepro/images/loader.gif') }}"/></div>
+        <div id="pass">
+            <a id="addPass" href="#" style="display: none">{% if isPasswordProtected %}{{ 'changePassword'|trans }}{% else %}{{ 'addpass'|trans }}{% endif %}</a>
+            <span id="isPasswordProtected"><a class="link" href="{{ path('pad_deletePassword', {padid: padid}) }}">{% if isPasswordProtected %}{{ 'removePassword'|trans }}{% endif %}</a><img width="20" class="loader" style="display: none" src="{{ asset('bundles/huberlineplitepro/images/loader.gif') }}"/></span>
+            <form id="passForm" action="{{ path('pad', {padid: padid}) }}" method="post" {{ form_enctype(form) }}>
+                {{ form_errors(form) }}
+                <div>
+                    {{ form_errors(form.pass) }}
+                    {{ form_widget(form.pass) }}
+                </div>
+                {{ form_rest(form) }}
+                <input type="submit" />
+                <img width="20" class="loader" style="display: none" src="{{ asset('bundles/huberlineplitepro/images/loader.gif') }}"/>
+            </form>
     </div>
     
     <div id="eplitewrap">

@@ -72,10 +72,10 @@ $(function() {
             padscontent.append(data.find('#pads .pad').last().hide());
             padscontent.find('.pad:last').show('drop');
             removePadHandler(padscontent);
-            openPadHandler(padscontent);
-            });
-    
+            openPadAndGroupHandler(padscontent, padscontent.closest('.group'), uploadGroupPicture);
         });
+    
+    });
 
     // Ajax call for expanding group, if clicked
     $('.group-link').click(function(e) {
@@ -110,7 +110,7 @@ $(function() {
                 padscontent.append(data.find('#pads').html());
     
                 // Add click handler for openPad
-                openPadHandler(padscontent, group, group_content, uploadGroupPicture);
+                openPadAndGroupHandler(padscontent, group, uploadGroupPicture);
                 
                 // Add click handler for removePad
                 removePadHandler(padscontent);
@@ -129,9 +129,9 @@ $(function() {
                     padscontent.find('a:first').click();    
                 }
                 
-                });
-            }
-        });
+            });
+        }
+    });
 
     // Trigger click for first group
     $('.group:first .group-link').click();
@@ -169,7 +169,7 @@ $(function() {
         groupname.find('.group-link').toggle();
         groupname.find('.editform').toggle();
         groupname.find('.editform input[name="groupname"]').focus();
-        });
+    });
 
     // form submit handler
     $('.group .editform').submit(function(e) {
@@ -190,8 +190,8 @@ $(function() {
             editloader.hide();
             groupname.find('.group-link').toggle();
             groupname.find('.editform').toggle();
-            });
         });
+    });
 });
 </script>
 {% endblock %}
@@ -256,6 +256,7 @@ $(function() {
         <input type="submit" />
     </form>
     </div>
+    
     <div id="pad">
         <div id="pad-content" class="empty"></div>
     </div>
