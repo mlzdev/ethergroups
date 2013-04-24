@@ -16,7 +16,7 @@ $(function() {
 {% endblock %}
 
 {% block content %}
-    
+    <div id="pad-options">
         <a id="switchPublic" href="{{ path('pad_switchPublic', {padid: padid}) }}">switchPublic</a>
         <div id="publicStatus"><span class="text">{% if ispublic %}{{ 'publicurl'|trans }}: <a href="{{ url }}" target="_blank">{{ url }}</a>{% else %}{{ 'notpublic'|trans }}{% endif %}</span><img width="20" class="loader" style="display: none" src="{{ asset('bundles/huberlineplitepro/images/loader.gif') }}"/></div>
         <div id="pass">
@@ -32,6 +32,7 @@ $(function() {
                 <input type="submit" />
                 <img width="20" class="loader" style="display: none" src="{{ asset('bundles/huberlineplitepro/images/loader.gif') }}"/>
             </form>
+        </div>
     </div>
     
     <div id="eplitewrap">
