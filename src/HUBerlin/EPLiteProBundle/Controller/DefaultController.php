@@ -444,8 +444,7 @@ class DefaultController extends Controller {
 		$authorID = $user->getAuthorid();
 
 		// TODO Needs a config
-		$validUntil = time() + 10000;
-// 		$validUntil = time() + 10;
+		$validUntil = time() + 5400;
 
 		$sessionIDs = "";
 		$sessions = $etherpadlite->listSessionsOfAuthor($authorID);
