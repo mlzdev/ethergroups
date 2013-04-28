@@ -34,6 +34,7 @@
                 <div id="headermenu">
                     {% block headermenu %}
                         <div id="rightmenu">
+                        {% if app.user %}
                             <span id="logininfo">
                                 <span>{% if app.user.name is defined %}  {{ app.user.name }} {% else %} {{ 'guest'|trans }} {% endif %}</span>
                                 (<a href="{{ path('logout') }}">Logout</a>)
@@ -48,6 +49,7 @@
                                 </form>
                             </span>
                             <a href="#" id="toggle-header">Toggle Header</a>
+                            {% endif %}
                         </div>
                     {% endblock %}
                 </div>
