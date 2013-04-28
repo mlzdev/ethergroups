@@ -19,9 +19,11 @@ function removeGroupHandler(obj) {
 		
 		handleDialog(dialog, function(pageUnblock) {
 			$.get(obj.attr('href'), function(data) {
+				data = $(data);
 				obj.parent().parent().hide('drop', function() {
 	    		    $(this).remove();
 	        	});
+				flashmessages.show(data.find('#flash-messages'));
 				pageUnblock();
 			});
 		});

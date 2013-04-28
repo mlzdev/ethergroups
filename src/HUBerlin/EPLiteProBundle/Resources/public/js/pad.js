@@ -10,23 +10,11 @@ function switchPublic(url) {
 function removePassword(url) {
 	$.get(url, function(data) {
 	    data = $(data);
-	    $('#flash-messages').slideUp();
-	    $('#flash-messages').empty().append(data.find('#flash-messages'));
-	    $('#flash-messages').slideDown();
+	    flashmessages.show(data.find('#flash-messages'));
 	    $('#isPasswordProtected .link').empty().append(data.find('#isPasswordProtected .link').html());
 	    $('#pass #addPass').empty().append(data.find('#pass #addPass').html());
 	    $('#isPasswordProtected .loader').hide();
-	    flashtimeout();
 		});
-}
-
-function flashtimeout() {
-	if(typeof flashTimeout != 'undefined') {
-		clearTimeout(flashTimeout);
-	}
-	flashTimeout = setTimeout(function() {
-		$('#flash-messages').slideUp();
-	}, 5000);
 }
 
 function initPad() {
@@ -63,15 +51,12 @@ function initPad() {
         var posting = $.post (url, {'form[pass]':fpass, 'form[_token]':ftoken })
         .done(function (data) {
             data = $(data);
-            $('#flash-messages').slideUp();
-            $('#flash-messages').empty().append(data.find('#flash-messages'));
-            $('#flash-messages').slideDown();
+            flashmessages.show(data.find('#flash-messages'));
             $('#isPasswordProtected .link').empty().append(data.find('#isPasswordProtected .link').html());
             $form.find('input[name="form[pass]"]').val('');
             $("#passForm .loader").hide();
             $('#pass #addPass').empty().append(data.find('#pass #addPass').html());
             $('#pass #passForm').slideUp();
-            flashtimeout();
             });
     });
 
