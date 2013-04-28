@@ -210,8 +210,6 @@ class DefaultController extends Controller {
 	                return $this->redirect($this->generateUrl('base'));
 	            }
 	            
-	            // TODO Mit ldap User herausfinden und der DB hinzufügen
-	            // Bei nicht bestätigten Usern sollte das neben dem namen stehen
 	             $ldap = $this->get('ldap.data.provider');
 	             $ldapuser = $ldap->getUserRecordExtended($username);
 	             
