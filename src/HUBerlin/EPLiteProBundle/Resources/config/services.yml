@@ -24,6 +24,10 @@ services:
         arguments: [ %locale%, @security.context]
         tags:
             - { name: kernel.event_subscriber }
+            
+    grouphandler:
+        class: HUBerlin\EPLiteProBundle\Helper\GroupHandler
+        arguments: [ @doctrine.orm.entity_manager, @etherpadlite ]
         
     etherpadlite:
         class: %etherpadlite.class%

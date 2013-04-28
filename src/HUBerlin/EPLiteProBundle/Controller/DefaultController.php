@@ -1,6 +1,7 @@
 <?php
 
 namespace HUBerlin\EPLiteProBundle\Controller;
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use HUBerlin\EPLiteProBundle\Entity\Groups;
 use Symfony\Component\HttpFoundation\Request;
@@ -68,55 +69,14 @@ class DefaultController extends Controller {
 	        return $this->redirect($this->generateUrl('base'));
 	    }
 	    
-	    $user = $group->getUser();
-	    $thisUser = $this->getUser();
+	    $grouphandler = $this->get('grouphandler'); 
+	    $notice = $grouphandler->removeUser($group, $this->getUser());
 	    
-	    if($user->containsKey($thisUser->getUid())) { // Is the user in the group
-	        
-	        if($user->count()==1) { // Last user -> remove group
-	            $this->deleteGroup($group);
-	        }
-	        else { // Just remove user from group
-	            $group->removeUser($thisUser);
-	            $this->get('session')
-	            ->setFlash('notice', 'Sie wurden aus dieser Gruppe ausgetragen!');
-	        }
-	        
-	        $em->flush();
-	    }
-	    else {
-	        $this->get('session')
-	        ->setFlash('notice', 'Sie sind in dieser Gruppe nicht eingetragen!');
-	    }
-
+	    $this->get('session')
+	    ->setFlash('notice', ''.$notice);
+	    
 	    return $this->redirect($this->generateUrl('base'));
 	    
-	}
-	
-	public function deleteGroup($group) {
-	    $eplite = $this->get('etherpadlite');
-	    $em = $this->getDoctrine()->getManager();
-	    
-	    try {
-	        $eplite->deleteGroup($group->getGroupid());
-	        $em->remove($group);
-	         
-	        $this->get('session')
-	        ->setFlash('notice', 'Gruppe gelöscht');
-	         
-	    }
-	    catch (\Exception $e) {
-	        if($e instanceof \InvalidArgumentException)
-	        {
-	            $em->remove($group);
-	            $this->get('session')
-	            ->setFlash('notice', 'Gruppe existiert nicht auf dem Etherpad Lite Server. Gruppe gelöscht.');
-	        }
-	        else {
-	            $this->get('session')
-	            ->setFlash('notice', 'Gruppe konnte nicht gelöscht werden');
-	        }
-	    }
 	}
 	
 	public function renameAction(Request $request, $id=0) {
