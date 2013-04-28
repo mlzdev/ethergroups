@@ -354,7 +354,7 @@ class DefaultController extends Controller {
 	public function changeLanguageAction(Request $request) {
 	    if($request->isMethod('POST')) {
 	        if($lang = $request->request->get('lang')) {
-	            $user = $this->get('security.context')->getToken()->getUser();
+	            //$user = $this->get('security.context')->getToken()->getUser();
 	            
 	            // Is the selected lang available? 
 	            $languages = array('de', 'en');
