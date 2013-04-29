@@ -24,7 +24,8 @@ class DefaultController extends Controller {
 		$group = new Groups();
 		$form = $this->createFormBuilder($group)
 				->add('name', 'text',
-						array('attr' => array('placeholder' => 'Name')))
+						array('max_length' => 45,
+						        'attr' => array('placeholder' => 'Name')))
 				->getForm();
 
 		if ($request->isMethod('POST')) {
@@ -112,7 +113,7 @@ class DefaultController extends Controller {
 		$pad->name = null;
 		$form = $this->createFormBuilder($pad)
 				->add('name', 'text',
-						array('attr' => array('placeholder' => 'Name')))
+						array('max_length' => 45, 'attr' => array('placeholder' => 'Name')))
 				->getForm();
 
 		if ($request->isMethod('POST')) {
@@ -253,7 +254,7 @@ class DefaultController extends Controller {
 		$pad->pass = null;
 		$form = $this->createFormBuilder($pad)
 		->add('pass', 'text',
-		        array('attr' => array('placeholder' => 'Passwort')))
+		        array('max_length' => 20, 'attr' => array('placeholder' => 'Passwort')))
 		        ->getForm();
 		
 		if ($request->isMethod('POST')) {

@@ -212,7 +212,7 @@ $(function() {
         <div class="group-name">
             <a class="group-link" href="{{ path('group', {id: group.id}) }}">{{ group.name }}</a>
             <form class="editform" action="{{ path('group_rename', {id: group.id}) }}" method="post" style="display: none">
-                <input type="text" name="groupname" >
+                <input type="text" name="groupname" maxlength="45" >
                 <img width="20" class="editloader" style="display: none" src="{{ asset('bundles/huberlineplitepro/images/loader.gif') }}"/>
             </form>
             <a href="#" style="display: none" class="editgroup" ><img src="{{ asset('bundles/huberlineplitepro/images/edit.png') }}" /> </a>
@@ -229,7 +229,7 @@ $(function() {
                     {% for user in group.user %} <span class="{% if user.isactivated == false %}notactivated{% endif %}" title="{{ user.uid }}{% if user.isactivated == false %} (not activated){% endif %}">{{ user.name }}</span>&nbsp;&nbsp;{% endfor %}
                 <a href="#" class='adduser' style="display:none">plus</a>
                 <form class="adduserform" action="{{ path('group_addUser', {id: group.id}) }}" method="post">
-                    <input type="text" placeholder="Benutzername" name="username" />
+                    <input type="text" placeholder="Benutzername" name="username" maxlength="45" />
                     <input type="submit" />
                 </form>
                 </div>
