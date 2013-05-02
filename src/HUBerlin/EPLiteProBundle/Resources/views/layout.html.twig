@@ -74,6 +74,14 @@
                 {% block content %}
                 {% endblock %}
             </div>
+            
+            <div id="footer">
+                <div id="footerwrap">
+                {% autoescape false %}
+                    {{ 'footer' | trans }}
+                    {% endautoescape %}
+                </div>
+            </div>
 
         </div>
     </body>
