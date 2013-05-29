@@ -6,6 +6,7 @@ publicurl: Öffentliche URL
 notpublic: Nicht Öffentlich
 addpass: Passwort erstellen
 user: Mitglieder
+newuser: Neues Mitglied
 removePassword: Passwort entfernen
 changePassword: Passwort ändern
 headernote: Synchrones Schreiben

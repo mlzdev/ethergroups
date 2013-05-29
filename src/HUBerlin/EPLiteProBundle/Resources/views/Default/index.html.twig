@@ -229,7 +229,7 @@ $(function() {
                     {% for user in group.user %} <span class="{% if user.isactivated == false %}notactivated{% endif %}" title="{{ user.uid }}{% if user.isactivated == false %} (not activated){% endif %}">{{ user.name }}</span>&nbsp;&nbsp;{% endfor %}
                 <a href="#" class='adduser' style="display:none">plus</a>
                 <form class="adduserform" action="{{ path('group_addUser', {id: group.id}) }}" method="post">
-                    <input type="text" placeholder="Benutzername" name="username" maxlength="45" />
+                    <input type="text" placeholder="{{ 'newuser'|trans }}" name="username" maxlength="45" />
                     <input type="submit" />
                 </form>
                 </div>

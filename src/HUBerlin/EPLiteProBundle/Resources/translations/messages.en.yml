@@ -6,6 +6,7 @@ publicurl: Public URL
 notpublic: Not Public
 addpass: Add Password
 user: Members
+newuser: New Member
 removePassword: Remove Password
 changePassword: Change Password
 headernote: Synchronised as you type
