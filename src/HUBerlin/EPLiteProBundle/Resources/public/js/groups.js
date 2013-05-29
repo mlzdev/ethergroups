@@ -158,12 +158,12 @@ function clickedPadHandler (obj) {
 }
 
 function usernamesHandler() {
-	var usernames = $('.usernames').hide();
+	$('.usernames').hide();
 	var userinfo = $('.userinfo');
 
 	userinfo.click(function(e) {
 	    e.preventDefault();
-	    usernames.slideToggle();
+	    $(this).parent().find('.usernames').slideToggle();
 		});
 	
 	userinfo.show();
