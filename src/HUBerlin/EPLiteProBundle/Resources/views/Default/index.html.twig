@@ -137,26 +137,6 @@ $(function() {
     // Trigger click for first group
     $('.group:first .group-link').click();
 
-	// Handle the user forms
-	$('.adduserform').hide();
-    var adduser = $('.adduser');
-    adduser.show();
-    adduser.addClass('hiddenform');
-    adduser.click(function(e) {
-    	e.preventDefault();
-    	var obj = $(this);
-    	if(obj.hasClass('hiddenform')) {
-    		obj.parent().parent().find('.adduserform').slideDown();
-    		obj.removeClass('hiddenform');
-    		obj.empty().append('minus');
-        }
-    	else {
-    		obj.parent().parent().find('.adduserform').slideUp();
-    		obj.addClass('hiddenform');
-    		obj.empty().append('plus');
-        }
-    });
-
     // Show group_edit
     var editgroup = $('.group .editgroup');
     editgroup.show();
@@ -227,7 +207,6 @@ $(function() {
                 <a href="#" class="userinfo" style="display: none">{{ 'user'|trans }} ({{ group.user.count }})</a>
                 <div class="usernames">
                     {% for user in group.user %} <span class="{% if user.isactivated == false %}notactivated{% endif %}" title="{{ user.uid }}{% if user.isactivated == false %} (not activated){% endif %}">{{ user.name }}</span>&nbsp;&nbsp;{% endfor %}
-                <a href="#" class='adduser' style="display:none">plus</a>
                 <form class="adduserform" action="{{ path('group_addUser', {id: group.id}) }}" method="post">
                     <input type="text" placeholder="{{ 'newuser'|trans }}" name="username" maxlength="45" />
                     <input type="submit" />
