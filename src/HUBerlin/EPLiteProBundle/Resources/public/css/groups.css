@@ -44,6 +44,10 @@
 	font-weight: bold;
 }
 
+.group .pad .lastEdited {
+	float: right;
+}
+
 .group .editform {
 	display: inline;
 }
