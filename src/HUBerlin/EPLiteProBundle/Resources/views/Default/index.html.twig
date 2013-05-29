@@ -20,6 +20,9 @@ $(function() {
 	// Collapse other groups 
     $('.group-content').hide();
 
+    // Hide actions
+    $('.actions').hide();
+
     // Hide usernames and enable showUsernamesHandler
     usernamesHandler();
 
@@ -116,6 +119,9 @@ $(function() {
                 // Add click handler for removePad
                 removePadHandler(padscontent);
                 parent.find('.loader').hide();
+
+                // Hide Removepad icon
+                padscontent.find('.actions').hide();
     
                 // Add "new pad" form under the pads
                 newpadform.empty().append(data.find('#newpad').html());
@@ -144,7 +150,7 @@ $(function() {
     // Edit group, form click handler
     editgroup.click(function(e) {
         e.preventDefault();
-        var groupname = $(this).parent();
+        var groupname = $(this).parent().parent();
         var name = groupname.find('.group-link').text();
         groupname.find('.editform input[name="groupname"]').val(name);
         groupname.find('.group-link').toggle();
@@ -195,8 +201,10 @@ $(function() {
                 <input type="text" name="groupname" maxlength="45" >
                 <img width="20" class="editloader" style="display: none" src="{{ asset('bundles/huberlineplitepro/images/loader.gif') }}"/>
             </form>
-            <a href="#" style="display: none" class="editgroup" ><img src="{{ asset('bundles/huberlineplitepro/images/edit.png') }}" /> </a>
-            <a href="{{ path('group_delete', {id: group.id}) }}" class="group_delete {% if group.user.count == 1 %}last{% endif %}"> <img src="{{ asset('bundles/huberlineplitepro/images/delete.png') }}" /> </a>
+            <span class="actions">
+                <a href="#" style="display: none" class="editgroup" ><img src="{{ asset('bundles/huberlineplitepro/images/edit.png') }}" /> </a>
+                <a href="{{ path('group_delete', {id: group.id}) }}" class="group_delete {% if group.user.count == 1 %}last{% endif %}"> <img src="{{ asset('bundles/huberlineplitepro/images/delete.png') }}" /> </a>
+            </span>
             <img width="20" class="loader" style="display: none" src="{{ asset('bundles/huberlineplitepro/images/loader.gif') }}"/>
         </div>
         <div class="group-content">

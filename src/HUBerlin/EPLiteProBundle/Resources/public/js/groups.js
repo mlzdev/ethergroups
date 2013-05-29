@@ -20,7 +20,7 @@ function removeGroupHandler(obj) {
 		handleDialog(dialog, function(pageUnblock) {
 			$.get(obj.attr('href'), function(data) {
 				data = $(data);
-				obj.parent().parent().hide('drop', function() {
+				obj.parent().parent().parent().hide('drop', function() {
 	    		    $(this).remove();
 	        	});
 				flashmessages.show(data.find('#flash-messages'));
@@ -70,7 +70,7 @@ function removePadHandler(obj) {
         
         var dialog = $('#removePadDialog');
         var obj = $(this);
-        var padloader = obj.parent().find('.loader');
+        var padloader = obj.parent().parent().find('.loader');
         
         handleDialog(dialog, function(pageUnblock) {
         	pageUnblock();
@@ -78,7 +78,7 @@ function removePadHandler(obj) {
         	padloader.show();
             $.get(obj.attr('href'), function(data) {
         		padloader.hide();
-        		obj.parent().hide('drop', function() {
+        		obj.parent().parent().hide('drop', function() {
         		    $(this).remove();
             		});
         		});
@@ -103,6 +103,10 @@ function openPadAndGroupHandler(obj, group, uploadGroupPicture) {
 	        
 	        $('.group-link.selected').removeClass('selected');
 	        group.find('.group-link').addClass('selected');
+	        
+	        // Only show actions for selected group
+			$('.actions').fadeOut();
+	        group.find('.group-name .actions').fadeIn();
         
 	        // Change the paths for the group picture
 	        uploadGroupPicture.changePaths({
@@ -129,6 +133,10 @@ function openPadHandler(obj) {
 
 function clickedPadHandler (obj) {
 	var obj = $(obj);
+	
+	// only show actions for selected pad
+	$('.pads .actions').fadeOut();
+	obj.parent().find('.actions').fadeIn();
 	
 	// deselect other pads & select this
 	$('.padname.selected').removeClass('selected');
