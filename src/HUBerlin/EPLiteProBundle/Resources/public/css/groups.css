@@ -36,6 +36,10 @@
 	margin-left: 4%;
 }
 
+.group .pad {
+	overflow: hidden;
+}
+
 .group .pad .padname {
 	font-size: 110%;
 }
