@@ -172,6 +172,7 @@ function usernamesHandler() {
 	userinfo.click(function(e) {
 	    e.preventDefault();
 	    $(this).parent().find('.usernames').slideToggle();
+	    $(this).find('img').toggle();
 		});
 	
 	userinfo.show();

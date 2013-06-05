@@ -184,6 +184,7 @@ $(function() {
         e.preventDefault();
         $('#groups-menu').toggle();
         $('#pad').toggleClass('fullwidth');
+        $(this).find('img').toggle();
     });
     
 });
@@ -212,7 +213,7 @@ $(function() {
                 <span class="creationdate">({{ group.creationdate.date | date('d.m.Y')}})</span>
             </div>
             <div class="user">
-                <a href="#" class="userinfo" style="display: none">{{ 'user'|trans }} ({{ group.user.count }})</a>
+                <a href="#" class="userinfo" style="display: none">{{ 'user'|trans }} ({{ group.user.count }}) <img alt="plus" src="{{ asset('bundles/huberlineplitepro/images/plus.png') }}" /><img alt="minus" src="{{ asset('bundles/huberlineplitepro/images/minus.png') }}" style="display:none"/></a>
                 <div class="usernames">
                     {% for user in group.user %} <span class="{% if user.isactivated == false %}notactivated{% endif %}" title="{{ user.uid }}{% if user.isactivated == false %} (not activated){% endif %}">{{ user.name }}</span>&nbsp;&nbsp;{% endfor %}
                 <form class="adduserform" action="{{ path('group_addUser', {id: group.id}) }}" method="post">
@@ -253,7 +254,10 @@ $(function() {
     
     <div id="pad">
         <div id="togglegroups" >
-            <a href="#">Toggle</a>
+            <a href="#">
+                <img class="left" alt="Hide Groups" src="{{ asset('bundles/huberlineplitepro/images/left.png') }}" />
+                <img class="right" alt="Show Groups" src="{{ asset('bundles/huberlineplitepro/images/right.png') }}" style="display:none"/>
+                </a>
         </div>
         <div id="pad-content" class="empty"></div>
     </div>
