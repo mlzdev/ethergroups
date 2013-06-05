@@ -1,3 +1,6 @@
+today: today
+yesterday: yesterday
+daysago: %days% days ago
 guest: Guest
 mygroups: My Groups 
 newgroup: New Group

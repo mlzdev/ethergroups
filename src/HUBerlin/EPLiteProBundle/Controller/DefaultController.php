@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Encoder\JsonEncode;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Translation\IdentityTranslator;
 
 class DefaultController extends Controller {
 	public function indexAction(Request $request) {
@@ -104,6 +105,7 @@ class DefaultController extends Controller {
 	    }
 	    
 		$etherpadlite = $this->get('etherpadlite');
+		$translator = $this->get('translator');
 
 		$em = $this->getDoctrine()->getManager();
 		$group = $em->getRepository('HUBerlinEPLiteProBundle:Groups')
@@ -134,12 +136,30 @@ class DefaultController extends Controller {
 
 		$i = 0;
 		$pads = array();
+		$now = new \DateTime();
 		foreach ($padIDs as $padID) {
 			$pads[$i] = new \stdClass();
 			$pads[$i]->id = $padID;
 			$pads[$i]->name = explode('$', $padID);
 			$pads[$i]->name = $pads[$i]->name[1];
-			$pads[$i]->lastEdited = \date('d.m.Y H:i:s' ,substr_replace($etherpadlite->getLastEdited($padID)->lastEdited, "", -3));
+			
+			// Different strings depending on when the pad was last edited
+			$lastEdited = substr_replace($etherpadlite->getLastEdited($padID)->lastEdited, "", -3);
+			$diff = $now->diff(new \DateTime('@'.$lastEdited));
+			if($diff->days == 0) { // today
+			    $lastEdited = $translator->trans('today').' '.\date('H:i' ,$lastEdited);
+			}
+			else if($diff->days == 1) { // yesterday
+			    $lastEdited = $translator->trans('yesterday').' '.\date('H:i' ,$lastEdited);
+			}
+			else if($diff->days <= 7) { // till one week
+			    $lastEdited = $translator->trans('daysago', array('%days%'=>$diff->days)).' '.\date('H:i' ,$lastEdited);
+			}
+			else {
+			    $lastEdited = \date('d.m.Y H:i' ,$lastEdited);
+			}
+			$pads[$i]->lastEdited = $lastEdited;
+			
 			$i++;
 		}
 		
