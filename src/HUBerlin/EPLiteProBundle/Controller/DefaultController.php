@@ -42,7 +42,7 @@ class DefaultController extends Controller {
 				$em->persist($group);
 				$em->flush();
 
-				$this->get('session')->setFlash('notice', 'Gruppe erstellt!');
+				$this->get('session')->getFlashBag()->set('notice', 'Gruppe erstellt!');
 
 				return $this->redirect($this->generateUrl('base'));
 			}
@@ -66,7 +66,7 @@ class DefaultController extends Controller {
 	    
 	    if(!$group) {
 	        $this->get('session')
-	        ->setFlash('notice', 'Diese Gruppe existiert nicht');
+	        ->getFlashBag()->set('notice', 'Diese Gruppe existiert nicht');
 	        
 	        return $this->redirect($this->generateUrl('base'));
 	    }
@@ -75,7 +75,7 @@ class DefaultController extends Controller {
 	    $notice = $grouphandler->removeUser($group, $this->getUser());
 	    
 	    $this->get('session')
-	    ->setFlash('notice', ''.$notice);
+	    ->getFlashBag()->set('notice', ''.$notice);
 	    
 	    return $this->redirect($this->generateUrl('base'));
 	    
@@ -100,7 +100,7 @@ class DefaultController extends Controller {
 	public function groupAction(Request $request, $id = null) {
 	    if(!$id) {
 	        $this->get('session')
-	            ->setFlash('notice', 'Bitte geben Sie eine korrekte ID an');
+	            ->getFlashBag()->set('notice', 'Bitte geben Sie eine korrekte ID an');
 	        return $this->redirect($this->generateUrl('base'));
 	    }
 	    
@@ -123,9 +123,9 @@ class DefaultController extends Controller {
 			if ($form->isValid()) {
 				try {
 					$pad = $etherpadlite->createGroupPad($group->getGroupid(), $pad->name, null);
-					$this->get('session')->setFlash('notice', 'Pad erstellt!');
+					$this->get('session')->getFlashBag()->set('notice', 'Pad erstellt!');
 				} catch (\Exception $e) {
-					$this->get('session')->setFlash('notice', 'Padname existiert bereits!');
+					$this->get('session')->getFlashBag()->set('notice', 'Padname existiert bereits!');
 				}
 
 				return $this->redirect($this->generateUrl('group', array('id' => $id)));
@@ -175,7 +175,7 @@ class DefaultController extends Controller {
 	    $em = $this->getDoctrine()->getManager();
 	    if(!$id) {
 	        $this->get('session')
-	        ->setFlash('notice', 'Bitte geben Sie eine gültige id an.');
+	        ->getFlashBag()->set('notice', 'Bitte geben Sie eine gültige id an.');
 	        return $this->redirect($this->generateUrl('base'));
 	    }
 	    
@@ -186,7 +186,7 @@ class DefaultController extends Controller {
 	            $username = $request->request->get('username');
 	            if(!$username) {
 	                $this->get('session')
-	                ->setFlash('notice', 'Bitte geben Sie eine Benutzernamen an.');
+	                ->getFlashBag()->set('notice', 'Bitte geben Sie eine Benutzernamen an.');
 	                
 	                return $this->redirect($this->generateUrl('base'));
 	            }
@@ -201,27 +201,27 @@ class DefaultController extends Controller {
 	                 $userProvider->updateUser($user);
 	                 if(!$group->addUser($user)) {
 	                     $this->get('session')
-	                     ->setFlash('notice', 'Dieser Nutzer existiert bereits in der Gruppe!');
+	                     ->getFlashBag()->set('notice', 'Dieser Nutzer existiert bereits in der Gruppe!');
 	                 }
 	                 else {
                          $em->flush();
                          $this->get('session')
-                         ->setFlash('notice', 'Nutzer zu der Gruppe hinzugefügt!');
+                         ->getFlashBag()->set('notice', 'Nutzer zu der Gruppe hinzugefügt!');
 	                 }
 	             }
 	             else {
 	                 $this->get('session')
-	                 ->setFlash('notice', 'Mehrere Nutzer gefunden. Bitte spezifizieren Sie Ihre Angabe.');
+	                 ->getFlashBag()->set('notice', 'Mehrere Nutzer gefunden. Bitte spezifizieren Sie Ihre Angabe.');
   	             }
 	        }
 	        else {
 	            $this->get('session')
-	            ->setFlash('notice', 'Diese Url kann nur über ein Formular angesprochen werden');
+	            ->getFlashBag()->set('notice', 'Diese Url kann nur über ein Formular angesprochen werden');
 	        }
 	    }
 	    else {
 	        $this->get('session')
-	        ->setFlash('notice', 'Die angegebene Gruppe existiert nicht');
+	        ->getFlashBag()->set('notice', 'Die angegebene Gruppe existiert nicht');
 	    }
 	    
 
@@ -282,9 +282,9 @@ class DefaultController extends Controller {
 		    if ($form->isValid()) {
 		        try {
 		            $pad = $etherpadlite->setPassword($padid, $pad->pass);
-		            $this->get('session')->setFlash('notice', 'Passwort erstellt!');
+		            $this->get('session')->getFlashBag()->set('notice', 'Passwort erstellt!');
 		        } catch (\Exception $e) {
-		            $this->get('session')->setFlash('notice', 'FEHLER! setPassword');
+		            $this->get('session')->getFlashBag()->set('notice', 'FEHLER! setPassword');
 		        }
 		        return $this->redirect($this->generateUrl('pad', array('padid' => $padid)));
 		    }
@@ -294,7 +294,7 @@ class DefaultController extends Controller {
 		    $isPasswordProtected = $etherpadlite->isPasswordProtected($padid)->isPasswordProtected;
 		}
 		catch (\Exception $e) {
-		    $this->get('session')->setFlash('notice', 'FEHLER! isPasswordProtected');
+		    $this->get('session')->getFlashBag()->set('notice', 'FEHLER! isPasswordProtected');
 		}
 		
 		return $this->render('HUBerlinEPLiteProBundle:Default:pad.html.twig',
@@ -306,16 +306,16 @@ class DefaultController extends Controller {
 	    
 	    if(!$padid) {
 	        $this->get('session')
-	        ->setFlash('notice', 'Bitte geben Sie eine gültige padid an.');
+	        ->getFlashBag()->set('notice', 'Bitte geben Sie eine gültige padid an.');
 	        return $this->redirect($this->generateUrl('base'));
 	    }
 	    
 	    try {
 	        $eplite->setPassword($padid, null);
-	        $this->get('session')->setFlash('notice', 'Passwort gelöscht');
+	        $this->get('session')->getFlashBag()->set('notice', 'Passwort gelöscht');
 	    }
 	    catch (\Exception $e) {
-	        $this->get('session')->setFlash('notice', 'FEHLER! setPublicStatus');
+	        $this->get('session')->getFlashBag()->set('notice', 'FEHLER! setPublicStatus');
 	    }
 	    
 	    return $this->redirect($this->generateUrl('pad', array('padid' => $padid)));
@@ -326,7 +326,7 @@ class DefaultController extends Controller {
 	    
 	    if(!$padid) {
 	        $this->get('session')
-	        ->setFlash('notice', 'Bitte geben Sie eine gültige padid an.');
+	        ->getFlashBag()->set('notice', 'Bitte geben Sie eine gültige padid an.');
 	        return $this->redirect($this->generateUrl('base'));
 	    }
 	    
@@ -335,7 +335,7 @@ class DefaultController extends Controller {
 	    }
 	    catch (\Exception $e) {
 	        $this->get('session')
-	        ->setFlash('notice', 'Pad konnte nicht gelöscht werden');
+	        ->getFlashBag()->set('notice', 'Pad konnte nicht gelöscht werden');
 	    }
 	    
 	    $padsplit = $this->splitPadid($padid);
@@ -347,7 +347,7 @@ class DefaultController extends Controller {
 	public function switchPublicAction($padid = 0) {
 	    if(!$padid) {
 	        $this->get('session')
-	        ->setFlash('notice', 'Bitte geben Sie eine gültige padid an.');
+	        ->getFlashBag()->set('notice', 'Bitte geben Sie eine gültige padid an.');
 	    }
 	    
 	    $etherpadlite = $this->get('etherpadlite');
@@ -357,14 +357,14 @@ class DefaultController extends Controller {
 	    }
 	    catch (\Exception $e) {
 	        $this->get('session')
-	        ->setFlash('notice', 'FEHLER! getPublicStatus');
+	        ->getFlashBag()->set('notice', 'FEHLER! getPublicStatus');
 	    }
 	    
 	    try {
 	        $etherpadlite->setPublicStatus($padid, !$ispublic);
 	    }
 	    catch (\Exception $e) {
-	        $this->get('session')->setFlash('notice', 'FEHLER! setPublicStatus');
+	        $this->get('session')->getFlashBag()->set('notice', 'FEHLER! setPublicStatus');
 	    }
 	    
 	    return $this->redirect($this->generateUrl('pad', array('padid' => $padid)));
