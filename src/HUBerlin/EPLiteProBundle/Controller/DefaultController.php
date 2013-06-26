@@ -122,14 +122,33 @@ class DefaultController extends Controller {
 		if ($request->isMethod('POST')) {
 			$form->bind($request);
 			if ($form->isValid()) {
+			    $errors = false;
 				try {
 					$pad = $etherpadlite->createGroupPad($group->getGroupid(), $pad->name, null);
 					$this->get('session')->getFlashBag()->set('notice', 'Pad erstellt!');
 				} catch (\Exception $e) {
 					$this->get('session')->getFlashBag()->set('notice', 'Padname existiert bereits!');
+					$errors = true;
 				}
 
-				return $this->redirect($this->generateUrl('group', array('id' => $id)));
+				if($request->isXmlHttpRequest()) {
+				    if(!$errors) {
+    				    $newpad = new \stdClass();
+    				    $newpad->id = $pad->padID;
+    				    $newpad->name = explode('$', $newpad->id);
+    			        $newpad->name = $newpad->name[1];
+    				    $lastEdited = substr_replace($etherpadlite->getLastEdited($newpad->id)->lastEdited, "", -3);
+    				    $newpad->lastEdited = $this->getLastEdited($lastEdited);
+    				    
+				        return new JsonResponse(array('success'=>true, 'data'=>$this->renderView('HUBerlinEPLiteProBundle:Default:newpad.html.twig', array('pad'=>$newpad))));
+				    }
+				    else {
+                        return new JsonResponse(array('success'=>false, 'data'=>$this->renderView('HUBerlinEPLiteProBundle::layout.html.twig')));
+				    }
+				}
+				else {
+				    return $this->redirect($this->generateUrl('group', array('id' => $id)));
+				}
 			}
 		}
 
@@ -146,23 +165,15 @@ class DefaultController extends Controller {
 			
 			// Different strings depending on when the pad was last edited
 			$lastEdited = substr_replace($etherpadlite->getLastEdited($padID)->lastEdited, "", -3);
-			$diff = $now->diff(new \DateTime('@'.$lastEdited));
-			if($diff->days == 0) { // today
-			    $lastEdited = $translator->trans('today').' '.\date('H:i' ,$lastEdited);
-			}
-			else if($diff->days == 1) { // yesterday
-			    $lastEdited = $translator->trans('yesterday').' '.\date('H:i' ,$lastEdited);
-			}
-			else if($diff->days <= 7) { // till one week
-			    $lastEdited = $translator->trans('daysago', array('%days%'=>$diff->days)).' '.\date('H:i' ,$lastEdited);
-			}
-			else {
-			    $lastEdited = \date('d.m.Y H:i' ,$lastEdited);
-			}
-			$pads[$i]->lastEdited = $lastEdited;
+			$pads[$i]->lastEdited = $this->getLastEdited($lastEdited, $now);
 			
 			$i++;
 		}
+		
+		// Sortieren
+		\usort($pads, function($a, $b) {
+	        return \strnatcasecmp($a->name, $b->name);
+	    });
 		
 		$this->updateCookieIfNecessary();
 
@@ -170,6 +181,27 @@ class DefaultController extends Controller {
 				->render('HUBerlinEPLiteProBundle:Default:group.html.twig',
 						array('form' => $form->createView(), 'group' => $group,
 								'pads' => $pads));
+	}
+	
+	public function getLastEdited($lastEdited, $now=null) {
+	    if(!isset($now)) $now = new \DateTime();
+	    
+	    $translator = $this->get('translator');
+	    
+	    $diff = $now->diff(new \DateTime('@'.$lastEdited));
+	    if($diff->days == 0) { // today
+	        $lastEdited = $translator->trans('today').' '.\date('H:i' ,$lastEdited);
+	    }
+	    else if($diff->days == 1) { // yesterday
+	        $lastEdited = $translator->trans('yesterday').' '.\date('H:i' ,$lastEdited);
+	    }
+	    else if($diff->days <= 7) { // till one week
+	        $lastEdited = $translator->trans('daysago', array('%days%'=>$diff->days)).' '.\date('H:i' ,$lastEdited);
+	    }
+	    else {
+	        $lastEdited = \date('d.m.y H:i' ,$lastEdited);
+	    }
+	    return $lastEdited;
 	}
 	
 	public function addUserAction ($id=0, Request $request) {

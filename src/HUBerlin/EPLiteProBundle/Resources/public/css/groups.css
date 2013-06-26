@@ -83,6 +83,11 @@
 	margin-bottom: -4px;
 }
 
+.newpad .loader {
+	margin-bottom: -6px;
+	margin-left: -86px;
+}
+
 #pad {
 	float: left;
 	width: 68%;
@@ -98,4 +103,8 @@
 
 #pad-options {
 	text-align: right;
+}
+
+.group .newpadform {
+	margin-top: 10px;
 }

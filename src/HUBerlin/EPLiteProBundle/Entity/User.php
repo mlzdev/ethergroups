@@ -85,6 +85,7 @@ class User implements UserInterface
      * @var Groups $groups
      *
      * @ORM\ManyToMany(targetEntity="Groups", indexBy="id", mappedBy="user")
+     * @ORM\OrderBy({"name" = "ASC"})
      */
     private $groups;
 

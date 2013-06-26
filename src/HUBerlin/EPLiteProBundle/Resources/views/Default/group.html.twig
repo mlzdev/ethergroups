@@ -53,5 +53,6 @@ $(function() {
             {{ form_widget(form.name) }}
         {{ form_rest(form) }}
         <input type="submit" value="Senden" />
+        <img width="20" class="loader" style="display: none" src="{{ asset('bundles/huberlineplitepro/images/loader.gif') }}"/>
     </form>
 {% endblock %}

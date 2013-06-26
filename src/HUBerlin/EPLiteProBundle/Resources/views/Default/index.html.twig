@@ -17,6 +17,7 @@
 <script src="{{ asset('bundles/huberlineplitepro/js/flashmessages.js') }}"></script>
 <script src="{{ asset('bundles/huberlineplitepro/js/pad.js') }}"></script>
 <script src="{{ asset('bundles/huberlineplitepro/js/groups.js') }}" ></script>
+<script src="{{ asset('bundles/huberlineplitepro/js/naturalSort.js') }}" ></script>
 
 <script type="text/javascript">
 $(function() {
@@ -63,17 +64,40 @@ $(function() {
 
     	// Clear the form
     	$form.find('input[name="form[name]"]').val('');
-    	newpadform.slideUp();
 
         var posting = $.post (url, {'form[name]':fname, 'form[_token]':ftoken })
         .done(function (data) {
-            data = $(data);
-            padsloader.hide();
-            var padscontent = obj.parent().parent().find('.content');
-            padscontent.append(data.find('#pads .pad').last().hide());
-            padscontent.find('.pad:last').show('drop');
-            removePadHandler(padscontent);
-            openPadAndGroupHandler(padscontent, padscontent.closest('.group'), uploadGroupPicture);
+            if(data.success) {
+            	data = $(data.data);
+                var padscontent = obj.parent().parent().find('.content');
+                // Get the newpad; hide it and its actions
+                var newpad = data.find('.pad').hide();
+                newpad.find('.actions').hide();
+                var newName = newpad.find('.padname').text().toLowerCase();
+                var inserted = false;
+                padscontent.children().each(function(index, element) {
+                    element = $(element);
+                    var padname = element.find('.padname').text();
+                    if(naturalSort(newName, padname.toLowerCase()) <=0 ) {
+                        newpad.insertBefore(element);
+                        inserted = true;
+                        return false;
+                    }
+                });
+                if(!inserted) {
+                	padscontent.append(newpad);
+                }
+                padsloader.hide();
+                newpad.show('drop');
+                //newpad.slideDown();
+                removePadHandler(padscontent);
+                openPadAndGroupHandler(padscontent, padscontent.closest('.group'), uploadGroupPicture);
+            }
+            else {
+            	data = $(data.data);
+                padsloader.hide();
+                flashmessages.show(data.find('#flash-messages'));
+            }
         });
     
     });
@@ -221,7 +245,6 @@ $(function() {
             <div class="pads">
                 <div class="content"></div>
                 <div class="newpad">
-                    <div><img width="20" class="loader" style="display: none" src="{{ asset('bundles/huberlineplitepro/images/loader.gif') }}"/></div>
                     <form class="newpadform" action="{{ path('group', {id: group.id}) }}" method="post" {{ form_enctype(form) }}>
                     </form>
                 </div>
