@@ -194,9 +194,9 @@ function newUserHandler() {
             data = $(data);
             // Hide loader
             
-            var newUserNames = data.find('#'+groupID+' .usernames span:first');
+            var newUserNames = data.find('#'+groupID+' .usernames div');
             
-            $('#'+groupID+' .usernames span:first').empty().append(newUserNames);
+            $('#'+groupID+' .usernames div').empty().append(newUserNames);
             
             $form.children().prop('disabled', false);
             
