@@ -57,10 +57,12 @@ class UserRepository implements UserProviderInterface {
             }
         }
         
+        // Is the user disabled?
         if($user->getIsenabled() === false) {
             throw new DisabledException(sprintf('Benutzer "%s" wurde vom System gesperrt', $username));
         }
         
+        // Activate User
         if($activate && $user->getIsactivated() === false) {
             $newgroupid = $this->etherpadlite->createGroup();
             
@@ -81,8 +83,9 @@ class UserRepository implements UserProviderInterface {
     
     public function updateUser($user) {
         
-        if(0 != strcmp($user->getName(), $user->getCommonName())) {
-            $user->setName($user->getCommonName());
+        $commonName = $user->getCommonName(); 
+        if(0 != strcmp($user->getName(), $commonName)) {
+            $user->setName($commonName);
         }
         
         $id = $user->getId();
