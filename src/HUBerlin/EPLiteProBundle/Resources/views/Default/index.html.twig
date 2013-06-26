@@ -46,10 +46,10 @@ $(function() {
 	    pathOrigPic: $('#headerpic').attr('src')
 	});
 
-    // Prepare newpadform 
+    // Prepare newpadforms
 	var newpadform = $('.pads .newpadform');
 	
-    // Add submit handler for this form
+    // Add submit handler for the newpadforms
     newpadform.submit(function(e){
         e.preventDefault();
         var obj = $(this);
@@ -61,7 +61,7 @@ $(function() {
         ftoken = $form.find('input[name="form[_token]"]').val(), 
         url = $form.attr('action');
 
-    	// Hide the form
+    	// Clear the form
     	$form.find('input[name="form[name]"]').val('');
     	newpadform.slideUp();
 

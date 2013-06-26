@@ -9,6 +9,10 @@
 	float: left;
 }
 
+#togglegroups {
+	float: left;
+}
+
 .group {
 	border-bottom: 1px solid #B2C1D1;
 	margin-bottom: 10px;
@@ -17,6 +21,10 @@
 
 .group .info {
 	margin-bottom: 4px;
+}
+
+.group .creationdate {
+	color: #999;
 }
 
 .group-name {
@@ -30,6 +38,10 @@
 
 .group .user span {
 	white-space: nowrap;
+}
+
+.group .userinfo img {
+	margin-bottom: -2px;
 }
 
 .group .pads {
@@ -50,6 +62,7 @@
 
 .group .pad .lastEdited {
 	float: right;
+	color: #999;
 }
 
 .group .editform {
@@ -64,6 +77,10 @@
 .group .editloader {
 	margin-left: -30px;
 	margin-bottom: -7px;
+}
+
+.group .loader {
+	margin-bottom: -4px;
 }
 
 #pad {
