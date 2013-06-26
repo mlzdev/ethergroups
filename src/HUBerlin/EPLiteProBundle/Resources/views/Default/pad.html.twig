@@ -18,12 +18,26 @@ $(function() {
 
 {% block content %}
     <div id="pad-options">
-        <a id="switchPublic" href="{{ path('pad_switchPublic', {padid: padid}) }}">switchPublic</a>
-        <div id="publicStatus"><span class="text">{% if ispublic %}{{ 'publicurl'|trans }}: <a href="{{ url }}" target="_blank">{{ url }}</a>{% else %}{{ 'notpublic'|trans }}{% endif %}</span><img width="20" class="loader" style="display: none" src="{{ asset('bundles/huberlineplitepro/images/loader.gif') }}"/></div>
-        <div id="pass">
-            <a id="addPass" href="#" style="display: none">{% if isPasswordProtected %}{{ 'changePassword'|trans }}{% else %}{{ 'addpass'|trans }}{% endif %}</a>
-            <span id="isPasswordProtected"><a class="link" href="{{ path('pad_deletePassword', {padid: padid}) }}">{% if isPasswordProtected %}{{ 'removePassword'|trans }}{% endif %}</a><img width="20" class="loader" style="display: none" src="{{ asset('bundles/huberlineplitepro/images/loader.gif') }}"/></span>
-            <form id="passForm" action="{{ path('pad', {padid: padid}) }}" method="post" {{ form_enctype(form) }}>
+        <div id="publicStatus">
+            <img width="20" class="loader" style="display: none" src="{{ asset('bundles/huberlineplitepro/images/loader.gif') }}"/>
+            <a id="switchPublic" href="{{ path('pad_switchPublic', {padid: padid}) }}">{{ 'public'|trans }}
+                <div id="publicIndicator" class="indicator {% if ispublic %}on{% endif %}"></div>
+            </a>
+            <div class="text" {% if not ispublic %}style="display:none"{% endif %}>
+                {{ 'publicurl'|trans }}: <a href="{{ url }}" target="_blank">{{ url }}</a>
+            </div>
+        </div>
+        <div id="pass" {% if not ispublic %} style="display:none" {% endif %}>
+        <img width="20" class="loader" style="display: none" src="{{ asset('bundles/huberlineplitepro/images/loader.gif') }}"/>
+            <a id="switchPass" href="#" >
+                {{ 'pass'|trans }}
+                <div id="passIndicator" class="indicator {% if isPasswordProtected %}on{% endif %}"></div>
+
+            </a>
+            <div id="isPasswordProtected">
+                <a id="removePass" href="{{ path('pad_deletePassword', {padid: padid}) }}">{% if isPasswordProtected %}{{ 'removePassword'|trans }}{% endif %}</a>
+             </div>
+            <form id="passForm" action="{{ path('pad', {padid: padid}) }}" method="post" {{ form_enctype(form) }} {% if isPasswordProtected %} style="display: none"{% endif %}>
                 {{ form_errors(form) }}
                 <div>
                     {{ form_errors(form.pass) }}
@@ -31,7 +45,6 @@ $(function() {
                 </div>
                 {{ form_rest(form) }}
                 <input type="submit" />
-                <img width="20" class="loader" style="display: none" src="{{ asset('bundles/huberlineplitepro/images/loader.gif') }}"/>
             </form>
         </div>
     </div>

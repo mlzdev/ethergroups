@@ -1,19 +1,34 @@
-function switchPublic(url) {
+function switchPublic(url, callback) {
 	$.get(url, function(data) {
 		data = $(data);
 		var status = data.find('#publicStatus .text').html();
-	    $('#publicStatus .text').append(status);
+		var isPublic = data.find('#publicIndicator').hasClass('on');
+	    if(isPublic) {
+	    	$('#publicIndicator').addClass('on');
+	    	$('#publicStatus .text').slideDown();
+	    	$('#pass').slideDown();
+	    }
+	    else {
+	    	removePassword($('#removePass').attr('href'), false);
+	    	$('#publicIndicator').removeClass('on');
+	    	$('#publicStatus .text').slideUp();
+	    	$('#pass').slideUp();
+	    }
 	    $('#publicStatus .loader').hide();
+	    callback();
 		});
 }
 
-function removePassword(url) {
+function removePassword(url, showFlash) {
+	if(showFlash === undefined) {
+		showFlash = true;
+	}
 	$.get(url, function(data) {
 	    data = $(data);
-	    flashmessages.show(data.find('#flash-messages'));
-	    $('#isPasswordProtected .link').empty().append(data.find('#isPasswordProtected .link').html());
-	    $('#pass #addPass').empty().append(data.find('#pass #addPass').html());
-	    $('#isPasswordProtected .loader').hide();
+	    if(showFlash) flashmessages.show(data.find('#flash-messages'));
+	    $('#removePass').empty().append(data.find('#removePass').html());
+	    $('#pass #switchPass').empty().append(data.find('#pass #switchPass').html());
+	    $('#pass .loader').hide();
 		});
 }
 
@@ -41,7 +56,7 @@ function initPad() {
     $("#passForm").submit(function(event){
     	event.preventDefault();
 
-    	$("#passForm .loader").show();
+    	$("#pass .loader").show();
 
     	var $form = $(this), 
             fpass = $form.find('input[name="form[pass]"]').val(), 
@@ -52,10 +67,10 @@ function initPad() {
         .done(function (data) {
             data = $(data);
             flashmessages.show(data.find('#flash-messages'));
-            $('#isPasswordProtected .link').empty().append(data.find('#isPasswordProtected .link').html());
+            $('#removePass').empty().append(data.find('#removePass').html());
             $form.find('input[name="form[pass]"]').val('');
-            $("#passForm .loader").hide();
-            $('#pass #addPass').empty().append(data.find('#pass #addPass').html());
+            $("#pass .loader").hide();
+            $('#pass #switchPass').empty().append(data.find('#pass #switchPass').html());
             $('#pass #passForm').slideUp();
             });
     });
@@ -63,36 +78,37 @@ function initPad() {
 	// switchpublic if clicked
     $('#switchPublic').click(function(e) {
         e.preventDefault();
-        $('#publicStatus .text').empty();
+        var $this = $(this);
+    	if($this.data('disabled')) return;
+  	  	$this.data('disabled',true);
         $('#publicStatus .loader').show();
-        switchPublic(this.href);
-        });
-
-	// remove password if clicked
-    $('#isPasswordProtected .link').click(function(e) {
-        e.preventDefault();
-        $('#isPasswordProtected .loader').show();
-        removePassword(this.href);
+        switchPublic(this.href, function() {
+        		$this.removeData('disabled');
+        	});
         });
 
     // Hide/Show Passform
     $('#pass #passForm').hide();
-    var addPass = $('#pass #addPass');
-    addPass.show();
-    addPass.addClass("hiddenform");
-    addPass.click(function(e) {
+    $('#removePass').hide();
+    var switchPass = $('#pass #switchPass');
+    switchPass.addClass("hiddenform");
+    switchPass.click(function(e) {
         e.preventDefault();
     	var obj = $(this);
-    	if(obj.hasClass('hiddenform')) {
-    		$('#pass #passForm').slideDown();
-    		obj.removeClass('hiddenform');
-    		//obj.empty().append('minus');
-        }
+    	if($('#passIndicator').hasClass('on')) {
+    		$('#pass .loader').show();
+    		removePassword($('#removePass').attr('href'));
+    	}
     	else {
-    		$('#pass #passForm').slideUp();
-    		obj.addClass('hiddenform');
-    		//obj.empty().append('plus');
-        }
+    		if(obj.hasClass('hiddenform')) {
+        		$('#pass #passForm').slideDown();
+        		obj.removeClass('hiddenform');
+            }
+        	else {
+        		$('#pass #passForm').slideUp();
+        		obj.addClass('hiddenform');
+            }
+    	}
         });
     
 }

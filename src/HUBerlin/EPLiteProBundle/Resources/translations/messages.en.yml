@@ -5,8 +5,10 @@ guest: Guest
 mygroups: My Groups 
 newgroup: New Group
 newpad: New Pad
+public: Public
 publicurl: Public URL
 notpublic: Not Public
+pass: Password
 addpass: Add Password
 user: Members
 newuser: New Member
