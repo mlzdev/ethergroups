@@ -40,7 +40,7 @@ $(function() {
             <span class="actions" >
                 <a class="padremovelink" href="{{ path('pad_delete', {padid: pad.id}) }}"> <img src="{{ asset('bundles/huberlineplitepro/images/delete.png') }}" /> </a>
             </span>
-            <span class="lastEdited">({{ pad.lastEdited }})</span>
+            <span class="lastEdited">{{ pad.lastEdited }}</span>
             <img width="20" class="loader" style="display: none" src="{{ asset('bundles/huberlineplitepro/images/loader.gif') }}"/>
         </div>
     {% endfor %}
