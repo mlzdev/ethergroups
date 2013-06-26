@@ -170,3 +170,39 @@ function usernamesHandler() {
 	
 	userinfo.show();
 }
+
+function newUserHandler() {
+	$('.adduserform').submit(function(e) {
+		e.preventDefault();
+		
+		var $this = $(this);
+		
+		var $form = $(this), 
+        fname = $form.find('input[name="username"]').val(), 
+        url = $form.attr('action');
+		
+		// Show loader
+		
+		// Clear the form and disable it
+    	$form.find('input[name="username"]').val('');
+    	$form.children().attr('disabled', 'disabled');
+    	
+    	var groupID = $form.closest('.group').attr('id');
+    	
+        var posting = $.post (url, {'username':fname })
+        .done(function (data) {
+            data = $(data);
+            // Hide loader
+            
+            var newUserNames = data.find('#'+groupID+' .usernames span:first');
+            
+            $('#'+groupID+' .usernames span:first').empty().append(newUserNames);
+            
+            $form.children().removeAttr('disabled');
+            
+            flashmessages.show(data.find('#flash-messages'));
+            
+        });
+    	
+	});
+}
