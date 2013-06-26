@@ -146,11 +146,11 @@ $(function() {
     // Trigger click for first group
     $('.group:first .group-link').click();
 
-    // Show group_edit
+    // Show group_edit button
     var editgroup = $('.group .editgroup');
     editgroup.show();
 
-    // Edit group, form click handler
+    // Edit groupname click handler
     editgroup.click(function(e) {
         e.preventDefault();
         var groupname = $(this).parent().parent();
@@ -161,7 +161,7 @@ $(function() {
         groupname.find('.editform input[name="groupname"]').focus();
     });
 
-    // form submit handler
+    // groupname form submit handler
     $('.group .editform').submit(function(e) {
         e.preventDefault();
         
