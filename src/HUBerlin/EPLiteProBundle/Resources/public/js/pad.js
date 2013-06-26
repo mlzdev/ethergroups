@@ -9,7 +9,7 @@ function switchPublic(url, callback) {
 	    	$('#pass').slideDown();
 	    }
 	    else {
-	    	removePassword($('#removePass').attr('href'), false);
+	    	removePassword($('#removePass').attr('href'));
 	    	$('#publicIndicator').removeClass('on');
 	    	$('#publicStatus .text').slideUp();
 	    	$('#pass').slideUp();
@@ -19,13 +19,9 @@ function switchPublic(url, callback) {
 		});
 }
 
-function removePassword(url, showFlash) {
-	if(showFlash === undefined) {
-		showFlash = true;
-	}
+function removePassword(url) {
 	$.get(url, function(data) {
 	    data = $(data);
-	    if(showFlash) flashmessages.show(data.find('#flash-messages'));
 	    $('#removePass').empty().append(data.find('#removePass').html());
 	    $('#pass #switchPass').empty().append(data.find('#pass #switchPass').html());
 	    $('#pass .loader').hide();
@@ -66,7 +62,6 @@ function initPad() {
         var posting = $.post (url, {'form[pass]':fpass, 'form[_token]':ftoken })
         .done(function (data) {
             data = $(data);
-            flashmessages.show(data.find('#flash-messages'));
             $('#removePass').empty().append(data.find('#removePass').html());
             $form.find('input[name="form[pass]"]').val('');
             $("#pass .loader").hide();
