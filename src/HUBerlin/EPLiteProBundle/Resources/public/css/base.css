@@ -40,7 +40,7 @@
 }
 
 #headernote {
-	left: 15px;
+	left: 39px;
 	position: absolute;
 	top: 45px;
 }
@@ -97,7 +97,7 @@
 .page-content
 {
     background-color:           white;
-    padding:                    50px;
+    padding:                    40px;
     padding-top:				20px;
     margin-bottom:              20px;
     word-wrap:                  break-word;
