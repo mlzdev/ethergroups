@@ -241,6 +241,25 @@ input[type=text], input[type=password]
     font-size:   12px;
 }
 
+input[type="submit"] {
+	margin-left: 0px;
+	width: 55px;
+	font-size: 11px;
+}
+
+::-webkit-input-placeholder { /* WebKit browsers */
+    color:    #999;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color:    #999 !important;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color:    #999;
+}
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color:    #999;
+}
+
 .symfony-button-grey,
 .symfony-button-green
 {
