@@ -39,10 +39,8 @@ $(function() {
              </div>
             <form id="passForm" action="{{ path('pad', {padid: padid}) }}" method="post" {{ form_enctype(form) }} {% if isPasswordProtected %} style="display: none"{% endif %}>
                 {{ form_errors(form) }}
-                <div>
                     {{ form_errors(form.pass) }}
                     {{ form_widget(form.pass) }}
-                </div>
                 {{ form_rest(form) }}
                 <input type="submit" value="Senden" />
             </form>

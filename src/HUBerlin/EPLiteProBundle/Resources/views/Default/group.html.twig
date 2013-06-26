@@ -47,13 +47,10 @@ $(function() {
     </div>
     
     <br/>
-    <h2>{{ 'newpad'|trans }}</h2>
     <form id="newpad" action="{{ path('group', {id: group.id}) }}" method="post" {{ form_enctype(form) }}>
         {{ form_errors(form) }}
-        <div>
             {{ form_errors(form.name) }}
             {{ form_widget(form.name) }}
-        </div>
         {{ form_rest(form) }}
         <input type="submit" value="Senden" />
     </form>

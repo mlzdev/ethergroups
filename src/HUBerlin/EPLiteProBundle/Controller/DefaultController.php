@@ -14,6 +14,7 @@ use Symfony\Component\Translation\IdentityTranslator;
 class DefaultController extends Controller {
 	public function indexAction(Request $request) {
 		$etherpadlite = $this->get('etherpadlite');
+		$translator = $this->get('translator');
 
 		$user = $this->getUser();
 		
@@ -26,7 +27,7 @@ class DefaultController extends Controller {
 		$form = $this->createFormBuilder($group)
 				->add('name', 'text',
 						array('max_length' => 45,
-						        'attr' => array('placeholder' => 'Name')))
+						        'attr' => array('placeholder' => $translator->trans('newgroup'))))
 				->getForm();
 
 		if ($request->isMethod('POST')) {
@@ -115,7 +116,7 @@ class DefaultController extends Controller {
 		$pad->name = null;
 		$form = $this->createFormBuilder($pad)
 				->add('name', 'text',
-						array('max_length' => 45, 'attr' => array('placeholder' => 'Name')))
+						array('max_length' => 45, 'attr' => array('placeholder' => $translator->trans('newpad'))))
 				->getForm();
 
 		if ($request->isMethod('POST')) {

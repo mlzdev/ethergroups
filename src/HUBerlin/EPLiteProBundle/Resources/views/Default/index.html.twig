@@ -44,14 +44,6 @@ $(function() {
 	    pathOrigPic: $('#headerpic').attr('src')
 	});
 
-    // Click handler for "new pad"
-    $('.pads .newpadlink').show();
-	$('.pads .newpadlink').click(function(e) {
-		e.preventDefault();
-	    var obj = $(this);
-	    obj.parent().find('.newpadform').slideToggle();
-		});
-	
     // Prepare newpadform 
 	var newpadform = $('.pads .newpadform');
 	
@@ -128,7 +120,6 @@ $(function() {
     
                 // Add "new pad" form under the pads
                 newpadform.empty().append(data.find('#newpad').html());
-                newpadform.hide();
     
                 // expand actual group
                 group_content.slideDown();
@@ -229,7 +220,6 @@ $(function() {
                 <div class="content"></div>
                 <div class="newpad">
                     <div><img width="20" class="loader" style="display: none" src="{{ asset('bundles/huberlineplitepro/images/loader.gif') }}"/></div>
-                    <a href="#" class="newpadlink" style="display: none;" >{{ 'newpad'|trans }}</a>
                     <form class="newpadform" action="{{ path('group', {id: group.id}) }}" method="post" {{ form_enctype(form) }}>
                     </form>
                 </div>
@@ -243,13 +233,10 @@ $(function() {
     </div>    
     <br/>
 
-    <h2>{{ 'newgroup'|trans }}</h2>
     <form action="{{ path('base') }}" method="post" {{ form_enctype(form) }}>
         {{ form_errors(form) }}
-        <div>
             {{ form_errors(form.name) }}
             {{ form_widget(form.name) }}
-        </div>
         {{ form_rest(form) }}
         <input type="submit" value="Senden"/>
     </form>
