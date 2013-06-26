@@ -12,14 +12,20 @@
 	height: 500px;
 }
 
-.indicator{
-	width: 20px;
-	height: 12px;
-	background-color: red;
-	display: inline-block;
-	margin-left: 10px;
+#passForm {
+	margin-bottom: 5px;
 }
 
-.indicator.on {
-	background-color: green;
+#isPasswordProtected {
+	margin-bottom: 10px;
+}
+
+#pad-options .loader {
+	float: right;
+	margin-right: -85px;
+	margin-top: -2px;
+}
+
+#publicStatus {
+	margin-bottom: 10px;
 }

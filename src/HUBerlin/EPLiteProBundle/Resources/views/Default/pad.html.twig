@@ -3,6 +3,8 @@
 {% block stylesheets %}
 {{ parent() }}
 <link rel="stylesheet" href="{{ asset('bundles/huberlineplitepro/css/pad.css') }}" />
+<link rel="stylesheet" href="{{ asset('bundles/huberlineplitepro/css/onoffswitch.css') }}" />
+<link rel="stylesheet" href="{{ asset('bundles/huberlineplitepro/css/onoffswitch_custom.css') }}" />
 {% endblock %}
 
 {% block javascript %}
@@ -19,21 +21,33 @@ $(function() {
 {% block content %}
     <div id="pad-options">
         <div id="publicStatus">
-            <img width="20" class="loader" style="display: none" src="{{ asset('bundles/huberlineplitepro/images/loader.gif') }}"/>
-            <a id="switchPublic" href="{{ path('pad_switchPublic', {padid: padid}) }}">{{ 'public'|trans }}
-                <div id="publicIndicator" class="indicator {% if ispublic %}on{% endif %}"></div>
+            <span class="text" {% if not ispublic %}style="display:none"{% endif %}>
+                {{ 'publicurl'|trans }}: <a href="{{ url }}" target="_blank">{{ url }}</a>&nbsp;|&nbsp;
+            </span>
+            <a id="switchPublic" href="{{ path('pad_switchPublic', {padid: padid}) }}">
+                {{ 'public'|trans }}
+                <div class="onoffswitch">
+                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="publicIndicator" {% if ispublic %}checked{% endif %}>
+                    <label class="onoffswitch-label" for="myonoffswitch">
+                        <div class="onoffswitch-inner"></div>
+                        <div class="onoffswitch-switch"></div>
+                    </label>
+                </div>
             </a>
-            <div class="text" {% if not ispublic %}style="display:none"{% endif %}>
-                {{ 'publicurl'|trans }}: <a href="{{ url }}" target="_blank">{{ url }}</a>
-            </div>
+            <img width="20" class="loader" style="display: none" src="{{ asset('bundles/huberlineplitepro/images/loader.gif') }}"/>
         </div>
         <div id="pass" {% if not ispublic %} style="display:none" {% endif %}>
-        <img width="20" class="loader" style="display: none" src="{{ asset('bundles/huberlineplitepro/images/loader.gif') }}"/>
             <a id="switchPass" href="#" >
                 {{ 'pass'|trans }}
-                <div id="passIndicator" class="indicator {% if isPasswordProtected %}on{% endif %}"></div>
-
+                <div class="onoffswitch">
+                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="passIndicator" {% if isPasswordProtected %}checked{% endif %}>
+                    <label class="onoffswitch-label" for="myonoffswitch">
+                        <div class="onoffswitch-inner"></div>
+                        <div class="onoffswitch-switch"></div>
+                    </label>
+                </div>
             </a>
+            <img width="20" class="loader" style="display: none" src="{{ asset('bundles/huberlineplitepro/images/loader.gif') }}"/>
             <div id="isPasswordProtected">
                 <a id="removePass" href="{{ path('pad_deletePassword', {padid: padid}) }}">{% if isPasswordProtected %}{{ 'removePassword'|trans }}{% endif %}</a>
              </div>

@@ -2,16 +2,16 @@ function switchPublic(url, callback) {
 	$.get(url, function(data) {
 		data = $(data);
 		var status = data.find('#publicStatus .text').html();
-		var isPublic = data.find('#publicIndicator').hasClass('on');
+		var isPublic = data.find('#publicIndicator').prop('checked');
 	    if(isPublic) {
-	    	$('#publicIndicator').addClass('on');
-	    	$('#publicStatus .text').slideDown();
+	    	$('#publicIndicator').prop('checked', true);
+	    	$('#publicStatus .text').fadeIn();
 	    	$('#pass').slideDown();
 	    }
 	    else {
 	    	removePassword($('#removePass').attr('href'));
-	    	$('#publicIndicator').removeClass('on');
-	    	$('#publicStatus .text').slideUp();
+	    	$('#publicIndicator').prop('checked', false);
+	    	$('#publicStatus .text').fadeOut();
 	    	$('#pass').slideUp();
 	    }
 	    $('#publicStatus .loader').hide();
@@ -22,8 +22,7 @@ function switchPublic(url, callback) {
 function removePassword(url) {
 	$.get(url, function(data) {
 	    data = $(data);
-	    $('#removePass').empty().append(data.find('#removePass').html());
-	    $('#pass #switchPass').empty().append(data.find('#pass #switchPass').html());
+	    $('#passIndicator').prop('checked', false);
 	    $('#pass .loader').hide();
 		});
 }
@@ -62,11 +61,10 @@ function initPad() {
         var posting = $.post (url, {'form[pass]':fpass, 'form[_token]':ftoken })
         .done(function (data) {
             data = $(data);
-            $('#removePass').empty().append(data.find('#removePass').html());
             $form.find('input[name="form[pass]"]').val('');
             $("#pass .loader").hide();
-            $('#pass #switchPass').empty().append(data.find('#pass #switchPass').html());
             $('#pass #passForm').slideUp();
+            $('#passIndicator').prop('checked', true)
             });
     });
 
@@ -90,7 +88,7 @@ function initPad() {
     switchPass.click(function(e) {
         e.preventDefault();
     	var obj = $(this);
-    	if($('#passIndicator').hasClass('on')) {
+    	if($('#passIndicator').prop('checked')) {
     		$('#pass .loader').show();
     		removePassword($('#removePass').attr('href'));
     	}
