@@ -12,5 +12,11 @@ var flashmessages = {
 		    $('#flash-messages').empty().append(obj);
 		    $('#flash-messages').slideDown();
 		    this.timeout();
+		},
+		clickHandler: function() {
+			// possibility to hide flash-messages with a click
+		    $('#flash-messages').click(function(e) {
+		        $(this).slideUp();
+		        });
 		}
 };

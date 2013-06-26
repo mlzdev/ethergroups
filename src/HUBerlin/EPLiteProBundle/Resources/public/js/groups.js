@@ -1,10 +1,3 @@
-function fmessagesClickHandler() {
-	// possibility to hide flash-messages with a click
-    $('#flash-messages').click(function(e) {
-        $(this).slideUp();
-        });
-}
-
 function removeGroupHandler(obj) {
 	obj.click(function(e) {
 		e.preventDefault();
