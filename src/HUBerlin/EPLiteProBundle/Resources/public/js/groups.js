@@ -185,7 +185,7 @@ function newUserHandler() {
 		
 		// Clear the form and disable it
     	$form.find('input[name="username"]').val('');
-    	$form.children().attr('disabled', 'disabled');
+    	$form.children().prop('disabled', true);
     	
     	var groupID = $form.closest('.group').attr('id');
     	
@@ -198,7 +198,7 @@ function newUserHandler() {
             
             $('#'+groupID+' .usernames span:first').empty().append(newUserNames);
             
-            $form.children().removeAttr('disabled');
+            $form.children().prop('disabled', false);
             
             flashmessages.show(data.find('#flash-messages'));
             
