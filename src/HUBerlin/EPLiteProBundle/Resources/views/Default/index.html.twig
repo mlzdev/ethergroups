@@ -17,7 +17,8 @@
 <script src="{{ asset('bundles/huberlineplitepro/js/flashmessages.js') }}"></script>
 <script src="{{ asset('bundles/huberlineplitepro/js/pad.js') }}"></script>
 <script src="{{ asset('bundles/huberlineplitepro/js/groups.js') }}" ></script>
-<script src="{{ asset('bundles/huberlineplitepro/js/naturalSort.js') }}" ></script>
+<script src="{{ asset('bundles/huberlineplitepro/js/strnatcmp.js') }}" ></script>
+<script src="{{ asset('bundles/huberlineplitepro/js/strcmp.js') }}" ></script>
 
 <script type="text/javascript">
 $(function() {
@@ -78,7 +79,7 @@ $(function() {
                 padscontent.children().each(function(index, element) {
                     element = $(element);
                     var padname = element.find('.padname').text();
-                    if(naturalSort(newName, padname.toLowerCase()) <=0 ) {
+                    if(strnatcmp(newName, padname.toLowerCase()) <=0 ) {
                         newpad.insertBefore(element);
                         inserted = true;
                         return false;
