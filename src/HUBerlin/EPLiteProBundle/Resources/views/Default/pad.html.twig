@@ -22,7 +22,7 @@ $(function() {
     <div id="pad-options">
         <div id="publicStatus">
             <span class="text" {% if not ispublic %}style="display:none"{% endif %}>
-                {{ 'publicurl'|trans }}: <a href="{{ url }}" target="_blank">{{ url }}</a>&nbsp;|&nbsp;
+                <a href="{{ url }}" target="_blank">{{ 'publicurl'|trans }}</a>&nbsp;|&nbsp;
             </span>
             <a id="switchPublic" href="{{ path('pad_switchPublic', {padid: padid}) }}">
                 {{ 'public'|trans }}

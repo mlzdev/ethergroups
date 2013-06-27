@@ -6,7 +6,7 @@ mygroups: My Groups
 newgroup: New Group
 newpad: New Pad
 public: Public
-publicurl: Public URL
+publicurl: Open public URL in new window
 notpublic: Not Public
 pass: Password
 addpass: Add Password
