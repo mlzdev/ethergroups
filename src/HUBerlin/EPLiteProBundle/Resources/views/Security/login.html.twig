@@ -15,21 +15,21 @@
 
 {% block content %}
 	<div class="login">
-		<span class="title">Benutzeranmeldung</span>
+		<span class="title">{{ 'login'|trans }}</span>
 		
 		<form action="{{ path('login_check') }}" method="post">
 			<div class="loginform">
-				<label for="username">Benutzername:</label><br />
+				<label for="username">{{ 'username'|trans }}:</label><br />
 				<input type="text" id="username" name="_username" value="{{ last_username }}" /><br />
-				<label for="password">Password:</label><br />
+				<label for="password">{{ 'password'|trans }}:</label><br />
 				<input type="password" id="password" name="_password" /><br />
 				<input type="hidden" name="_target_path" value="/" />
 				{% if error %}
 					<div class="error">{{ error.message }}</div>
 				{% endif %}
 			</div>
-			<button type="submit">Anmelden</button>
-			<a href="http://www.rz.htw-berlin.de/de/htw_account/passwort_vergessen.html}">Passwort vergessen ?</a>
+			<button type="submit">{{ 'log-in'|trans }}</button>
+			<a href="{{ forgotpasswordurl }}">{{ 'forgotpassword'|trans }}</a>
 		</form>
 	</div>
 {% endblock %}

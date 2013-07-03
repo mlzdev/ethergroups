@@ -39,6 +39,7 @@
                                 <span>{% if app.user.name is defined %}  {{ app.user.name }} {% else %} {{ 'guest'|trans }} {% endif %}</span>
                                 (<a href="{{ path('logout') }}">Logout</a>)
                             </span>
+                        {% endif %}
                             <span id="langselector">
                                 <form id="langform" action="{{ path('changeLanguage') }}" method="POST">
                                     <select name="lang" >
@@ -49,7 +50,6 @@
                                 </form>
                             </span>
                             <a href="#" id="toggle-header">Toggle Header</a>
-                            {% endif %}
                         </div>
                     {% endblock %}
                 </div>

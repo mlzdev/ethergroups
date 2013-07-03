@@ -1,3 +1,8 @@
+login: Benutzeranmeldung
+username: Benutzername
+password: Passwort
+log-in: Anmelden
+forgotpassword: Passwort vergessen?
 today: heute
 yesterday: gestern
 daysago: vor %days% Tagen

@@ -22,7 +22,10 @@ security:
         login:
             pattern:  ^/login$
             security: false
-          
+            
+        language:
+            pattern:  ^/changeLanguage$
+            security: false
 
         secured_area:
             pattern:   ^/
