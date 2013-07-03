@@ -10,6 +10,7 @@ use Symfony\Component\Serializer\Encoder\JsonEncode;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Translation\IdentityTranslator;
+use HUBerlin\EPLiteProBundle\Entity\Pads;
 
 class DefaultController extends Controller {
     
@@ -357,6 +358,7 @@ class DefaultController extends Controller {
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
 	 */
 	public function padAction($padid = 0, Request $request) {
+	    $em = $this->getDoctrine()->getManager();
         $etherpadlite = $this->get('etherpadlite');
 		
 	    $padsplit = $this->splitPadid($padid);
@@ -371,8 +373,12 @@ class DefaultController extends Controller {
 		
 		$this->updateCookieIfNecessary();
 		
-		$pad = new \stdClass();
-		$pad->pass = null;
+		$repository = $em->getRepository('HUBerlinEPLiteProBundle:Pads');
+		$pad = $repository->findOneBy(array('padid'=>$padid));
+		if (!$pad) {
+		    $pad = new Pads();
+		}
+		
 		$form = $this->createFormBuilder($pad)
 		->add('pass', 'text',
 		        array('max_length' => 20, 'attr' => array('placeholder' => 'Passwort')))
@@ -382,7 +388,14 @@ class DefaultController extends Controller {
 		    $form->bind($request);
 		    if ($form->isValid()) {
 		        try {
-		            $pad = $etherpadlite->setPassword($padid, $pad->pass);
+		            $padEP = $etherpadlite->setPassword($padid, $pad->getPass());
+		            $id = $pad->getPadid();
+   		            if(empty($id)) {
+   		                $pad->setPadid($padid);
+   		                $em->persist($pad);
+		            }
+		            $em->flush();
+		            
 		            $this->get('session')->getFlashBag()->set('notice', 'Passwort erstellt!');
 		        } catch (\Exception $e) {
 		            $this->get('session')->getFlashBag()->set('notice', 'FEHLER! setPassword');
@@ -419,6 +432,7 @@ class DefaultController extends Controller {
 	    
 	    try {
 	        $eplite->setPassword($padid, null);
+	        $this->removePasswordFromDatabase($padid);
 	        $this->get('session')->getFlashBag()->set('notice', 'Passwort gelöscht');
 	    }
 	    catch (\Exception $e) {
@@ -426,6 +440,14 @@ class DefaultController extends Controller {
 	    }
 	    
 	    return $this->redirect($this->generateUrl('pad', array('padid' => $padid)));
+	}
+	
+	private function removePasswordFromDatabase($padid) {
+	    $em = $this->getDoctrine()->getManager();
+	    $repository = $em->getRepository('HUBerlinEPLiteProBundle:Pads');
+	    $pad = $repository->findOneBy(array('padid'=>$padid));
+	    $em->remove($pad);
+	    $em->flush();
 	}
 	
 	/**
@@ -445,6 +467,7 @@ class DefaultController extends Controller {
 	    
 	    try {
 	        $eplite->deletePad($padid);
+	        $this->removePasswordFromDatabase($padid);
 	    }
 	    catch (\Exception $e) {
 	        $this->get('session')
