@@ -234,7 +234,7 @@ $(function() {
                 <span class="creationdate">({{ group.creationdate.date | date('d.m.Y')}})</span>
             </div>
             <div class="user">
-                <a href="#" class="userinfo" style="display: none">{{ 'user'|trans }} ({{ group.activatedUser.count }}/{{ group.user.count }}) <img alt="plus" src="{{ asset('bundles/huberlineplitepro/images/plus.png') }}" /><img alt="minus" src="{{ asset('bundles/huberlineplitepro/images/minus.png') }}" style="display:none"/></a>
+                <a href="#" class="userinfo" style="display: none"><span class="usernumber">{{ 'user'|trans }} ({{ group.activatedUser.count }}/{{ group.user.count }})</span> <img alt="plus" src="{{ asset('bundles/huberlineplitepro/images/plus.png') }}" /><img alt="minus" src="{{ asset('bundles/huberlineplitepro/images/minus.png') }}" style="display:none"/></a>
                 <div class="usernames">
                     <div>
                         {% for user in group.user %} 

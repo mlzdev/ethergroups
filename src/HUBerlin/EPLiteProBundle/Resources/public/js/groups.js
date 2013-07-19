@@ -196,7 +196,10 @@ function newUserHandler() {
             
             var newUserNames = data.find('#'+groupID+' .usernames div');
             
-            $('#'+groupID+' .usernames div').empty().append(newUserNames);
+            $('#'+groupID+' .usernames div').empty().append(newUserNames.html());
+            
+            var newUserNo = data.find('#'+groupID+' .userinfo .usernumber');
+            $('#'+groupID+' .userinfo .usernumber').empty().append(newUserNo.html());
             
             $form.children().prop('disabled', false);
             
