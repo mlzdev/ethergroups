@@ -9,10 +9,10 @@
 	margin-bottom: 5px;
 }
 
-html.no-csstransitions .onoffswitch {
+html.no-checked .onoffswitch {
 	display:none;
 }
 
-html.no-csstransitions #pad-options .loader {
+html.no-checked #pad-options .loader {
 	margin-right: -30px;
 }
