@@ -88,6 +88,10 @@
 	padding: 0 5px;
 }
 
+#toggle-header img {
+	margin-bottom: -4px;
+}
+
 #navcontainer {
 	background-color: #036;
 	width: 100%;

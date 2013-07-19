@@ -14,14 +14,18 @@ $(function() {
             $('#header').animate({
                 top: '0',
                 marginBottom: '0',
-            });
+            }, function() {switchToggleHeaderPic();});
         }
         else {
         	obj.addClass('hidden');
             $('#header').animate({
                 top: '-110px',
                 marginBottom: '-100px'
-            });
+            }, function() {switchToggleHeaderPic();});
         }
     });
 });
+
+function switchToggleHeaderPic() {
+	$('#toggle-header img').toggle();
+}
