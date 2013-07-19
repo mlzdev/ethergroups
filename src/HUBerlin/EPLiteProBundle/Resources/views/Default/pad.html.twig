@@ -28,10 +28,10 @@ $(function() {
                 {{ 'public'|trans }}
                 <div class="onoffswitch">
                     <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="publicIndicator" {% if ispublic %}checked{% endif %}>
-                    <label class="onoffswitch-label" for="myonoffswitch">
+                    <div class="onoffswitch-label">
                         <div class="onoffswitch-inner"></div>
                         <div class="onoffswitch-switch"></div>
-                    </label>
+                    </div>
                 </div>
             </a>
             <img width="20" class="loader" style="display: none" src="{{ asset('bundles/huberlineplitepro/images/loader.gif') }}"/>
@@ -48,10 +48,10 @@ $(function() {
                 {{ 'pass'|trans }}
                 <div class="onoffswitch">
                     <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="passIndicator" {% if isPasswordProtected %}checked{% endif %}>
-                    <label class="onoffswitch-label" for="myonoffswitch">
+                    <div class="onoffswitch-label">
                         <div class="onoffswitch-inner"></div>
                         <div class="onoffswitch-switch"></div>
-                    </label>
+                    </div>
                 </div>
             </a>
             <img width="20" class="loader" style="display: none" src="{{ asset('bundles/huberlineplitepro/images/loader.gif') }}"/>
