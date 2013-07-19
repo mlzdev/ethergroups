@@ -274,7 +274,8 @@ class DefaultController extends Controller {
 	             $ldap = $this->get('ldap.data.provider');
 	             $ldapuser = $ldap->getUserRecordExtended($username);
 	             
-	             if($ldapuser) {
+	             if($ldapuser[0]) {
+	                 $ldapuser = $ldapuser[1];
 	                 $userProvider = $this->get('ldap_user_provider');
 	                 $user = $userProvider->loadUserByUsername($ldapuser['uid'][0], false);
 	                 $user->setAttributes($ldapuser);
@@ -290,8 +291,15 @@ class DefaultController extends Controller {
 	                 }
 	             }
 	             else {
-	                 $this->get('session')
-	                 ->getFlashBag()->set('notice', 'Mehrere Nutzer gefunden. Bitte spezifizieren Sie Ihre Angabe.');
+	                 if($ldapuser[1]==0) {
+	                     $this->get('session')
+	                     ->getFlashBag()->set('notice', 'Kein Nutzer gefunden. Bitte spezifizieren Sie Ihre Angabe.');
+	                 }
+	                 else {
+	                     $this->get('session')
+	                     ->getFlashBag()->set('notice', 'Mehrere Nutzer gefunden. Bitte spezifizieren Sie Ihre Angabe.');
+	                 }
+	                 
   	             }
 	        }
 	        else {

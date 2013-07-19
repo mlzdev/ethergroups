@@ -67,11 +67,13 @@ class LdapDataSource
 	    $result = $this->searchRecords('(|('.$this->ldapUserAttribute . "=" . $user.')(sn='.$user.')(cn='.$user.')(givenName='.$user.')(mail='.$user.'))', array("uid", "sn", "cn", "mail", "givenName"), $resourceLink);
 	    
 	    // Check if only one result was fetched
-	    if (!$result || !array_key_exists("count", $result) || $result["count"] != 1) {
+	    if (!$result || !array_key_exists("count", $result) || $result["count"] == 0) {
 	        // Appearantly the user was not found or multiple records were returned
-	        return false;
+	        return array(false, 0);
+	    } else if($result["count"] != 1) {
+	        return array(false, $result["count"]);
 	    } else {
-	        return $result[0];
+	        return array(true, $result[0]);
 	    }
 	}
 	
