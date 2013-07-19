@@ -24,6 +24,7 @@ function removePassword(url) {
 	    data = $(data);
 	    $('#passIndicator').prop('checked', false);
 	    $('#pass .loader').hide();
+	    $('#pass .text').fadeOut();
 		});
 }
 
@@ -64,7 +65,9 @@ function initPad() {
             $form.find('input[name="form[pass]"]').val('');
             $("#pass .loader").hide();
             $('#pass #passForm').slideUp();
-            $('#passIndicator').prop('checked', true)
+            $('#passIndicator').prop('checked', true);
+            $('#padPass').empty().append(data.find('#padPass').html());
+            $('#pass .text').fadeIn();
             });
     });
 
@@ -102,6 +105,12 @@ function initPad() {
         		obj.addClass('hiddenform');
             }
     	}
-        });
+    });
+    
+    // Show / Hide Pass
+    $('#showHidePass a').click(function(e) {
+    	$('#showHidePass a').toggle();
+    	$('#padPass').toggle();
+    });
     
 }

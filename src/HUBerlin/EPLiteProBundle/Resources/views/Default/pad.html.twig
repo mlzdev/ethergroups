@@ -37,6 +37,13 @@ $(function() {
             <img width="20" class="loader" style="display: none" src="{{ asset('bundles/huberlineplitepro/images/loader.gif') }}"/>
         </div>
         <div id="pass" {% if not ispublic %} style="display:none" {% endif %}>
+            <span class="text" {% if not isPasswordProtected %}style="display:none"{% endif %}>
+                <span id="showHidePass">
+                    <a id="showPass" href="javascript:void();">{{ 'showPass'|trans }}</a>
+                    <a id="hidePass" href="javascript:void();" style="display:none">{{ 'hidePass'|trans }}:</a>
+                </span>
+                <span id="padPass" style="display: none">{{ pad.pass }}</span> &nbsp;|&nbsp;
+            </span>
             <a id="switchPass" href="#" >
                 {{ 'pass'|trans }}
                 <div class="onoffswitch">

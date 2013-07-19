@@ -5,6 +5,7 @@ namespace HUBerlin\EPLiteProBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Doctrine\ORM\Mapping\OneToMany;
 
 /**
  * HUBerlin\EPLiteProBundle\Entity\Group
@@ -51,6 +52,13 @@ class Groups
      * @ORM\ManyToMany(targetEntity="User", indexBy="uid", inversedBy="groups")
      */
     private $user;
+    
+    /**
+     * @var Pads $pads
+     * 
+     * @OneToMany(targetEntity="Pads", mappedBy="group")
+     */
+    private $pads;
     
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -255,5 +263,38 @@ public function upload()
     public function getPath()
     {
         return $this->path;
+    }
+
+    /**
+     * Add pads
+     *
+     * @param \HUBerlin\EPLiteProBundle\Entity\Pads $pads
+     * @return Groups
+     */
+    public function addPad(\HUBerlin\EPLiteProBundle\Entity\Pads $pads)
+    {
+        $this->pads[] = $pads;
+    
+        return $this;
+    }
+
+    /**
+     * Remove pads
+     *
+     * @param \HUBerlin\EPLiteProBundle\Entity\Pads $pads
+     */
+    public function removePad(\HUBerlin\EPLiteProBundle\Entity\Pads $pads)
+    {
+        $this->pads->removeElement($pads);
+    }
+
+    /**
+     * Get pads
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPads()
+    {
+        return $this->pads;
     }
 }

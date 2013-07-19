@@ -377,6 +377,8 @@ class DefaultController extends Controller {
 		$pad = $repository->findOneBy(array('padid'=>$padid));
 		if (!$pad) {
 		    $pad = new Pads();
+		    $pad->setPadid($padid);
+		    $pad->setGroup($group);
 		}
 		
 		$form = $this->createFormBuilder($pad)
@@ -389,9 +391,8 @@ class DefaultController extends Controller {
 		    if ($form->isValid()) {
 		        try {
 		            $padEP = $etherpadlite->setPassword($padid, $pad->getPass());
-		            $id = $pad->getPadid();
+		            $id = $pad->getId();
    		            if(empty($id)) {
-   		                $pad->setPadid($padid);
    		                $em->persist($pad);
 		            }
 		            $em->flush();
@@ -412,7 +413,7 @@ class DefaultController extends Controller {
 		}
 		
 		return $this->render('HUBerlinEPLiteProBundle:Default:pad.html.twig',
-						array('group' => $group, 'padid' => $padid, 'padname' => $padname, 'url' => $url, 'ispublic' => $ispublic, 'form' => $form->createView(), 'isPasswordProtected' => $isPasswordProtected));
+						array('group' => $group, 'pad' => $pad, 'padid' => $padid, 'padname' => $padname, 'url' => $url, 'ispublic' => $ispublic, 'form' => $form->createView(), 'isPasswordProtected' => $isPasswordProtected));
 	}
 	
 	/**

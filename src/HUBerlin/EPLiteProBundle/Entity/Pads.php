@@ -6,6 +6,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\ORM\Mapping\Index;
+use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\ORM\Mapping\ManyToOne;
 
 /**
  * HUBerlin\EPLiteProBundle\Entity\Pads
@@ -24,6 +26,15 @@ class Pads
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
+    
+    
+    /**
+     * @var Groups $group
+     * 
+     * @ManyToOne(targetEntity="Groups", inversedBy="pads")
+     * @ORM\JoinColumn(name="group_id", referencedColumnName="id", onDelete="CASCADE")
+     */
+    private $group;
     
     /**
      * @var string $padid
@@ -94,5 +105,28 @@ class Pads
     public function getPass()
     {
         return $this->pass;
+    }
+
+    /**
+     * Set group
+     *
+     * @param \HUBerlin\EPLiteProBundle\Entity\Groups $group
+     * @return Pads
+     */
+    public function setGroup(\HUBerlin\EPLiteProBundle\Entity\Groups $group = null)
+    {
+        $this->group = $group;
+    
+        return $this;
+    }
+
+    /**
+     * Get group
+     *
+     * @return \HUBerlin\EPLiteProBundle\Entity\Groups 
+     */
+    public function getGroup()
+    {
+        return $this->group;
     }
 }
