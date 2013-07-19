@@ -241,6 +241,12 @@ public function upload()
     {
         return $this->user;
     }
+    
+    public function getActivatedUser() {
+        return $this->user->filter(function($elem) {
+            if($elem->getIsActivated()) return $elem;
+        });
+    }
 
     /**
      * Set path

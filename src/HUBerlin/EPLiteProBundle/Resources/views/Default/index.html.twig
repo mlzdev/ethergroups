@@ -225,7 +225,7 @@ $(function() {
             </form>
             <span class="actions">
                 <a href="#" style="display: none" class="editgroup" ><img src="{{ asset('bundles/huberlineplitepro/images/edit.png') }}" /> </a>
-                <a href="{{ path('group_delete', {id: group.id}) }}" class="group_delete {% if group.user.count == 1 %}last{% endif %}"> <img src="{{ asset('bundles/huberlineplitepro/images/delete.png') }}" /> </a>
+                <a href="{{ path('group_delete', {id: group.id}) }}" class="group_delete {% if group.activatedUser.count == 1 %}last{% endif %}"> <img src="{{ asset('bundles/huberlineplitepro/images/delete.png') }}" /> </a>
             </span>
             <img width="20" class="loader" style="display: none" src="{{ asset('bundles/huberlineplitepro/images/loader.gif') }}"/>
         </div>
@@ -234,7 +234,7 @@ $(function() {
                 <span class="creationdate">({{ group.creationdate.date | date('d.m.Y')}})</span>
             </div>
             <div class="user">
-                <a href="#" class="userinfo" style="display: none">{{ 'user'|trans }} ({{ group.user.count }}) <img alt="plus" src="{{ asset('bundles/huberlineplitepro/images/plus.png') }}" /><img alt="minus" src="{{ asset('bundles/huberlineplitepro/images/minus.png') }}" style="display:none"/></a>
+                <a href="#" class="userinfo" style="display: none">{{ 'user'|trans }} ({{ group.activatedUser.count }}/{{ group.user.count }}) <img alt="plus" src="{{ asset('bundles/huberlineplitepro/images/plus.png') }}" /><img alt="minus" src="{{ asset('bundles/huberlineplitepro/images/minus.png') }}" style="display:none"/></a>
                 <div class="usernames">
                     <div>
                         {% for user in group.user %} 
