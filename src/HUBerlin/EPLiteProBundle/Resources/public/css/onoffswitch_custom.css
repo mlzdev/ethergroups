@@ -8,3 +8,11 @@
 	margin-top: -2px;
 	margin-bottom: 5px;
 }
+
+html.no-csstransitions .onoffswitch {
+	display:none;
+}
+
+html.no-csstransitions #pad-options .loader {
+	margin-right: -30px;
+}
