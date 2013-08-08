@@ -2,7 +2,7 @@
 
 {% block stylesheets %}
 	{{ parent() }}
-	<link href="{{ asset('/css/login.css') }}" type="text/css" rel="stylesheet" />
+	<link href="{{ asset('/bundles/huberlineplitepro/css/login.css') }}" type="text/css" rel="stylesheet" />
 {% endblock %}
 
 {% block menu %}
@@ -14,22 +14,29 @@
 {% endblock %}
 
 {% block content %}
-	<div class="login">
-		<span class="title">{{ 'login'|trans }}</span>
-		
-		<form action="{{ path('login_check') }}" method="post">
-			<div class="loginform">
-				<label for="username">{{ 'username'|trans }}:</label><br />
-				<input type="text" id="username" name="_username" value="{{ last_username }}" /><br />
-				<label for="password">{{ 'password'|trans }}:</label><br />
-				<input type="password" id="password" name="_password" /><br />
-				<input type="hidden" name="_target_path" value="/" />
-				{% if error %}
-					<div class="error">{{ error.message }}</div>
-				{% endif %}
-			</div>
-			<button type="submit">{{ 'log-in'|trans }}</button>
-			<a href="{{ forgotpasswordurl }}">{{ 'forgotpassword'|trans }}</a>
-		</form>
+<div id="loginwrapper">
+    <div id="loginpanel">
+    	<div class="login">
+    		<span class="title">{{ 'login'|trans }}</span>
+    		
+    		<form action="{{ path('login_check') }}" method="post">
+    			<div class="loginform">
+    				<label for="username">{{ 'username'|trans }}:</label><br />
+    				<input type="text" id="username" name="_username" value="{{ last_username }}" /><br />
+    				<label for="password">{{ 'password'|trans }}:</label><br />
+    				<input type="password" id="password" name="_password" /><br />
+    				<input type="hidden" name="_target_path" value="/" />
+    				{% if error %}
+    					<div class="error">{{ error.message }}</div>
+    				{% endif %}
+    			</div>
+    			<button type="submit">{{ 'log-in'|trans }}</button>
+    			<a href="{{ forgotpasswordurl }}">{{ 'forgotpassword'|trans }}</a>
+    		</form>
+    	</div>
 	</div>
+	<div id="logininfopanel">
+	    <div id="logininfo">{{ 'logininfo'|trans|raw }}</div>
+	</div>
+</div>
 {% endblock %}

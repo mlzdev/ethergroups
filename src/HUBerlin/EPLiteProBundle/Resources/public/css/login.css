@@ -1,0 +1,18 @@
+@CHARSET "UTF-8";
+
+#loginpanel {
+	float: left;
+	width: 30%;
+}
+
+#logininfopanel {
+	float: left;
+	width: 50%;
+	border-left: 1px solid black;
+	padding-left: 40px;
+}
+
+.login form {
+	padding-left: 20px;
+	padding-top: 10px;
+}

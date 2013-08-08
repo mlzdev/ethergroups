@@ -31,3 +31,21 @@ firstgroupname: Meine erste Gruppe
 firstpadname: Mein erstes Pad
 firstpadtext: Herzlich Willkommen bei Etherpad Lite Pro (HU-Edition)
 footer: HU-Moodle wird vom <a target="_blank" href="http://www.cms.hu-berlin.de/mlz/">Multimedia Lehr- und Lernzentrum</a> im CMS der HU Berlin betreut. | <a href="mailto:moodle-support@cms.hu-berlin.de?subject=Moodle: Support-Anfrage&amp;body=Vielen Dank für Ihre Anfrage! Wir werden sie möglichst bald beantworten. Bitte denken Sie daran, uns (ebenso wie irgend jemand anderem) keinerlei Passwörter zu schicken.">Support-Anfrage</a> | <a href="http://moodle.hu-berlin.de/course/view.php?id=40916">Moodle-Hilfen</a> | <a title="Datenschutz-Informationen" href="http://moodle.hu-berlin.de/auth/huaccount/sitepolicy.php">Datenschutz</a>
+logininfo: >
+  <h2>Sind Sie das erste Mal auf dieser Website?<br>Bitte registrieren Sie sich:</h2>
+  <div class="subcontent">
+  Guten Tag!
+
+  Um an den verschiedenen Kursen teilnehmen zu können, müssen Sie sich einen Nutzerzugang für diese Website anlegen. Für einige Kurse könnte zusätzlich ein Zugangsschlüssel notwendig sein.
+
+  <p>Gehen Sie dazu bitte wie folgt vor:
+  </p><ol size="2">
+  <li>Füllen Sie das Formular <a href="signup.php">Neuer Zugang</a> mit Ihren Angaben aus.</li>
+  <li>Sie erhalten umgehend eine Benachrichtigung an die von Ihnen angegebene E-Mail-Adresse.</li>
+  <li>Lesen Sie diese E-Mail genau und klicken Sie den darin enthaltenen Link an.</li>
+  <li>Ihr Zugang wird auf diese Weise bestätigt und Sie werden automatisch mit Ihren zuvor angegebenen Zugangsdaten auf der Startseite eingeloggt.</li>
+  <li>Jetzt wählen Sie bitte den Kurs aus, an dem Sie teilnehmen möchten.</li>
+  <li>Für einige Kurse ist ein Zugangsschlüssel notwendig. Benutzen Sie dazu bitte den Zugangsschlüssel, den Ihnen Ihre Trainer/in mitgeteilt hat. Mit diesem Zugangsschlüssel können Sie sich in den entsprechenden Kurs einschreiben.</li>
+  <li>Nun haben Sie einen Nutzerzugang zur Website. Zukünftig müssen Sie jedes Mal den bei Ihrer Registrierung gewählten Anmeldenamen und das Kennwort (im Login-Block auf dieser Seite) eingeben, um sich einzuloggen und Zugang zu den verschiedenen Kursen zu erhalten.</li>
+  </ol>
+  </div>
