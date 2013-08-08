@@ -5,6 +5,15 @@
 	<link href="{{ asset('/bundles/huberlineplitepro/css/login.css') }}" type="text/css" rel="stylesheet" />
 {% endblock %}
 
+{% block javascript %}
+{{ parent() }}
+<script type="text/javascript">
+$(function() {
+    $('#username').focus();
+});
+</script>
+{% endblock %}
+
 {% block menu %}
 	<div class="headerbaritem headerbaritemactive">Anmelden</div>
 	{{ parent() }}
