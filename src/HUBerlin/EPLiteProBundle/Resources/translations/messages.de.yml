@@ -9,9 +9,9 @@ confirm: Bestätigen
 cancel: Abbrechen
 policy: >
   <h2>Nutzungsbedingungen</h2>
-  <div class="policy">
+  <p>
     Hiermit willige ich ein, dass alle meine Daten vom Betreiber verkauft und an die NSA weitergegeben werden dürfen!
-  </div>
+  </p>
 today: heute
 yesterday: gestern
 daysago: vor %days% Tagen

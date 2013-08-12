@@ -2,14 +2,26 @@
 
 {% block stylesheets %}
 {{ parent() }}
+<link rel="stylesheet" href="{{ asset('bundles/huberlineplitepro/css/policy.css') }}" />
 {% endblock %}
 
 {% block javascript %}
 {{ parent() }}
 {% endblock %}
 
-{% block content %}
-{{ 'policy'|trans|raw }}
+{# import "_self" as the form theme #}
+{% form_theme form _self %}
 
-{{ form(form) }}
+{# make the form fragment customization #}
+{% block button_row %}
+    {{ form_widget(form) }}
+{% endblock %}
+
+{% block content %}
+<div id="policy">
+    {{ 'policy'|trans|raw }}
+</div>
+<div id="policyform">
+    {{ form(form) }}
+</div>
 {% endblock %}
