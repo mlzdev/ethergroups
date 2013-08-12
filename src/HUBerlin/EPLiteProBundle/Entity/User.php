@@ -68,6 +68,13 @@ class User implements UserInterface
     private $isactivated;
     
     /**
+     * @var boolean $policyagreed
+     * 
+     * @ORM\Column(name="policyagreed", type="boolean", nullable=false)
+     */
+    private $policyagreed;
+    
+    /**
      * @var boolean $isadmin
      * 
      * @ORM\Column(name="isadmin", type="boolean", nullable=false)
@@ -425,5 +432,28 @@ class User implements UserInterface
     public function getLanguage()
     {
         return $this->language;
+    }
+
+    /**
+     * Set policyagreed
+     *
+     * @param boolean $policyagreed
+     * @return User
+     */
+    public function setPolicyagreed($policyagreed)
+    {
+        $this->policyagreed = $policyagreed;
+    
+        return $this;
+    }
+
+    /**
+     * Get policyagreed
+     *
+     * @return boolean 
+     */
+    public function getPolicyagreed()
+    {
+        return $this->policyagreed;
     }
 }

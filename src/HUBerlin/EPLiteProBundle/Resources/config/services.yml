@@ -25,6 +25,12 @@ services:
         tags:
             - { name: kernel.event_subscriber }
             
+    my.PolicyListener:
+        class: HUBerlin\EPLiteProBundle\Listener\PolicyListener
+        arguments: [@security.context]
+        tags:
+            - { name: kernel.event_subscriber }
+            
     grouphandler:
         class: HUBerlin\EPLiteProBundle\Helper\GroupHandler
         arguments: [ @doctrine.orm.entity_manager, @etherpadlite ]

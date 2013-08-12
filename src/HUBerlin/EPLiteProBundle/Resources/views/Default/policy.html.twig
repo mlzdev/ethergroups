@@ -1,0 +1,15 @@
+{% extends 'HUBerlinEPLiteProBundle::layout.html.twig' %}
+
+{% block stylesheets %}
+{{ parent() }}
+{% endblock %}
+
+{% block javascript %}
+{{ parent() }}
+{% endblock %}
+
+{% block content %}
+{{ 'policy'|trans|raw }}
+
+{{ form(form) }}
+{% endblock %}

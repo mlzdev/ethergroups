@@ -550,6 +550,42 @@ class DefaultController extends Controller {
 	}
 	
 	/**
+	 * This function shows the policy and sets the user attribute for it, according to the users decision to aggree, or disagree it.
+	 */
+	public function policyAction(Request $request) {
+	    $em = $this->getDoctrine()->getManager();
+	    $translator = $this->get('translator');
+	    
+	    $user = $this->getUser();
+	    
+	    $form = $this->createFormBuilder($user)
+	        ->add('policyagreed', null, array('required'=> false, 'label'=>$translator->trans('agreepolicy')))
+	        ->add('confirm', 'submit', array('label'=>$translator->trans('confirm')))
+	        ->add('cancel', 'submit', array('label'=>$translator->trans('cancel')))    
+	        ->getForm();
+	    
+	    $form->handleRequest($request);
+	    
+	    if ($form->isValid()) {
+	        if($form->get('confirm')->isClicked()) { 
+	            if($user->getPolicyAgreed()) {
+	                $em->flush();
+	                return $this->redirect($this->generateUrl('base'));
+	            }
+	            else {
+	                $this->get('session')->getFlashBag()->set('notice', $translator->trans('policynotagreed'));
+	                return $this->redirect($this->generateUrl('policy'));
+	            }
+	        }
+	        else {
+	            return $this->redirect($this->generateUrl('logout'));
+	        }
+	    }
+	    
+	    return $this->render('HUBerlinEPLiteProBundle:Default:policy.html.twig', array('form'=>$form->createView()));
+	}
+	
+	/**
 	 * Split the pad id into group id and pad name
 	 * 
 	 * @param string $padid

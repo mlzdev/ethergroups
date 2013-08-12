@@ -8,6 +8,10 @@ login_check:
 logout:
     pattern:   /logout
     
+policy:
+    pattern:   /policy
+    defaults:  { _controller: HUBerlinEPLiteProBundle:Default:policy }
+    
 base:
     pattern:   /
     defaults: { _controller: HUBerlinEPLiteProBundle:Default:index}

@@ -3,6 +3,15 @@ username: Benutzername
 password: Passwort
 log-in: Anmelden
 forgotpassword: Passwort vergessen?
+agreepolicy: Ich stimme den Nutzungsbedingungen zu!
+policynotagreed: Sie müssen den Nutzungsbedingungen zustimmen, um diesen Dienst zu nutzen
+confirm: Bestätigen
+cancel: Abbrechen
+policy: >
+  <h2>Nutzungsbedingungen</h2>
+  <div class="policy">
+    Hiermit willige ich ein, dass alle meine Daten vom Betreiber verkauft und an die NSA weitergegeben werden dürfen!
+  </div>
 today: heute
 yesterday: gestern
 daysago: vor %days% Tagen

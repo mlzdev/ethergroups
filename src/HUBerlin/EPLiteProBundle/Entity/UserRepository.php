@@ -46,6 +46,7 @@ class UserRepository implements UserProviderInterface {
             $user->setIsadmin(false);
             $user->setIsenabled(true);
             $user->setIsactivated(false);
+            $user->setPolicyagreed(false);
             $user->newUser = true;
             
             try {
