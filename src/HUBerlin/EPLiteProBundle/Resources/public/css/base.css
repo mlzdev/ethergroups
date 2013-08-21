@@ -30,7 +30,8 @@
 }
 #footerwrap {
 	margin-top: 20px;
-	text-align: center;
+	/*text-align: center;*/
+	margin-left: 40px;
 }
 
 #pre_spacer {
