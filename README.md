@@ -6,7 +6,7 @@ It requires LDAP for user authentication.
 
 Prerequirement
 --------------
-You need an etherpad-lite server, which is running on at least the same 2nd-level-domain as your moodle server.
+You need an etherpad-lite server, which is running on at least the same 2nd-level-domain as your eplitepro server.
 [Infos & Download](https://github.com/ether/etherpad-lite)
 
 We recommend to use the etherpad-lite version 1.2.7
@@ -30,7 +30,7 @@ Installation
 		DocumentRoot /path/to/eplitepro/web/
 		AllowOverride FileInfo
 		
-3. Configure Nginx (If you want to use this on the same server, where etherpadlite is running)  [Tell me more](#why-nginx--apache)
+3. Configure Nginx (If you want to use this on the same server, where etherpadlite is running)  [Tell me more](#why-nginx-apache)
 	* apache2 -> port `8080`
 	* etherpadlite -> port `9001`
 	* nginx `/` -> proxy_pass to `8080`
@@ -77,7 +77,7 @@ You can edit the language strings here:
 	
   
 ************
-Why nginx + apache?
+[Why nginx + apache?](id:why-nginx-apache)
 -------------------
 If you have one server for eplitepro (with apache) and another with etherpadlite (with nginx e.g.), there is no problem, but when you want them both on one server (with the same port) you can configure nginx as a reverse proxy for both.  
 E.g. for the etherpadlite server you redirect `/eplite`to port 9001 and everything else to port 8080, where apache (with eplitepro) is waiting. 
