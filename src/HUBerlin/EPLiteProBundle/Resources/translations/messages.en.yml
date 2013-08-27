@@ -4,13 +4,15 @@ password: Password
 log-in: log in
 forgotpassword: Forgot password?
 agreepolicy: I agree with this policy
-policynotagreed: You have to agree the Terms of Service to use this service
+policynotagreed: You have to agree the policy to use this service
 confirm: Confirm
 cancel: Cancel
 policy: >
   <h2>Terms of Service</h2>
   <p>
-  I agree, that the operator can sell my data and hand it over to the NSA!
+  Der Server ist derzeit im Testbetrieb. Bei aller Sorgfalt im Betrieb und in der Datensicherung können Störungen auftreten, bei denen Datenverlust nicht auszuschließen sind. 
+  Es gilt die <a href="http://www.cms.hu-berlin.de/publikationen/ordnungen/cbo_html">Computerbetriebsordnung der HU</a>. Die Regeln und Verfahrensweisen zum Datenschutz, die der Computer- und Medienservice auf andere Systeme im Regelbetrieb anwendet, werden eingehalten. Eine detaillierte Datenschutz-Information folgt mit Aufnahme des Regelbetriebs. Zu dem Zeitpunkt wird diese Zustimmung erneut eingeholt. 
+  Vielen Dank für Ihr Vertrauen und viel Erfolg mit Etherpad!
   </p>
 today: today
 yesterday: yesterday
@@ -21,21 +23,36 @@ newgroup: New Group
 newpad: New Pad
 public: Public
 publicurl: Open public URL in new window
-notpublic: Not Public
+notpublic: Not public
 pass: Password
-addpass: Add Password
-showPass: Show Password
-hidePass: Hide Password
+addpass: Add password
+showPass: Show password
+hidePass: Hide password
 user: Members
-newuser: New Member
-removePassword: Remove Password
-changePassword: Change Password
+newuser: New member
+removePassword: Remove password
+changePassword: Change password
 headernote: Synchronised as you type
 removeGroupDialog: Do you really want to sign out of this group?
-removeGroupLastDialog: You are the last one in this group. If you decide to sign out of this group, it will be deleted. Do you want to continue?
-removePadDialog: ATTENTION! You're about to delete this Pad for ALL members IRREVERSIBLE!
+removeGroupLastDialog: You are the last one in this group. If you decide to sign out of this group, it will be deleted with all pads. Do you want to continue?
+removePadDialog: ATTENTION! You're about to delete this pad for ALL members irreversible!
 yes: yes
 no: no
-firstgroupname: My first Group
-firstpadname: My first Pad
+firstgroupname: My first group
+firstpadname: My first pad
 firstpadtext: Welcome to Etherpad Lite Pro (HU-Edition)
+footer: Etherpad Lite Pro wird vom <a target="_blank" href="http://www.cms.hu-berlin.de/mlz/">Multimedia Lehr- und Lernzentrum</a> im CMS der HU Berlin betreut. | <a href="mailto:moodle-support@cms.hu-berlin.de?subject=Etherpad: Support-Anfrage">Support-Anfrage</a> | <a href="http://http://web-support.hu-berlin.de">Etherpad-Hilfen</a> | <a title="Datenschutz-Informationen" href="http://moodle.hu-berlin.de/auth/huaccount/sitepolicy.php">Datenschutz (pending)</a>
+logininfo: >
+  <h2>Willkommen bei den Etherpad-Gruppen der Humboldt-Universität!</h2>
+  <h3>Was ist Etherpad?</h3>
+  <div class="subcontent">
+  Mit Etherpad können Sie gemeinsam und auch gleichzeitig online Texte auf jeweils einer Seite (Pad) schreiben. Alle haben eine eigene Farbe, Sie können durch Versionen scrollen und das Ergebnis exportieren. Weitere Informationen und FAQ zu Etherpad finden Sie im <a href="http://web-support.hu-berlin.de">Web-Support des CMS</a>.
+  </div>
+  <h3>Einloggen mit HU-Account</h3>  
+  <div class="subcontent">
+  Bitte loggen Sie sich mit Ihrem 8-stelligen HU-Benutzernamen ein. Danach gelangen Sie in Ihren persönlichen Bereich, in dem sie beliebig viele Gruppen anlegen können. Laden Sie andere HU-Angehörige zur Mitarbeit in Ihrer Gruppe ein. Legen Sie beliebig viele Pads in Ihrer Gruppe an. Alle Mitglieder der Gruppe haben gleiche Rechte innerhalb der Gruppe und können sie jederzeit verlassen. Wenn eine Gruppe keine Mitglieder mehr hat, wird sie automatisch gelöscht.
+  </div>
+  <h3>Zusammenarbeit mit Externen</h3>
+  <div class="subcontent">
+  Festes Mitglied einer Gruppe können nur HU-Angehörige werden. HU-Angehörige können jedoch einzelne Pads öffentlich schalten, ein Passwort vergeben, und das Pad auch wieder sperren. Über den freigeschalteten Link können Externe auch ohne HU-Account problemlos mitarbeiten.
+  </div>
