@@ -15,8 +15,8 @@ Written by *Timo Welde*
 3. Configuration
 	* [of Etherpad Lite](#config)
 	* [of Etherpad Lite Pro](#configpro)
-4. [Revealing abuse](#abuse)
-5. [Licenses](#licenses)
+4. [Administration](#admin)
+5. [Components & Licenses](#licenses)
 
 
 ## [Overview](id:overview)
@@ -136,7 +136,7 @@ E.g. for the etherpadlite server you redirect `/eplite`to port 9001 and everythi
 
 ---
 
-# Configuration
+## Configuration
 ### [of Etherpad Lite](id:config)
 Settings file: `/path/to/eplite/settings.json`  
 It's strongly recommended to use a dedicated database (e.g. mysql) for a productive environment  
@@ -150,30 +150,41 @@ We also recommend setting these settings, if you want to use it only with Etherp
 For automatic removal of in ldap deleted users, you have to add following command to e.g. Cron:
 `php /path/to/eplitepro/app/console huberlin:ldap`
 
-#### Editing language strings
+## [Administration](id:admin)
+
+### URL Schema
+The URL Schema for public pads is: `http[s]://[www].[sub].[domain].[tld]/[yourDirectory]/p/[groupID]$[padID]`
+
+### Editing language strings
 You can edit the language strings here:
 	
 	/path/to/eplitepro/src/HUBerlin/EPLiteProBundle/Resources/translations/
 
-#### Updating symfony2 vendors
+### Updating symfony2 vendors
 To update the symfony2 framework, you have to change into the base directory of this application and execute: `php composer.phar update`
 You maybe have to redo [step 10](#cache-clear) of the etherpad lite pro installation.
 
-#### Updating this application
+### Updating this application
 To update this application, you have to get the newest version from git e.g. with `git pull`
 and do [step 10](#cache-clear) of the etherpad lite pro installation
 
-## [Revealing abuse](id:abuse)
-*pending*
+### Log
+The logfiles from symfony2 are in the folder: `app/logs`
 
-## [Licenses](id:licenses)
-Component						| License
------------------------------- | -------
-Symfony2						| MIT
-jQuery & jQuery UI				| MIT
-jQuery Iframe Post Form			| MIT and GPL
-jQuery blockUI					| MIT and GPL  
-phpjs.org strcmp & strnatcmp	| MIT  
-Modernizr						| MIT  
-Icons (from Moodle)				| GPL  
-Etherpad Lite Pro				| *pending*
+### Backup
+To backup this application, make a backup of your databases (both Etherpad Lite *and* Etherpad Lite Pro)
+
+
+
+## [Components & Licenses](id:licenses)
+Component						| Version	| License		| Usage
+------------------------------ | --------	| -------------	| -------
+[Symfony2](http://symfony.com/)						| 2.3 (LTS)| MIT			| Main php framework
+[Etherpad Lite Client](https://github.com/TomNomNom/etherpad-lite-client)			| api-v1.1 | Apache		| PHP client for the Etherpad Lite HTTP API
+[jQuery](http://jquery.com/) & [jQuery UI](http://jqueryui.com/)				| 1.8.3 (IE8 support) & 1.9.2 | MIT			| Main javascript framework
+[jQuery Iframe Post Form](http://www.jainaewen.com/files/javascript/jquery/iframe-post-form.html)			| 1.1.1 | MIT and GPL	| for uploading files via ajax
+[jQuery blockUI](http://www.malsup.com/jquery/block/)					| 2.57.0 | MIT and GPL	| for blocking the UI when necessary
+<http://phpjs.org> [strcmp](http://phpjs.org/functions/strcmp/) & [strnatcmp](http://phpjs.org/functions/strnatcmp/)	|  | MIT  			| for sorting new pads alphabetically
+[Modernizr](http://modernizr.com/)						| 3.0.0pre (Custom Build) | MIT  			| to find out browser features (disabling css3 switch)
+Icons (from Moodle)				|| GPL  			| the Icons
+Etherpad Lite Pro				|| GPL			| this application
