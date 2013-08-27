@@ -1,6 +1,5 @@
-login: Login
-username: Benutzername //***** ACHTUNG: Keine Doppelpunkte in den Code, wenn dann in die Sprachdatei ******
-password: Passwort //***** ACHTUNG: Keine Doppelpunkte in den Code, wenn dann in die Sprachdatei ******
+username: Benutzername
+password: Passwort
 log-in: Login
 forgotpassword: Passwort vergessen?
 agreepolicy: Ich stimme den Nutzungsbedingungen zu

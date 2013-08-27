@@ -26,13 +26,11 @@ $(function() {
 <div id="loginwrapper">
     <div id="loginpanel">
     	<div class="login">
-    		<span class="title">{{ 'login'|trans }}</span>
-    		
     		<form action="{{ path('login_check') }}" method="post">
     			<div class="loginform">
-    				<label for="username">{{ 'username'|trans }}:</label><br />
+    				<label for="username">{{ 'username'|trans }}</label><br />
     				<input type="text" id="username" name="_username" value="{{ last_username }}" /><br />
-    				<label for="password">{{ 'password'|trans }}:</label><br />
+    				<label for="password">{{ 'password'|trans }}</label><br />
     				<input type="password" id="password" name="_password" /><br />
     				<input type="hidden" name="_target_path" value="/" />
     				{% if error %}
