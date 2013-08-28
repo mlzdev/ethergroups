@@ -16,7 +16,8 @@ Written by *Timo Welde*
 	* [of Etherpad Lite](#config)
 	* [of Etherpad Lite Pro](#configpro)
 4. [Administration](#admin)
-5. [Components & Licenses](#licenses)
+5. [Customizing](#customizing)
+6. [Components & Licenses](#licenses)
 
 
 ## [Overview](id:overview)
@@ -174,6 +175,9 @@ The logfiles from symfony2 are in the folder: `app/logs`
 ### Backup
 To backup this application, make a backup of your databases (both Etherpad Lite *and* Etherpad Lite Pro)
 
+## [Customizing](id:customizing)
+you can change images in `src/HUBerlin/EPLiteProBundle/Resources/public/images`  
+you can change colors and layout in `src/HUBerlin/EPLiteProBundle/Resources/public/css`
 
 
 ## [Components & Licenses](id:licenses)
