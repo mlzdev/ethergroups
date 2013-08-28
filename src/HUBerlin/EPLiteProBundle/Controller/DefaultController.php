@@ -148,7 +148,9 @@ class DefaultController extends Controller {
 		$pad->name = null;
 		$form = $this->createFormBuilder($pad)
 				->add('name', 'text',
-						array('max_length' => 45, 'attr' => array('placeholder' => $translator->trans('newpad'))))
+						array('max_length' => 45,
+						        'attr' => array('placeholder' => $translator->trans('newpad'))
+		))
 				->getForm();
 
 		if ($request->isMethod('POST')) {
@@ -156,32 +158,34 @@ class DefaultController extends Controller {
 			if ($form->isValid()) {
 			    $errors = false;
 				try {
-					$pad = $etherpadlite->createGroupPad($group->getGroupid(), $pad->name, null);
+				    $name = str_replace(array('/', '\\'), '', $pad->name);
+					$pad = $etherpadlite->createGroupPad($group->getGroupid(), $name, null);
 					$this->get('session')->getFlashBag()->set('notice', 'Pad erstellt!');
 				} catch (\Exception $e) {
 					$this->get('session')->getFlashBag()->set('notice', 'Padname existiert bereits!');
 					$errors = true;
 				}
-
-				if($request->isXmlHttpRequest()) {
-				    if(!$errors) {
-    				    $newpad = new \stdClass();
-    				    $newpad->id = $pad->padID;
-    				    $newpad->name = explode('$', $newpad->id);
-    			        $newpad->name = $newpad->name[1];
-    				    $lastEdited = substr_replace($etherpadlite->getLastEdited($newpad->id)->lastEdited, "", -3);
-    				    $newpad->lastEdited = $this->getLastEdited($lastEdited);
-    				    
-				        return new JsonResponse(array('success'=>true, 'data'=>$this->renderView('HUBerlinEPLiteProBundle:Default:newpad.html.twig', array('pad'=>$newpad))));
-				    }
-				    else {
-                        return new JsonResponse(array('success'=>false, 'data'=>$this->renderView('HUBerlinEPLiteProBundle::layout.html.twig')));
-				    }
-				}
-				else {
-				    return $this->redirect($this->generateUrl('group', array('id' => $id)));
-				}
 			}
+
+			if($request->isXmlHttpRequest()) {
+			    if(!$errors) {
+			        $newpad = new \stdClass();
+			        $newpad->id = $pad->padID;
+			        $newpad->name = explode('$', $newpad->id);
+			        $newpad->name = $newpad->name[1];
+			        $lastEdited = substr_replace($etherpadlite->getLastEdited($newpad->id)->lastEdited, "", -3);
+			        $newpad->lastEdited = $this->getLastEdited($lastEdited);
+			
+			        return new JsonResponse(array('success'=>true, 'data'=>$this->renderView('HUBerlinEPLiteProBundle:Default:newpad.html.twig', array('pad'=>$newpad))));
+			    }
+			    else {
+			        return new JsonResponse(array('success'=>false, 'data'=>$this->renderView('HUBerlinEPLiteProBundle::layout.html.twig')));
+			    }
+			}
+			else {
+			    return $this->redirect($this->generateUrl('group', array('id' => $id)));
+			}
+			
 		}
 
 		$padIDs = $etherpadlite->listPads($group->getGroupid())->padIDs;
