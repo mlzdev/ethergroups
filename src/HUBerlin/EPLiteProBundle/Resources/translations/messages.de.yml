@@ -1,5 +1,5 @@
-name: Etherpad-Schreibmaschine
-headernote: Gemeinsam Texte schreiben
+name: EP-Schreibmaschine
+headernote: Gemeinsam schreiben
 username: Benutzername
 password: Passwort
 log-in: Login
@@ -10,13 +10,9 @@ confirm: Bestätigen
 cancel: Abbrechen
 policy: >
   <h2>Nutzungsbedingungen</h2>
-  <p>
-  Der Server ist derzeit im Testbetrieb. Bei aller Sorgfalt im Betrieb und in der Datensicherung können Störungen auftreten, bei denen Datenverlust nicht auszuschließen ist.<br /> 
-  Es gilt die <a href="http://www.cms.hu-berlin.de/publikationen/ordnungen/cbo_html">Computerbetriebsordnung der HU</a>. Die Regeln und Verfahrensweisen zum Datenschutz, die der Computer- und Medienservice auf andere Systeme im Regelbetrieb anwendet, werden eingehalten. Eine detaillierte Datenschutz-Information folgt mit Aufnahme des Regelbetriebs. Zu dem Zeitpunkt wird diese Zustimmung erneut eingeholt.
-  </p>
-  <p>
-  Vielen Dank für Ihr Vertrauen und viel Erfolg mit Etherpad!
-  </p>
+  <p>Der Server ist derzeit im Testbetrieb. Bei aller Sorgfalt im Betrieb und in der Datensicherung können Störungen auftreten, bei denen Datenverlust nicht auszuschließen ist.<br /> 
+  Es gilt die <a href="http://www.cms.hu-berlin.de/publikationen/ordnungen/cbo_html">Computerbetriebsordnung der HU</a>. Die Regeln und Verfahrensweisen zum Datenschutz, die der Computer- und Medienservice auf andere Systeme im Regelbetrieb anwendet, werden eingehalten. Eine detaillierte Datenschutz-Information folgt mit Aufnahme des Regelbetriebs. Zu dem Zeitpunkt wird diese Zustimmung erneut eingeholt.</p>
+  <p>Vielen Dank für Ihr Vertrauen und viel Erfolg mit Etherpad-Schreibmaschine!</p>
 today: heute
 yesterday: gestern
 daysago: vor %days% Tagen
@@ -42,45 +38,33 @@ yes: Ja
 no: Nein
 firstgroupname: Meine erste Gruppe
 firstpadname: Mein erstes Blatt
-firstpadtext: Willkommen bei Etherpad-Schreibmaschine (HU-Edition)
-footer: Etherpad-Schreibmaschine ist derzeit im Testbetrieb und wird vom <a target="_blank" href="http://www.cms.hu-berlin.de/mlz/">Multimedia Lehr- und Lernzentrum</a> im CMS der HU Berlin betreut. | <a href="mailto:moodle-support@cms.hu-berlin.de?subject=EP-Schreibmaschine: Support-Anfrage">Support-Anfrage</a> | <a href="http://http://web-support.hu-berlin.de">EP-Hilfen</a> | Datenschutz</a>
+firstpadtext: |
+  Willkommen - das ist Ihr erstes EP-Schreibmaschinen-Blatt!
+
+  Löschen Sie diese Hinweise oder legen Sie ein neues Blatt an.
+  Im Editor finden Sie oben links einige Möglichkeiten zur Formatierung, rechts zu Export, Versionen und Einstellungen.
+  Mit Etherpad-Schreibmaschine können Sie zu mehreren gleichzeitig an Ihrem Text schreiben. Laden Sie weitere HU-Angehörige in Ihre Gruppe ein, indem Sie deren HU-Benutzernamen eingeben. Alle Beteiligten haben eine eigene Farbe. Oben rechts erscheinen alle Mitglieder, die ebenfalls gerade online sind.
+  Legen Sie für verschiedene Aufgaben und Teams neue Gruppen an.
+  HU-Angehörige können einzelne Blätter öffentlich schalten, ein Passwort vergeben, und das Pad auch wieder sperren. Über den freigeschalteten Link können Externe auch ohne HU-Account problemlos mitarbeiten.
+  Alle Mitglieder einer Gruppe haben gleiche Rechte innerhalb der Gruppe und können sie jederzeit verlassen. Wenn eine Gruppe keine Mitglieder mehr hat, wird sie automatisch gelöscht.
+  Weitere Informationen und eine FAQ zu Etherpad-Schreibmaschine finden Sie im <a href="http://web-support.hu-berlin.de">Web-Support des CMS</a>.
+footer: Etherpad-Schreibmaschine ist derzeit im Testbetrieb und wird vom <a target="_blank" href="http://www.cms.hu-berlin.de/mlz/">Multimedia Lehr- und Lernzentrum</a> im CMS der HU Berlin betreut. | <a href="mailto:moodle-support@cms.hu-berlin.de?subject=EP-Schreibmaschine: Support-Anfrage">Support-Anfrage</a> | <a href="http://http://web-support.hu-berlin.de">EP-Hilfen</a>
 logininfo: >
   <h2>Willkommen bei den Etherpad-Schreibmaschinen der HU!</h2>
   <h3>Was ist Etherpad-Schreibmaschine?</h3>
-  <div class="subcontent">
   <ul>
-  <li>
-  Mit Etherpad können Sie zu mehreren gleichzeitig Texte auf einem Blatt schreiben. Alle Beteiligten haben eine eigene Farbe, Sie können durch Versionen scrollen und das Ergebnis exportieren.
-  </li>
-  <li>
-  Weitere Informationen und eine FAQ zu Etherpad-Schreibmaschine finden Sie im <a href="http://web-support.hu-berlin.de">Web-Support des CMS</a>.
-  </li>
+  <li>Mit Etherpad können Sie zu mehreren gleichzeitig Texte auf einem Blatt schreiben. Alle Beteiligten haben eine eigene Farbe, Sie können durch Versionen scrollen und das Ergebnis exportieren.</li>
+  <li>Weitere Informationen und eine FAQ zu Etherpad-Schreibmaschine finden Sie im <a href="http://web-support.hu-berlin.de">Web-Support des CMS</a>.</li>
   </ul>
-  </div>
   <h3>Einloggen mit HU-Account</h3>  
-  <div class="subcontent">
   <ul>
-  <li>
-  Bitte loggen Sie sich mit Ihrem 8-stelligen HU-Benutzernamen ein. Danach gelangen Sie in Ihren persönlichen Bereich, in dem sie beliebig viele Gruppen anlegen können.
-  </li>
-  <li>Laden Sie per HU-Benutzername andere HU-Angehörige zur Mitarbeit in Ihrer Gruppe ein.
-  </li>
-  <li>
-  Legen Sie beliebig viele Blätter in Ihrer Gruppe an.
-  </li>
-  <li>
-  Alle Mitglieder der Gruppe haben gleiche Rechte innerhalb der Gruppe und können sie jederzeit verlassen. Wenn eine Gruppe keine Mitglieder mehr hat, wird sie automatisch gelöscht.
-  </li>
+  <li>Bitte loggen Sie sich mit Ihrem 8-stelligen HU-Benutzernamen ein. Danach gelangen Sie in Ihren persönlichen Bereich, in dem sie beliebig viele Gruppen anlegen können.</li>
+  <li>Laden Sie per HU-Benutzername andere HU-Angehörige zur Mitarbeit in Ihrer Gruppe ein.</li>
+  <li>Legen Sie beliebig viele Blätter in Ihrer Gruppe an.</li>
+  <li>Alle Mitglieder der Gruppe haben gleiche Rechte innerhalb der Gruppe und können sie jederzeit verlassen. Wenn eine Gruppe keine Mitglieder mehr hat, wird sie automatisch gelöscht.</li>
   </ul>
-  </div>
   <h3>Zusammenarbeit mit Externen</h3>
-  <div class="subcontent">
   <ul>
-  <li>
-  Festes Mitglied einer Gruppe können nur HU-Angehörige werden.
-  </li>
-  <li>
-  HU-Angehörige können jedoch einzelne Blätter öffentlich schalten, ein Passwort vergeben, und das Pad auch wieder sperren. Über den freigeschalteten Link können Externe auch ohne HU-Account problemlos mitarbeiten.
-  </li>
+  <li>Festes Mitglied einer Gruppe können nur HU-Angehörige werden.</li>
+  <li>HU-Angehörige können jedoch einzelne Blätter öffentlich schalten, ein Passwort vergeben, und das Pad auch wieder sperren. Über den freigeschalteten Link können Externe auch ohne HU-Account problemlos mitarbeiten.</li>
   </ul>
-  </div>
