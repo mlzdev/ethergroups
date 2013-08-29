@@ -1,3 +1,5 @@
+name: Etherpad Typewriter
+headernote: Collaborative writing
 username: Username
 password: Password
 log-in: log in
@@ -7,10 +9,12 @@ policynotagreed: You have to agree the policy to use this service
 confirm: Confirm
 cancel: Cancel
 policy: >
-  <h2>Terms of Service</h2>
+  <h2>Nutzungsbedingungen</h2>
   <p>
-  Der Server ist derzeit im Testbetrieb. Bei aller Sorgfalt im Betrieb und in der Datensicherung können Störungen auftreten, bei denen Datenverlust nicht auszuschließen sind. 
-  Es gilt die <a href="http://www.cms.hu-berlin.de/publikationen/ordnungen/cbo_html">Computerbetriebsordnung der HU</a>. Die Regeln und Verfahrensweisen zum Datenschutz, die der Computer- und Medienservice auf andere Systeme im Regelbetrieb anwendet, werden eingehalten. Eine detaillierte Datenschutz-Information folgt mit Aufnahme des Regelbetriebs. Zu dem Zeitpunkt wird diese Zustimmung erneut eingeholt. 
+  Der Server ist derzeit im Testbetrieb. Bei aller Sorgfalt im Betrieb und in der Datensicherung können Störungen auftreten, bei denen Datenverlust nicht auszuschließen ist.<br /> 
+  Es gilt die <a href="http://www.cms.hu-berlin.de/publikationen/ordnungen/cbo_html">Computerbetriebsordnung der HU</a>. Die Regeln und Verfahrensweisen zum Datenschutz, die der Computer- und Medienservice auf andere Systeme im Regelbetrieb anwendet, werden eingehalten. Eine detaillierte Datenschutz-Information folgt mit Aufnahme des Regelbetriebs. Zu dem Zeitpunkt wird diese Zustimmung erneut eingeholt.
+  </p>
+  <p>
   Vielen Dank für Ihr Vertrauen und viel Erfolg mit Etherpad!
   </p>
 today: today
@@ -31,7 +35,6 @@ user: Members
 newuser: New member
 removePassword: Remove password
 changePassword: Change password
-headernote: Synchronised as you type
 removeGroupDialog: Do you really want to sign out of this group?
 removeGroupLastDialog: You are the last one in this group. If you decide to sign out of this group, it will be deleted with all pads. Do you want to continue?
 removePadDialog: ATTENTION! You're about to delete this pad for ALL members irreversible!
@@ -39,19 +42,45 @@ yes: yes
 no: no
 firstgroupname: My first group
 firstpadname: My first pad
-firstpadtext: Welcome to Etherpad Lite Pro (HU-Edition)
-footer: Etherpad Lite Pro wird vom <a target="_blank" href="http://www.cms.hu-berlin.de/mlz/">Multimedia Lehr- und Lernzentrum</a> im CMS der HU Berlin betreut. | <a href="mailto:moodle-support@cms.hu-berlin.de?subject=Etherpad: Support-Anfrage">Support-Anfrage</a> | <a href="http://http://web-support.hu-berlin.de">Etherpad-Hilfen</a> | <a title="Datenschutz-Informationen" href="http://moodle.hu-berlin.de/auth/huaccount/sitepolicy.php">Datenschutz (pending)</a>
+firstpadtext: Welcome to Etherpad-Typewriter (HU-Edition)
+footer: Etherpad-Schreibmaschine ist derzeit im Testbetrieb und wird vom <a target="_blank" href="http://www.cms.hu-berlin.de/mlz/">Multimedia Lehr- und Lernzentrum</a> im CMS der HU Berlin betreut. | <a href="mailto:moodle-support@cms.hu-berlin.de?subject=EP-Schreibmaschine: Support-Anfrage">Support-Anfrage</a> | <a href="http://http://web-support.hu-berlin.de">EP-Hilfen</a> | Datenschutz</a>
 logininfo: >
-  <h2>Willkommen bei den Etherpad-Gruppen der Humboldt-Universität!</h2>
-  <h3>Was ist Etherpad?</h3>
+  <h2>Willkommen bei den Etherpad-Schreibmaschinen der HU!</h2>
+  <h3>Was ist Etherpad-Schreibmaschine?</h3>
   <div class="subcontent">
-  Mit Etherpad können Sie gemeinsam und auch gleichzeitig online Texte auf jeweils einer Seite (Pad) schreiben. Alle haben eine eigene Farbe, Sie können durch Versionen scrollen und das Ergebnis exportieren. Weitere Informationen und FAQ zu Etherpad finden Sie im <a href="http://web-support.hu-berlin.de">Web-Support des CMS</a>.
+  <ul>
+  <li>
+  Mit Etherpad können Sie zu mehreren gleichzeitig Texte auf einem Blatt schreiben. Alle Beteiligten haben eine eigene Farbe, Sie können durch Versionen scrollen und das Ergebnis exportieren.
+  </li>
+  <li>
+  Weitere Informationen und eine FAQ zu Etherpad-Schreibmaschine finden Sie im <a href="http://web-support.hu-berlin.de">Web-Support des CMS</a>.
+  </li>
+  </ul>
   </div>
   <h3>Einloggen mit HU-Account</h3>  
   <div class="subcontent">
-  Bitte loggen Sie sich mit Ihrem 8-stelligen HU-Benutzernamen ein. Danach gelangen Sie in Ihren persönlichen Bereich, in dem sie beliebig viele Gruppen anlegen können. Laden Sie andere HU-Angehörige zur Mitarbeit in Ihrer Gruppe ein. Legen Sie beliebig viele Pads in Ihrer Gruppe an. Alle Mitglieder der Gruppe haben gleiche Rechte innerhalb der Gruppe und können sie jederzeit verlassen. Wenn eine Gruppe keine Mitglieder mehr hat, wird sie automatisch gelöscht.
+  <ul>
+  <li>
+  Bitte loggen Sie sich mit Ihrem 8-stelligen HU-Benutzernamen ein. Danach gelangen Sie in Ihren persönlichen Bereich, in dem sie beliebig viele Gruppen anlegen können.
+  </li>
+  <li>Laden Sie per HU-Benutzername andere HU-Angehörige zur Mitarbeit in Ihrer Gruppe ein.
+  </li>
+  <li>
+  Legen Sie beliebig viele Blätter in Ihrer Gruppe an.
+  </li>
+  <li>
+  Alle Mitglieder der Gruppe haben gleiche Rechte innerhalb der Gruppe und können sie jederzeit verlassen. Wenn eine Gruppe keine Mitglieder mehr hat, wird sie automatisch gelöscht.
+  </li>
+  </ul>
   </div>
   <h3>Zusammenarbeit mit Externen</h3>
   <div class="subcontent">
-  Festes Mitglied einer Gruppe können nur HU-Angehörige werden. HU-Angehörige können jedoch einzelne Pads öffentlich schalten, ein Passwort vergeben, und das Pad auch wieder sperren. Über den freigeschalteten Link können Externe auch ohne HU-Account problemlos mitarbeiten.
+  <ul>
+  <li>
+  Festes Mitglied einer Gruppe können nur HU-Angehörige werden.
+  </li>
+  <li>
+  HU-Angehörige können jedoch einzelne Blätter öffentlich schalten, ein Passwort vergeben, und das Pad auch wieder sperren. Über den freigeschalteten Link können Externe auch ohne HU-Account problemlos mitarbeiten.
+  </li>
+  </ul>
   </div>
