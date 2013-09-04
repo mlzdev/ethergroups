@@ -61,7 +61,7 @@ After it was established, there was a demand to use this editor without the over
 
 ### [Server architecture](id:server-architecture)
 As server architecture, we are using `apache2` as webserver for this software, because it's well known, secure and supports symfony2 very good.  
-To run this software next to etherpad lite on the same server and on the same port (so there are no firewall issues), we decided to use another webserver called `nginx` as a reverse proxy. The advantages of this webserver is, that it is lightweight, fast and that it is easy to setup as a reverse proxy. The directory `/eplite` goes to etherpad lite and all other are going to the apache server.
+To run this software next to etherpad lite on the same server and on the same port (so there are no firewall issues), we decided to use another webserver called `nginx` as a reverse proxy. The advantages of this webserver is, that it is lightweight, fast and that it is easy to setup as a reverse proxy. The directory `/eplite` goes to etherpad lite and all other are going to the apache server. [Why nginx + apache?](#why-nginx-apache)
 
 ## Installation
 ### [of Etherpad Lite](id:install)
@@ -105,6 +105,7 @@ PLEASE NOTE: New versions of etherpad-lite don't support this version anymore
 	* nginx directory `/` -> proxy_pass to `8080`
 	* nginx directory `/eplite` -> proxy_pass to `9001`
 	
+	[How to put Etherpad Lite behind a reverse Proxy](https://github.com/ether/etherpad-lite/wiki/How-to-put-Etherpad-Lite-behind-a-reverse-Proxy)  
 	[How to configure nginx to proxy vhosts to apache](http://blog.ludovf.net/configure-nginx-to-proxy-virtual-hosts-to-apache/ "Title")
 
 4. Checkout this repository with `git clone`.
@@ -147,6 +148,7 @@ If you have one server for eplitepro (with apache) and a seperate with etherpadl
 When you want them both on one machine (on the same port, to prevent firewall issues) you can configure nginx as a reverse proxy for both.  
 E.g. for the etherpadlite server you redirect `/eplite`to port 9001 and everything else to port 8080, where apache (with eplitepro) is waiting. 
 
+![image](https://raw.github.com/goldquest/eplitepro/develop-local/doc/nginx_rp_diagram.png)
 
 ---
 
