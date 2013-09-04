@@ -147,6 +147,7 @@ If you have one server for eplitepro (with apache) and a seperate with etherpadl
 When you want them both on one machine (on the same port, to prevent firewall issues) you can configure nginx as a reverse proxy for both.  
 E.g. for the etherpadlite server you redirect `/eplite`to port 9001 and everything else to port 8080, where apache (with eplitepro) is waiting. 
 
+
 ---
 
 ## Configuration
