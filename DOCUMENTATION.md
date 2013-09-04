@@ -16,7 +16,8 @@ Written by *Timo Welde*
 	* [of Etherpad Lite](#config)
 	* [of Etherpad Lite Pro](#configpro)
 4. [Administration](#admin)
-5. [Components & Licenses](#licenses)
+5. [Customizing](#customizing)
+6. [Components & Licenses](#licenses)
 
 
 ## [Overview](id:overview)
@@ -27,6 +28,8 @@ After it was established, there was a demand to use this editor without the over
 * ldap authentication
 * distraction free writing by hiding header and sidebar
 * multilingual
+	* german
+	* english
 * group managment
 	* make new group
 	* open group
@@ -49,8 +52,12 @@ After it was established, there was a demand to use this editor without the over
 
 
 ### [Why symfony2?](id:symfony2)
-We used the symfony2 framework in the long-term version 2.3.x because it relies on the MVC (Model-View-Controller) pattern, so it is easier for another team to do further development on this software. It also has a big community, so it is easy to get help.  
-The framework is under constantly development. With this LTS version we get security updates until May 2016.
+* We used the symfony2 framework in the long-term version 2.3.x because it relies on the MVC (Model-View-Controller) pattern, so it is easier for another team to do further development on this software.
+	* The ORM in Symfony2 called `Doctrine` supports various databases
+	* The Templating Engine `Twig` makes it easy to design the website, without php knowledge
+	* The Controller works with services, which can be injected to support various behaviour
+* It also has a big community, so it is easy to get help.  
+* The framework is under constantly development. With this LTS version we get security updates until May 2016.
 
 ### [Server architecture](id:server-architecture)
 As server architecture, we are using `apache2` as webserver for this software, because it's well known, secure and supports symfony2 very good.  
@@ -113,6 +120,12 @@ PLEASE NOTE: New versions of etherpad-lite don't support this version anymore
 	If you get any warnings or recommendations, fix them before moving on.
 
 6. Copy `app/config/parameters.yml.dist` to `app/config/parameters.yml` and modify it, to fit you installation
+	* database: we use `pdo_mysql`, you can have a look [here](http://docs.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/configuration.html) for other databases
+	* locale: this is the default locale, symfony should use
+	* secret: This is a secret code, symfony uses to prevent bots from filling out forms. you can generate one [here](https://tools.brain-tower.com/en/security/passwordgenerator?template=symfony-secret)
+	* ldap.data.provider: You ldap config
+	* etherpadlite apikey: found in the `APIKEY.txt` on your etherpad lite server
+	* forgotpasswordurl: The url the link for "Forgot your password?" should point to
 
 7. Change dir permissions of `app/cache`, `app/logs` & `web/uploads` to your webservers user:group
 
@@ -159,6 +172,15 @@ The URL Schema for public pads is: `http[s]://[www].[sub].[domain].[tld]/[yourDi
 You can edit the language strings here:
 	
 	/path/to/eplitepro/src/HUBerlin/EPLiteProBundle/Resources/translations/
+	
+### Adding another language
+To add another language, you have to add a file with the translations, according to `messages.en.yml` with the naming schema: `messages.[langCode].yml` in
+
+	/path/to/eplitepro/src/HUBerlin/EPLiteProBundle/Resources/translations/
+	
+and add this language to the dropdown menu in
+
+	/path/to/eplitepro/src/HUBerlin/EPLiteProBundle/Resources/views/layout.html.twig
 
 ### Updating symfony2 vendors
 To update the symfony2 framework, you have to change into the base directory of this application and execute: `php composer.phar update`
@@ -174,6 +196,9 @@ The logfiles from symfony2 are in the folder: `app/logs`
 ### Backup
 To backup this application, make a backup of your databases (both Etherpad Lite *and* Etherpad Lite Pro)
 
+## [Customizing](id:customizing)
+you can change images in `src/HUBerlin/EPLiteProBundle/Resources/public/images`  
+you can change colors and layout in `src/HUBerlin/EPLiteProBundle/Resources/public/css`
 
 
 ## [Components & Licenses](id:licenses)
