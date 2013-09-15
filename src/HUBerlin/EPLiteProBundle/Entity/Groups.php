@@ -54,6 +54,13 @@ class Groups
     private $user;
     
     /**
+     * @var User $notifiedUser
+     * 
+     * @ORM\ManyToMany(targetEntity="User", indexBy="uid", mappedBy="notifiedGroups")
+     */
+    private $notifiedUser;
+    
+    /**
      * @var Pads $pads
      * 
      * @OneToMany(targetEntity="Pads", mappedBy="group")
@@ -302,5 +309,38 @@ public function upload()
     public function getPads()
     {
         return $this->pads;
+    }
+
+    /**
+     * Add notifiedUser
+     *
+     * @param \HUBerlin\EPLiteProBundle\Entity\User $notifiedUser
+     * @return Groups
+     */
+    public function addNotifiedUser(\HUBerlin\EPLiteProBundle\Entity\User $notifiedUser)
+    {
+        $this->notifiedUser[] = $notifiedUser;
+    
+        return $this;
+    }
+
+    /**
+     * Remove notifiedUser
+     *
+     * @param \HUBerlin\EPLiteProBundle\Entity\User $notifiedUser
+     */
+    public function removeNotifiedUser(\HUBerlin\EPLiteProBundle\Entity\User $notifiedUser)
+    {
+        $this->notifiedUser->removeElement($notifiedUser);
+    }
+
+    /**
+     * Get notifiedUser
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getNotifiedUser()
+    {
+        return $this->notifiedUser;
     }
 }

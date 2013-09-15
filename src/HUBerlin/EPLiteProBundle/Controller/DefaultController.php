@@ -59,13 +59,14 @@ class DefaultController extends Controller {
 		}
 
 		$groups = $user->getGroups();
+		$notifiedGroups = $user->getNotifiedGroups();
 
 		$this->updateCookie($etherpadlite, $groups, $user);
 
 		return $this
 				->render('HUBerlinEPLiteProBundle:Default:index.html.twig',
 						array('form' => $form->createView(),
-								'groups' => $groups));
+								'groups' => $groups, 'notifiedGroups'=>$notifiedGroups));
 	}
 
 	/**

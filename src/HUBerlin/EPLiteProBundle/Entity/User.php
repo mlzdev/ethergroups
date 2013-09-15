@@ -95,6 +95,14 @@ class User implements UserInterface
      * @ORM\OrderBy({"name" = "ASC"})
      */
     private $groups;
+    
+    /**
+     * @var Groups $notifiedGroups
+     * 
+     * @ORM\ManyToMany(targetEntity="Groups", indexBy="id", inversedBy="notifiedUser")
+     * @ORM\OrderBy({"name" = "ASC"})
+     */
+    private $notifiedGroups;
 
     // LDAP Attributes
     protected $attributes;
@@ -455,5 +463,38 @@ class User implements UserInterface
     public function getPolicyagreed()
     {
         return $this->policyagreed;
+    }
+
+    /**
+     * Add notifiedGroups
+     *
+     * @param \HUBerlin\EPLiteProBundle\Entity\Groups $notifiedGroups
+     * @return User
+     */
+    public function addNotifiedGroup(\HUBerlin\EPLiteProBundle\Entity\Groups $notifiedGroups)
+    {
+        $this->notifiedGroups[] = $notifiedGroups;
+    
+        return $this;
+    }
+
+    /**
+     * Remove notifiedGroups
+     *
+     * @param \HUBerlin\EPLiteProBundle\Entity\Groups $notifiedGroups
+     */
+    public function removeNotifiedGroup(\HUBerlin\EPLiteProBundle\Entity\Groups $notifiedGroups)
+    {
+        $this->notifiedGroups->removeElement($notifiedGroups);
+    }
+
+    /**
+     * Get notifiedGroups
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getNotifiedGroups()
+    {
+        return $this->notifiedGroups;
     }
 }
