@@ -1,5 +1,7 @@
-Etherpad Lite Pro documentation for administrators
+Ethergroups - *Groups for Etherpad*
 ======
+
+###Documentation for administrators
 
 Written by *Timo Welde*  
 <timo.welde@hu-berlin.de>
@@ -11,10 +13,10 @@ Written by *Timo Welde*
 	* [Server architecture](#server-architecture)
 2. Installation
 	* [of Etherpad Lite](#install)
-	* [of Etherpad Lite Pro](#installpro)
+	* [of Ethergroups](#installpro)
 3. Configuration
 	* [of Etherpad Lite](#config)
-	* [of Etherpad Lite Pro](#configpro)
+	* [of Ethergroups](#configpro)
 4. [Administration](#admin)
 5. [Customizing](#customizing)
 6. [Components & Licenses](#licenses)
@@ -65,7 +67,7 @@ To run this software next to etherpad lite on the same server and on the same po
 
 ## Installation
 ### [of Etherpad Lite](id:install)
-You need an etherpad-lite server, which is running on at least the same 2nd-level-domain as your eplitepro server.
+You need an etherpad-lite server, which is running on at least the same 2nd-level-domain as your ethergroups server.
 [Infos & Download](https://github.com/ether/etherpad-lite)
 
 We recommend to use the etherpad-lite version 1.2.7
@@ -86,7 +88,7 @@ PLEASE NOTE: New versions of etherpad-lite don't support this version anymore
 - upstart script
 - logrotate
 
-### [of Etherpad Lite Pro](id:installpro)
+### [of Ethergroups](id:installpro)
 
 1. Install `apache2-prefork-dev, mysql, php5, php5-mysql, php5-intl, php5-ldap`
 
@@ -94,9 +96,9 @@ PLEASE NOTE: New versions of etherpad-lite don't support this version anymore
 		
 		a2enmod rewrite
 		
-	In your site config (e.g. sites_available/eplitepro):
+	In your site config (e.g. sites_available/ethergroups):
 	
-		DocumentRoot /path/to/eplitepro/web/
+		DocumentRoot /path/to/ethergroups/web/
 		AllowOverride FileInfo
 		
 3. Configure Nginx (If you want to use this on the same server, where etherpadlite is running)  [Tell me more](#why-nginx-apache)
@@ -144,11 +146,11 @@ PLEASE NOTE: New versions of etherpad-lite don't support this version anymore
 ***
 
 ###[Why nginx + apache?](id:why-nginx-apache)
-If you have one server for eplitepro (with apache) and a seperate with etherpadlite (with nginx e.g.), there is no problem.  
+If you have one server for ethergroups (with apache) and a seperate with etherpadlite (with nginx e.g.), there is no problem.  
 When you want them both on one machine (on the same port, to prevent firewall issues) you can configure nginx as a reverse proxy for both.  
-E.g. for the etherpadlite server you redirect `/eplite`to port 9001 and everything else to port 8080, where apache (with eplitepro) is waiting. 
+E.g. for the etherpadlite server you redirect `/eplite`to port 9001 and everything else to port 8080, where apache (with ethergroups) is waiting. 
 
-![image](https://raw.github.com/goldquest/eplitepro/develop-local/doc/nginx_rp_diagram.png)
+![image](https://raw.github.com/goldquest/ethergroups/develop-local/doc/nginx_rp_diagram.png)
 
 ---
 
@@ -156,15 +158,15 @@ E.g. for the etherpadlite server you redirect `/eplite`to port 9001 and everythi
 ### [of Etherpad Lite](id:config)
 Settings file: `/path/to/eplite/settings.json`  
 It's strongly recommended to use a dedicated database (e.g. mysql) for a productive environment  
-We also recommend setting these settings, if you want to use it only with Etherpad Lite Pro:
+We also recommend setting these settings, if you want to use it only with Ethergroups:
 
 	"requireSession" : true,
 	"editOnly" : true,
 
-### [of Etherpad Lite Pro](id:configpro)
+### [of Ethergroups](id:configpro)
 #### Automatic removal of missing ldap users
 For automatic removal of in ldap deleted users, you have to add following command to e.g. Cron:
-`php /path/to/eplitepro/app/console huberlin:ldap`
+`php /path/to/ethergroups/app/console Ethergroups:ldap`
 
 ## [Administration](id:admin)
 
@@ -174,34 +176,34 @@ The URL Schema for public pads is: `http[s]://[www].[sub].[domain].[tld]/[yourDi
 ### Editing language strings
 You can edit the language strings here:
 	
-	/path/to/eplitepro/src/HUBerlin/EPLiteProBundle/Resources/translations/
+	/path/to/ethergroups/src/Ethergroups/MainBundle/Resources/translations/
 	
 ### Adding another language
 To add another language, you have to add a file with the translations, according to `messages.en.yml` with the naming schema: `messages.[langCode].yml` in
 
-	/path/to/eplitepro/src/HUBerlin/EPLiteProBundle/Resources/translations/
+	/path/to/ethergroups/src/Ethergroups/MainBundle/Resources/translations/
 	
 and add this language to the dropdown menu in
 
-	/path/to/eplitepro/src/HUBerlin/EPLiteProBundle/Resources/views/layout.html.twig
+	/path/to/ethergroups/src/Ethergroups/MainBundle/Resources/views/layout.html.twig
 
 ### Updating symfony2 vendors
 To update the symfony2 framework, you have to change into the base directory of this application and execute: `php composer.phar update`
-You maybe have to redo [step 10](#cache-clear) of the etherpad lite pro installation.
+You maybe have to redo [step 10](#cache-clear) of the ethergroups installation.
 
 ### Updating this application
 To update this application, you have to get the newest version from git e.g. with `git pull`
-and do [step 10](#cache-clear) of the etherpad lite pro installation
+and do [step 10](#cache-clear) of the ethergroups installation
 
 ### Log
 The logfiles from symfony2 are in the folder: `app/logs`
 
 ### Backup
-To backup this application, make a backup of your databases (both Etherpad Lite *and* Etherpad Lite Pro)
+To backup this application, make a backup of your databases (both Etherpad Lite *and* Ethergroups)
 
 ## [Customizing](id:customizing)
-you can change images in `src/HUBerlin/EPLiteProBundle/Resources/public/images`  
-you can change colors and layout in `src/HUBerlin/EPLiteProBundle/Resources/public/css`
+you can change images in `src/Ethergroups/MainBundle/Resources/public/images`  
+you can change colors and layout in `src/Ethergroups/MainBundle/Resources/public/css`
 
 
 ## [Components & Licenses](id:licenses)
@@ -215,4 +217,4 @@ Component						| Version	| License		| Usage
 <http://phpjs.org> [strcmp](http://phpjs.org/functions/strcmp/) & [strnatcmp](http://phpjs.org/functions/strnatcmp/)	|  | MIT  			| for sorting new pads alphabetically
 [Modernizr](http://modernizr.com/)						| 3.0.0pre (Custom Build) | MIT  			| to find out browser features (disabling css3 switch)
 Icons (from Moodle)				|| GPL  			| the Icons
-Etherpad Lite Pro				|| GPL			| this application
+Ethergroups				|| GPL			| this application

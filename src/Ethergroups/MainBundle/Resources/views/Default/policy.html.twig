@@ -1,0 +1,27 @@
+{% extends 'EthergroupsMainBundle::layout.html.twig' %}
+
+{% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('bundles/Ethergroupsmain/css/policy.css') }}" />
+{% endblock %}
+
+{% block javascript %}
+{{ parent() }}
+{% endblock %}
+
+{# import "_self" as the form theme #}
+{% form_theme form _self %}
+
+{# make the form fragment customization #}
+{% block button_row %}
+    {{ form_widget(form) }}
+{% endblock %}
+
+{% block content %}
+<div id="policy">
+    {{ 'policy'|trans|raw }}
+</div>
+<div id="policyform">
+    {{ form(form) }}
+</div>
+{% endblock %}

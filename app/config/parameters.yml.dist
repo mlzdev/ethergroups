@@ -2,8 +2,8 @@ parameters:
     database_driver: pdo_mysql
     database_host: localhost
     database_port: '8889'
-    database_name: eplitepro
-    database_user: eplitepro-user
+    database_name: ethergroups
+    database_user: ethergroups-user
     database_password: [password]
     mailer_transport: smtp
     mailer_host: localhost

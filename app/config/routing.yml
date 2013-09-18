@@ -1,5 +1,5 @@
 hu_berlin_ep_lite_pro:
-    resource: "@HUBerlinEPLiteProBundle/Resources/config/routing.yml"
+    resource: "@EthergroupsMainBundle/Resources/config/routing.yml"
     prefix:   /
 
 # Internal routing configuration to handle ESI
