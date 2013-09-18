@@ -1,0 +1,40 @@
+parameters:
+    ldap.data.provider.class: Ethergroups\MainBundle\Security\LdapDataSource
+    etherpadlite.class: Ethergroups\MainBundle\Helper\EtherpadLiteClient
+
+services:
+    ldap.data.provider:
+        class: %ldap.data.provider.class%
+        arguments: [%ldap.data.provider.host%, %ldap.data.provider.port%, %ldap.data.provider.dn%, %ldap.data.provider.uidAttribute%]
+    
+    ldap.security.authentication.provider:
+        class: Ethergroups\MainBundle\Security\Authentication\Provider\LdapProvider
+        arguments: ['', @ldap.data.provider]
+
+    ldap.security.authentication.listener:
+        class:  Ethergroups\MainBundle\Security\Firewall\LdapListener
+        arguments: [@security.context, @security.authentication.manager, @security.authentication.session_strategy, @security.http_utils, 'ldap', null, null, [ ], null, null, @form.csrf_provider ]        
+    
+    ldap_user_provider:
+        class: Ethergroups\MainBundle\Entity\UserRepository
+        arguments: [ @doctrine.orm.entity_manager, @etherpadlite, @translator ]
+        
+    my.localeListener:
+        class: Ethergroups\MainBundle\Listener\LocaleListener
+        arguments: [ %locale%, @security.context]
+        tags:
+            - { name: kernel.event_subscriber }
+            
+    my.PolicyListener:
+        class: Ethergroups\MainBundle\Listener\PolicyListener
+        arguments: [@security.context]
+        tags:
+            - { name: kernel.event_subscriber }
+            
+    grouphandler:
+        class: Ethergroups\MainBundle\Helper\GroupHandler
+        arguments: [ @doctrine.orm.entity_manager, @etherpadlite ]
+        
+    etherpadlite:
+        class: %etherpadlite.class%
+        arguments: [%etherpadlite.apikey%, %etherpadlite.url%/api]

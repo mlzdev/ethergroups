@@ -1,0 +1,5 @@
+services:
+    security.authentication.factory.ldap:
+        class:  Ethergroups\MainBundle\DependencyInjection\Security\Factory\LdapFactory
+        tags:
+            - { name: security.listener.factory }
