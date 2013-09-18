@@ -2,17 +2,17 @@
 
 {% block stylesheets %}
 {{ parent() }}
-<link rel="stylesheet" href="{{ asset('bundles/Ethergroupsmain/css/grouppic.css') }}" />
+<link rel="stylesheet" href="{{ asset('bundles/ethergroupsmain/css/grouppic.css') }}" />
 {% endblock %}
 
 {% block javascript %}
 {{ parent() }}
-<script src="{{ asset('bundles/Ethergroupsmain/js/jquery.iframe-post-form.js') }}"></script>
-<script src="{{ asset('bundles/Ethergroupsmain/js/groupPicture.js') }}"></script>
+<script src="{{ asset('bundles/ethergroupsmain/js/jquery.iframe-post-form.js') }}"></script>
+<script src="{{ asset('bundles/ethergroupsmain/js/groupPicture.js') }}"></script>
 <script type="text/javascript">
 $(function() {
 	var uploadGroupPicture = new UploadGroupPicture({
-		pathRemovePic: "{{ asset('bundles/Ethergroupsmain/images/delete_red.png') }}"
+		pathRemovePic: "{{ asset('bundles/ethergroupsmain/images/delete_red.png') }}"
 		});
 	uploadGroupPicture.init({
 		pathAdd: "{{ path('group_addPicture', {id: group.id}) }}",
@@ -38,10 +38,10 @@ $(function() {
         <div class="pad">
             <a class="padname" href="{{ path('pad', {padid: pad.id}) }}" >{{ pad.name }}</a>
             <span class="actions" >
-                <a class="padremovelink" href="{{ path('pad_delete', {padid: pad.id}) }}"> <img src="{{ asset('bundles/Ethergroupsmain/images/delete.png') }}" /> </a>
+                <a class="padremovelink" href="{{ path('pad_delete', {padid: pad.id}) }}"> <img src="{{ asset('bundles/ethergroupsmain/images/delete.png') }}" /> </a>
             </span>
             <span class="lastEdited">{{ pad.lastEdited }}</span>
-            <img width="20" class="loader" style="display: none" src="{{ asset('bundles/Ethergroupsmain/images/loader.gif') }}"/>
+            <img width="20" class="loader" style="display: none" src="{{ asset('bundles/ethergroupsmain/images/loader.gif') }}"/>
         </div>
     {% endfor %}
     </div>
@@ -53,6 +53,6 @@ $(function() {
             {{ form_widget(form.name) }}
         {{ form_rest(form) }}
         <input type="submit" value="Senden" />
-        <img width="20" class="loader" style="display: none" src="{{ asset('bundles/Ethergroupsmain/images/loader.gif') }}"/>
+        <img width="20" class="loader" style="display: none" src="{{ asset('bundles/ethergroupsmain/images/loader.gif') }}"/>
     </form>
 {% endblock %}

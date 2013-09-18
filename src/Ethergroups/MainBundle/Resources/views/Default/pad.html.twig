@@ -2,15 +2,15 @@
 
 {% block stylesheets %}
 {{ parent() }}
-<link rel="stylesheet" href="{{ asset('bundles/Ethergroupsmain/css/pad.css') }}" />
-<link rel="stylesheet" href="{{ asset('bundles/Ethergroupsmain/css/onoffswitch.css') }}" />
-<link rel="stylesheet" href="{{ asset('bundles/Ethergroupsmain/css/onoffswitch_custom.css') }}" />
+<link rel="stylesheet" href="{{ asset('bundles/ethergroupsmain/css/pad.css') }}" />
+<link rel="stylesheet" href="{{ asset('bundles/ethergroupsmain/css/onoffswitch.css') }}" />
+<link rel="stylesheet" href="{{ asset('bundles/ethergroupsmain/css/onoffswitch_custom.css') }}" />
 {% endblock %}
 
 {% block javascript %}
 {{ parent() }}
-<script src="{{ asset('bundles/Ethergroupsmain/js/flashmessages.js') }}"></script>
-<script src="{{ asset('bundles/Ethergroupsmain/js/pad.js') }}"></script>
+<script src="{{ asset('bundles/ethergroupsmain/js/flashmessages.js') }}"></script>
+<script src="{{ asset('bundles/ethergroupsmain/js/pad.js') }}"></script>
 <script type="text/javascript">
 $(function() {
 	initPad();
@@ -34,7 +34,7 @@ $(function() {
                     </div>
                 </div>
             </a>
-            <img width="20" class="loader" style="display: none" src="{{ asset('bundles/Ethergroupsmain/images/loader.gif') }}"/>
+            <img width="20" class="loader" style="display: none" src="{{ asset('bundles/ethergroupsmain/images/loader.gif') }}"/>
         </div>
         <div id="pass" {% if not ispublic %} style="display:none" {% endif %}>
             <span class="text" {% if not isPasswordProtected %}style="display:none"{% endif %}>
@@ -54,7 +54,7 @@ $(function() {
                     </div>
                 </div>
             </a>
-            <img width="20" class="loader" style="display: none" src="{{ asset('bundles/Ethergroupsmain/images/loader.gif') }}"/>
+            <img width="20" class="loader" style="display: none" src="{{ asset('bundles/ethergroupsmain/images/loader.gif') }}"/>
             <div id="isPasswordProtected">
                 <a id="removePass" href="{{ path('pad_deletePassword', {padid: padid}) }}">{% if isPasswordProtected %}{{ 'removePassword'|trans }}{% endif %}</a>
              </div>

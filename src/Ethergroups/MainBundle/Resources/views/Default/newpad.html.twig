@@ -4,9 +4,9 @@
         <div class="pad">
             <a class="padname" href="{{ path('pad', {padid: pad.id}) }}" >{{ pad.name }}</a>
             <span class="actions" >
-                <a class="padremovelink" href="{{ path('pad_delete', {padid: pad.id}) }}"> <img src="{{ asset('bundles/Ethergroupsmain/images/delete.png') }}" /> </a>
+                <a class="padremovelink" href="{{ path('pad_delete', {padid: pad.id}) }}"> <img src="{{ asset('bundles/ethergroupsmain/images/delete.png') }}" /> </a>
             </span>
             <span class="lastEdited">{{ pad.lastEdited }}</span>
-            <img width="20" class="loader" style="display: none" src="{{ asset('bundles/Ethergroupsmain/images/loader.gif') }}"/>
+            <img width="20" class="loader" style="display: none" src="{{ asset('bundles/ethergroupsmain/images/loader.gif') }}"/>
         </div>
 {% endblock %}

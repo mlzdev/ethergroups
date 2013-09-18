@@ -2,24 +2,24 @@
 
 {% block stylesheets %}
 {{ parent() }}
-<link rel="stylesheet" href="{{ asset('bundles/Ethergroupsmain/css/groups.css') }}" />
-<link rel="stylesheet" href="{{ asset('bundles/Ethergroupsmain/css/grouppic.css') }}" />
-<link rel="stylesheet" href="{{ asset('bundles/Ethergroupsmain/css/pad.css') }}" />
-<link rel="stylesheet" href="{{ asset('bundles/Ethergroupsmain/css/onoffswitch.css') }}" />
-<link rel="stylesheet" href="{{ asset('bundles/Ethergroupsmain/css/onoffswitch_custom.css') }}" />
+<link rel="stylesheet" href="{{ asset('bundles/ethergroupsmain/css/groups.css') }}" />
+<link rel="stylesheet" href="{{ asset('bundles/ethergroupsmain/css/grouppic.css') }}" />
+<link rel="stylesheet" href="{{ asset('bundles/ethergroupsmain/css/pad.css') }}" />
+<link rel="stylesheet" href="{{ asset('bundles/ethergroupsmain/css/onoffswitch.css') }}" />
+<link rel="stylesheet" href="{{ asset('bundles/ethergroupsmain/css/onoffswitch_custom.css') }}" />
 {% endblock %}
 
 {% block javascript %}
 {{ parent() }}
-<script src="{{ asset('bundles/Ethergroupsmain/js/jquery.iframe-post-form.js') }}"></script>
-<script src="{{ asset('bundles/Ethergroupsmain/js/jquery.blockUI.js') }}"></script>
-<script src="{{ asset('bundles/Ethergroupsmain/js/groupPicture.js') }}"></script>
-<script src="{{ asset('bundles/Ethergroupsmain/js/flashmessages.js') }}"></script>
-<script src="{{ asset('bundles/Ethergroupsmain/js/pad.js') }}"></script>
-<script src="{{ asset('bundles/Ethergroupsmain/js/groups.js') }}" ></script>
-<script src="{{ asset('bundles/Ethergroupsmain/js/strnatcmp.js') }}" ></script>
-<script src="{{ asset('bundles/Ethergroupsmain/js/strcmp.js') }}" ></script>
-<script src="{{ asset('bundles/Ethergroupsmain/js/modernizr-build.min.js') }}" ></script>
+<script src="{{ asset('bundles/ethergroupsmain/js/jquery.iframe-post-form.js') }}"></script>
+<script src="{{ asset('bundles/ethergroupsmain/js/jquery.blockUI.js') }}"></script>
+<script src="{{ asset('bundles/ethergroupsmain/js/groupPicture.js') }}"></script>
+<script src="{{ asset('bundles/ethergroupsmain/js/flashmessages.js') }}"></script>
+<script src="{{ asset('bundles/ethergroupsmain/js/pad.js') }}"></script>
+<script src="{{ asset('bundles/ethergroupsmain/js/groups.js') }}" ></script>
+<script src="{{ asset('bundles/ethergroupsmain/js/strnatcmp.js') }}" ></script>
+<script src="{{ asset('bundles/ethergroupsmain/js/strcmp.js') }}" ></script>
+<script src="{{ asset('bundles/ethergroupsmain/js/modernizr-build.min.js') }}" ></script>
 
 <script type="text/javascript">
 $(function() {
@@ -45,7 +45,7 @@ $(function() {
 
     // initialise group picture upload
 	var uploadGroupPicture = new UploadGroupPicture({
-	    pathRemovePic: "{{ asset('bundles/Ethergroupsmain/images/delete_red.png') }}",
+	    pathRemovePic: "{{ asset('bundles/ethergroupsmain/images/delete_red.png') }}",
 	    pathOrigPic: $('#headerpic').attr('src')
 	});
 
@@ -222,20 +222,20 @@ $(function() {
             <a class="group-link" href="{{ path('group', {id: group.id}) }}">{{ group.name }}</a>
             <form class="editform" action="{{ path('group_rename', {id: group.id}) }}" method="post" style="display: none">
                 <input type="text" name="groupname" maxlength="45" >
-                <img width="20" class="editloader" style="display: none" src="{{ asset('bundles/Ethergroupsmain/images/loader.gif') }}"/>
+                <img width="20" class="editloader" style="display: none" src="{{ asset('bundles/ethergroupsmain/images/loader.gif') }}"/>
             </form>
             <span class="actions">
-                <a href="#" style="display: none" class="editgroup" ><img src="{{ asset('bundles/Ethergroupsmain/images/edit.png') }}" /> </a>
-                <a href="{{ path('group_delete', {id: group.id}) }}" class="group_delete {% if group.activatedUser.count == 1 %}last{% endif %}"> <img src="{{ asset('bundles/Ethergroupsmain/images/delete.png') }}" /> </a>
+                <a href="#" style="display: none" class="editgroup" ><img src="{{ asset('bundles/ethergroupsmain/images/edit.png') }}" /> </a>
+                <a href="{{ path('group_delete', {id: group.id}) }}" class="group_delete {% if group.activatedUser.count == 1 %}last{% endif %}"> <img src="{{ asset('bundles/ethergroupsmain/images/delete.png') }}" /> </a>
             </span>
-            <img width="20" class="loader" style="display: none" src="{{ asset('bundles/Ethergroupsmain/images/loader.gif') }}"/>
+            <img width="20" class="loader" style="display: none" src="{{ asset('bundles/ethergroupsmain/images/loader.gif') }}"/>
         </div>
         <div class="group-content">
             <div class="info">
                 <span class="creationdate">({{ group.creationdate.date | date('d.m.Y')}})</span>
             </div>
             <div class="user">
-                <a href="#" class="userinfo" style="display: none"><span class="usernumber">{{ 'user'|trans }} ({{ group.activatedUser.count }}/{{ group.user.count }})</span> <img alt="plus" src="{{ asset('bundles/Ethergroupsmain/images/plus.png') }}" /><img alt="minus" src="{{ asset('bundles/Ethergroupsmain/images/minus.png') }}" style="display:none"/></a>
+                <a href="#" class="userinfo" style="display: none"><span class="usernumber">{{ 'user'|trans }} ({{ group.activatedUser.count }}/{{ group.user.count }})</span> <img alt="plus" src="{{ asset('bundles/ethergroupsmain/images/plus.png') }}" /><img alt="minus" src="{{ asset('bundles/ethergroupsmain/images/minus.png') }}" style="display:none"/></a>
                 <div class="usernames">
                     <div>
                         {% for user in group.user %} 
@@ -276,14 +276,14 @@ $(function() {
     <div id="pad">
         <div id="togglegroups" >
             <a href="#">
-                <img class="left" alt="Hide Groups" src="{{ asset('bundles/Ethergroupsmain/images/left.png') }}" />
-                <img class="right" alt="Show Groups" src="{{ asset('bundles/Ethergroupsmain/images/right.png') }}" style="display:none"/>
+                <img class="left" alt="Hide Groups" src="{{ asset('bundles/ethergroupsmain/images/left.png') }}" />
+                <img class="right" alt="Show Groups" src="{{ asset('bundles/ethergroupsmain/images/right.png') }}" style="display:none"/>
                 </a>
         </div>
         <div id="pad-content" class="empty"></div>
     </div>
 
-    <img src="{{ asset('bundles/Ethergroupsmain/images/loader-bar.gif') }}" id="loader-bar" style="display: none"></img>
+    <img src="{{ asset('bundles/ethergroupsmain/images/loader-bar.gif') }}" id="loader-bar" style="display: none"></img>
     
     <div id="removeDialogs" style="display: none">
         <div id="removeGroupDialog" style="display: none">{{ 'removeGroupDialog'|trans }}</div>
