@@ -108,3 +108,7 @@
 .group .newpadform {
 	margin-top: 10px;
 }
+
+#group-requests a.group-link {
+	color: #999;
+}
