@@ -286,12 +286,30 @@ class DefaultController extends Controller {
 	                 $user = $userProvider->loadUserByUsername($ldapuser['uid'][0], false);
 	                 $user->setAttributes($ldapuser);
 	                 $userProvider->updateUser($user);
-	                 if(!$group->addUser($user)) {
+	                 
+	                 // Is the user already a member of this group?
+	                 if($group->getUser()->contains($user)) {
 	                     $this->get('session')
 	                     ->getFlashBag()->set('notice', 'Dieser Nutzer existiert bereits in der Gruppe!');
 	                 }
 	                 else {
+	                     // Make the request
+	                     $user->addGroupRequest($group);
                          $em->flush();
+                         
+                         //Write a mail to the added user
+                         $message = \Swift_Message::newInstance()
+                             ->setSubject('Ethergroups: Sie wurden zu einer Gruppe hinzugefügt')
+                             ->setFrom($this->container->getParameter('mailer_noreply_address'))
+                             ->setTo($user->getMail())
+                             ->setBody(
+                                 $this->renderView(
+                                     'EthergroupsMainBundle:Mails:userrequest.txt.twig',
+                                     array('group' => $group)
+                                 )
+                             );
+                         $this->get('mailer')->send($message);
+                         
                          $this->get('session')
                          ->getFlashBag()->set('notice', 'Nutzer zu der Gruppe hinzugefügt!');
 	                 }

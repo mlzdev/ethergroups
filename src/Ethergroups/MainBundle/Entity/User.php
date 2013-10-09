@@ -152,10 +152,12 @@ class User implements UserInterface
     
     public function getMail() {
         $mail = $this->getSingleAttribute("mail");
-    
+        
         if (!$mail) {
-            $mail = $this->getUid() . '@htw-berlin.de';
+            $mail = $this->getUid();
         }
+        
+        $mail .= '@hu-berlin.de';
     
         return $mail;
     }
