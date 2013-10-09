@@ -235,13 +235,13 @@ $(function() {
                 <span class="creationdate">({{ group.creationdate.date | date('d.m.Y')}})</span>
             </div>
             <div class="user">
-                <a href="#" class="userinfo" style="display: none"><span class="usernumber">{{ 'user'|trans }} ({{ group.user.count }}/{{ group.user.count + group.notifiedUser.count }})</span> <img alt="plus" src="{{ asset('bundles/ethergroupsmain/images/plus.png') }}" /><img alt="minus" src="{{ asset('bundles/ethergroupsmain/images/minus.png') }}" style="display:none"/></a>
+                <a href="#" class="userinfo" style="display: none"><span class="usernumber">{{ 'user'|trans }} ({{ group.user.count }}/{{ group.user.count + group.userRequests.count }})</span> <img alt="plus" src="{{ asset('bundles/ethergroupsmain/images/plus.png') }}" /><img alt="minus" src="{{ asset('bundles/ethergroupsmain/images/minus.png') }}" style="display:none"/></a>
                 <div class="usernames">
                     <div>
                         {% for user in group.user %} 
                             <span title="{{ user.uid }}">{{ user.name }}</span>&nbsp;
                         {% endfor %}
-                        {% for user in group.notifiedUser %}
+                        {% for user in group.userRequests %}
                             <span class="notactivated" title="{{ user.uid }} (not activated)">{{ user.name }}</span>&nbsp;
                         {% endfor %}
                     </div>
@@ -265,8 +265,8 @@ $(function() {
     </div>
     {% endfor %}
     </div>
-    <div id="notified-groups">
-    {% for group in notifiedGroups %}
+    <div id="group-requests">
+    {% for group in groupRequests %}
         <div id="group-{{ group.id }}" class="group">
             <div class="group-name">
                 <a class="group-link" href="{{ path('group', {id: group.id}) }}">{{ group.name }}</a>

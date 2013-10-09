@@ -39,6 +39,7 @@ class DefaultController extends Controller {
 						    'attr' => array('placeholder' => $translator->trans('newgroup'))))
 				->getForm();
 
+		// Create new group
 		if ($request->isMethod('POST')) {
 			$form->bind($request);
 			if ($form->isValid()) {
@@ -59,14 +60,14 @@ class DefaultController extends Controller {
 		}
 
 		$groups = $user->getGroups();
-		$notifiedGroups = $user->getNotifiedGroups();
+		$groupRequests = $user->getGroupRequests();
 
 		$this->updateCookie($etherpadlite, $groups, $user);
 
 		return $this
 				->render('EthergroupsMainBundle:Default:index.html.twig',
 						array('form' => $form->createView(),
-								'groups' => $groups, 'notifiedGroups'=>$notifiedGroups));
+								'groups' => $groups, 'groupRequests'=>$groupRequests));
 	}
 
 	/**

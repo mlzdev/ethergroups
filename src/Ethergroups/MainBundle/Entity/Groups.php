@@ -54,11 +54,11 @@ class Groups
     private $user;
     
     /**
-     * @var User $notifiedUser
+     * @var User $userRequests
      * 
-     * @ORM\ManyToMany(targetEntity="User", indexBy="uid", mappedBy="notifiedGroups")
+     * @ORM\ManyToMany(targetEntity="User", indexBy="uid", mappedBy="groupRequests")
      */
-    private $notifiedUser;
+    private $userRequests;
     
     /**
      * @var Pads $pads
@@ -312,35 +312,35 @@ public function upload()
     }
 
     /**
-     * Add notifiedUser
+     * Add userRequests
      *
-     * @param \Ethergroups\MainBundle\Entity\User $notifiedUser
+     * @param \Ethergroups\MainBundle\Entity\User $userRequests
      * @return Groups
      */
-    public function addNotifiedUser(\Ethergroups\MainBundle\Entity\User $notifiedUser)
+    public function addUserRequest(\Ethergroups\MainBundle\Entity\User $userRequests)
     {
-        $this->notifiedUser[] = $notifiedUser;
+        $this->userRequests[] = $userRequests;
     
         return $this;
     }
 
     /**
-     * Remove notifiedUser
+     * Remove userRequests
      *
-     * @param \Ethergroups\MainBundle\Entity\User $notifiedUser
+     * @param \Ethergroups\MainBundle\Entity\User $userRequests
      */
-    public function removeNotifiedUser(\Ethergroups\MainBundle\Entity\User $notifiedUser)
+    public function removeUserRequest(\Ethergroups\MainBundle\Entity\User $userRequests)
     {
-        $this->notifiedUser->removeElement($notifiedUser);
+        $this->userRequests->removeElement($userRequests);
     }
 
     /**
-     * Get notifiedUser
+     * Get userRequests
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getNotifiedUser()
+    public function getUserRequests()
     {
-        return $this->notifiedUser;
+        return $this->userRequests;
     }
 }

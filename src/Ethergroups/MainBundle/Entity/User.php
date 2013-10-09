@@ -97,12 +97,12 @@ class User implements UserInterface
     private $groups;
     
     /**
-     * @var Groups $notifiedGroups
+     * @var Groups $groupRequests
      * 
-     * @ORM\ManyToMany(targetEntity="Groups", indexBy="id", inversedBy="notifiedUser")
+     * @ORM\ManyToMany(targetEntity="Groups", indexBy="id", inversedBy="userRequests")
      * @ORM\OrderBy({"name" = "ASC"})
      */
-    private $notifiedGroups;
+    private $groupRequests;
 
     // LDAP Attributes
     protected $attributes;
@@ -466,35 +466,35 @@ class User implements UserInterface
     }
 
     /**
-     * Add notifiedGroups
+     * Add groupRequests
      *
-     * @param \Ethergroups\MainBundle\Entity\Groups $notifiedGroups
+     * @param \Ethergroups\MainBundle\Entity\Groups $groupRequests
      * @return User
      */
-    public function addNotifiedGroup(\Ethergroups\MainBundle\Entity\Groups $notifiedGroups)
+    public function addGroupRequest(\Ethergroups\MainBundle\Entity\Groups $groupRequests)
     {
-        $this->notifiedGroups[] = $notifiedGroups;
+        $this->groupRequests[] = $groupRequests;
     
         return $this;
     }
 
     /**
-     * Remove notifiedGroups
+     * Remove groupRequests
      *
-     * @param \Ethergroups\MainBundle\Entity\Groups $notifiedGroups
+     * @param \Ethergroups\MainBundle\Entity\Groups $groupRequests
      */
-    public function removeNotifiedGroup(\Ethergroups\MainBundle\Entity\Groups $notifiedGroups)
+    public function removeGroupRequest(\Ethergroups\MainBundle\Entity\Groups $groupRequests)
     {
-        $this->notifiedGroups->removeElement($notifiedGroups);
+        $this->groupRequests->removeElement($groupRequests);
     }
 
     /**
-     * Get notifiedGroups
+     * Get groupRequests
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getNotifiedGroups()
+    public function getGroupRequests()
     {
-        return $this->notifiedGroups;
+        return $this->groupRequests;
     }
 }
