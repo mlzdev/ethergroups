@@ -270,6 +270,11 @@ $(function() {
         <div id="group-{{ group.id }}" class="group">
             <div class="group-name">
                 <a class="group-link" href="{{ path('group', {id: group.id}) }}">{{ group.name }}</a>
+                <span class="approval-actions">
+                    <a href="{{ path('group_confirm', {id: group.id}) }}" class="group_confirm"> <img src="{{ asset('bundles/ethergroupsmain/images/approve.png') }}" /> </a>
+                    <a href="{{ path('group_decline', {id: group.id}) }}" class="group_remove"> <img src="{{ asset('bundles/ethergroupsmain/images/delete.png') }}" /> </a>
+                </span>
+                <img width="20" class="loader" style="display: none" src="{{ asset('bundles/ethergroupsmain/images/loader.gif') }}"/>
             </div>
         </div>
     {% endfor %}

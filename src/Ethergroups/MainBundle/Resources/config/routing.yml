@@ -20,9 +20,17 @@ group:
     pattern:   /group/{id}
     defaults: { _controller: EthergroupsMainBundle:Default:group, id: 0 }
     
+group_confirm:
+    pattern:  /group/confirm/{id}
+    defaults: { _controller: EthergroupsMainBundle:Group:confirm, id: 0 }
+    
 group_delete:
     pattern:  /group/delete/{id}
     defaults: { _controller: EthergroupsMainBundle:Default:deleteGroup, id: 0 }
+    
+group_decline:
+    pattern:  /group/decline/{id}
+    defaults: { _controller: EthergroupsMainBundle:Group:decline, id: 0 }
     
 group_addUser:
     pattern:    /group/add/user/{id}
