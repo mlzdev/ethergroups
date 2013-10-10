@@ -303,9 +303,9 @@ $(function() {
     <img src="{{ asset('bundles/ethergroupsmain/images/loader-bar.gif') }}" id="loader-bar" style="display: none"></img>
     
     <div id="removeDialogs" style="display: none">
-        <div id="removeGroupDialog" style="display: none">{{ 'removeGroupDialog'|trans }}</div>
-        <div id="removeGroupLastDialog" style="display: none">{{ 'removeGroupLastDialog'|trans }}</div>
-        <div id="removePadDialog" style="display: none">{{ 'removePadDialog'|trans }}</div>
+        <div id="removeGroupDialog" style="display: none">{{ 'removeGroupDialog'|trans({}, 'dialogs') }}</div>
+        <div id="removeGroupLastDialog" style="display: none">{{ 'removeGroupLastDialog'|trans({}, 'dialogs') }}</div>
+        <div id="removePadDialog" style="display: none">{{ 'removePadDialog'|trans({}, 'dialogs') }}</div>
         <input type="button" class="yes" value="{{ 'yes'|trans }}"/>
         <input type="button" class="no" value="{{ 'no'|trans }}"/>
     </div>
