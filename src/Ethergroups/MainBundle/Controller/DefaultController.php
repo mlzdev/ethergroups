@@ -303,7 +303,7 @@ class DefaultController extends Controller {
                          
                          //Write a mail to the added user
                          $message = \Swift_Message::newInstance()
-                             ->setSubject('Ethergroups: Sie wurden zu einer Gruppe hinzugefügt')
+                             ->setSubject($translator->trans('requestmailsubject'))
                              ->setFrom($this->container->getParameter('mailer_noreply_address'))
                              ->setTo($user->getMail())
                              ->setBody(
