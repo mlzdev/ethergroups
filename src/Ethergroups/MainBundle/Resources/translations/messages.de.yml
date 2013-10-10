@@ -31,11 +31,9 @@ user: Mitglieder
 newuser: Neues Mitglied
 removePassword: Passwort entfernen
 changePassword: Passwort ändern
-removeGroupDialog: Möchten Sie sich wirklich aus dieser Gruppe austragen?
-removeGroupLastDialog: Sie sind das letzte Mitglied dieser Gruppe. Wenn Sie sich austragen, wird die Gruppe mit allen Blättern gelöscht. Möchten Sie das wirklich?
-removePadDialog: ACHTUNG! Hiermit löschen Sie unwiderruflich dieses Blatt für ALLE Mitglieder!
 yes: Ja
 no: Nein
+requestmailsubject: "Ethergroups: Sie wurden zu einer Gruppe hinzugefügt"
 firstgroupname: Meine erste Gruppe
 firstpadname: Mein erstes Blatt
 firstpadtext: |

@@ -1,0 +1,17 @@
+groupCreated: Gruppe erstellt!
+groupNotExistent: Diese Gruppe existiert nicht
+unvalidID: Bitte geben Sie eine gültige id an
+padCreated: Pad erstellt!
+padnameExists: Padname existiert bereits!
+noUsernameGiven: Bitte geben Sie einen Benutzernamen an.
+userExistsInGroup: Dieser Nutzer existiert bereits in der Gruppe!
+userAdded: Nutzer zu der Gruppe hinzugefügt!
+noUserFound: Kein Nutzer gefunden. Bitte spezifizieren Sie Ihre Angabe.
+multipleUserFound: Mehrere Nutzer gefunden. Bitte spezifizieren Sie Ihre Angabe.
+POSTOnly: Diese Url kann nur über ein Formular angesprochen werden
+passCreated: Passwort erstellt!
+passError: FEHLER beim Erstellen des Passworts!
+passCheckError: FEHLER beim Prüfen des Passwortstatus
+passRemoved: Passwort gelöscht
+removePassError: FEHLER beim löschen des Passworts
+removePadError: Pad konnte nicht gelöscht werden

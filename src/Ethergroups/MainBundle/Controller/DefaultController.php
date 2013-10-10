@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Translation\IdentityTranslator;
 use Ethergroups\MainBundle\Entity\Pads;
+use Symfony\Bundle\FrameworkBundle\Translation\Translator;
 
 class DefaultController extends Controller {
     
@@ -53,7 +54,7 @@ class DefaultController extends Controller {
 				$em->persist($group);
 				$em->flush();
 
-				$this->get('session')->getFlashBag()->set('notice', 'Gruppe erstellt!');
+				$this->get('session')->getFlashBag()->set('notice', $translator->trans('groupCreated', array(), 'notifications'));
 
 				return $this->redirect($this->generateUrl('base'));
 			}
@@ -78,13 +79,14 @@ class DefaultController extends Controller {
 	 */
 	public function deleteGroupAction($id = null) {
 	    $eplite = $this->get('etherpadlite');
+	    $translator = $this->get('translator');
 	    
 	    $em = $this->getDoctrine()->getManager();
 	    $group = $em->getRepository('EthergroupsMainBundle:Groups')->find($id);
 	    
 	    if(!$group) {
 	        $this->get('session')
-	        ->getFlashBag()->set('notice', 'Diese Gruppe existiert nicht');
+	        ->getFlashBag()->set('notice', $translator->trans('groupNotExistent', array(), 'notifications'));
 	        
 	        return $this->redirect($this->generateUrl('base'));
 	    }
@@ -133,9 +135,10 @@ class DefaultController extends Controller {
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\JsonResponse|number|\Symfony\Component\HttpFoundation\Response
 	 */
 	public function groupAction(Request $request, $id = null) {
+	    $translator = $this->get('translator');
 	    if(!$id) {
 	        $this->get('session')
-	            ->getFlashBag()->set('notice', 'Bitte geben Sie eine korrekte ID an');
+	            ->getFlashBag()->set('notice', $translator->trans('invalidID', array(), 'notifications'));
 	        return $this->redirect($this->generateUrl('base'));
 	    }
 	    
@@ -162,9 +165,9 @@ class DefaultController extends Controller {
 				try {
 				    $name = str_replace(array('/', '\\'), '', $pad->name);
 					$pad = $etherpadlite->createGroupPad($group->getGroupid(), $name, null);
-					$this->get('session')->getFlashBag()->set('notice', 'Pad erstellt!');
+					$this->get('session')->getFlashBag()->set('notice', $translator->trans('padCreated', array(), 'notifications'));
 				} catch (\Exception $e) {
-					$this->get('session')->getFlashBag()->set('notice', 'Padname existiert bereits!');
+					$this->get('session')->getFlashBag()->set('notice', $translator->trans('padnameExists', array(), 'notifications'));
 					$errors = true;
 				}
 			}
@@ -259,9 +262,10 @@ class DefaultController extends Controller {
 	 */
 	public function addUserAction ($id=0, Request $request) {
 	    $em = $this->getDoctrine()->getManager();
+	    $translator = $this->get('translator');
 	    if(!$id) {
 	        $this->get('session')
-	        ->getFlashBag()->set('notice', 'Bitte geben Sie eine gültige id an.');
+	        ->getFlashBag()->set('notice', $translator->trans('invalidID', array(), 'notifications'));
 	        return $this->redirect($this->generateUrl('base'));
 	    }
 	    
@@ -272,7 +276,7 @@ class DefaultController extends Controller {
 	            $username = $request->request->get('username');
 	            if(!$username) {
 	                $this->get('session')
-	                ->getFlashBag()->set('notice', 'Bitte geben Sie eine Benutzernamen an.');
+	                ->getFlashBag()->set('notice', $translator->trans('noUsernameGiven', array(), 'notifications'));
 	                
 	                return $this->redirect($this->generateUrl('base'));
 	            }
@@ -290,7 +294,7 @@ class DefaultController extends Controller {
 	                 // Is the user already a member of this group?
 	                 if($group->getUser()->contains($user)) {
 	                     $this->get('session')
-	                     ->getFlashBag()->set('notice', 'Dieser Nutzer existiert bereits in der Gruppe!');
+	                     ->getFlashBag()->set('notice', $translator->trans('userExistsInGroup', array(), 'notifications'));
 	                 }
 	                 else {
 	                     // Make the request
@@ -311,29 +315,29 @@ class DefaultController extends Controller {
                          $this->get('mailer')->send($message);
                          
                          $this->get('session')
-                         ->getFlashBag()->set('notice', 'Nutzer zu der Gruppe hinzugefügt!');
+                         ->getFlashBag()->set('notice', $translator->trans('userAdded', array(), 'notifications'));
 	                 }
 	             }
 	             else {
 	                 if($ldapuser[1]==0) {
 	                     $this->get('session')
-	                     ->getFlashBag()->set('notice', 'Kein Nutzer gefunden. Bitte spezifizieren Sie Ihre Angabe.');
+	                     ->getFlashBag()->set('notice', $translator->trans('noUserFound', array(), 'notifications'));
 	                 }
 	                 else {
 	                     $this->get('session')
-	                     ->getFlashBag()->set('notice', 'Mehrere Nutzer gefunden. Bitte spezifizieren Sie Ihre Angabe.');
+	                     ->getFlashBag()->set('notice', $translator->trans('multipleUserFound', array(), 'notification'));
 	                 }
 	                 
   	             }
 	        }
 	        else {
 	            $this->get('session')
-	            ->getFlashBag()->set('notice', 'Diese Url kann nur über ein Formular angesprochen werden');
+	            ->getFlashBag()->set('notice', $translator->trans('POSTOnly', array(), 'notifications'));
 	        }
 	    }
 	    else {
 	        $this->get('session')
-	        ->getFlashBag()->set('notice', 'Die angegebene Gruppe existiert nicht');
+	        ->getFlashBag()->set('notice', $translator->trans(groupNotExistent));
 	    }
 	    
 
@@ -391,6 +395,7 @@ class DefaultController extends Controller {
 	 */
 	public function padAction($padid = 0, Request $request) {
 	    $em = $this->getDoctrine()->getManager();
+	    $translator = $this->get('translator');
         $etherpadlite = $this->get('etherpadlite');
 		
 	    $padsplit = $this->splitPadid($padid);
@@ -429,9 +434,9 @@ class DefaultController extends Controller {
 		            }
 		            $em->flush();
 		            
-		            $this->get('session')->getFlashBag()->set('notice', 'Passwort erstellt!');
+		            $this->get('session')->getFlashBag()->set('notice', $translator->trans('passCreated', array(), 'notifications'));
 		        } catch (\Exception $e) {
-		            $this->get('session')->getFlashBag()->set('notice', 'FEHLER! setPassword');
+		            $this->get('session')->getFlashBag()->set('notice', $translator->trans('passError', array(), 'notifications'));
 		        }
 		        return $this->redirect($this->generateUrl('pad', array('padid' => $padid)));
 		    }
@@ -441,7 +446,7 @@ class DefaultController extends Controller {
 		    $isPasswordProtected = $etherpadlite->isPasswordProtected($padid)->isPasswordProtected;
 		}
 		catch (\Exception $e) {
-		    $this->get('session')->getFlashBag()->set('notice', 'FEHLER! isPasswordProtected');
+		    $this->get('session')->getFlashBag()->set('notice', $translator->trans('passCheckError', array(), 'notifications'));
 		}
 		
 		return $this->render('EthergroupsMainBundle:Default:pad.html.twig',
@@ -455,21 +460,22 @@ class DefaultController extends Controller {
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
 	 */
 	public function deletePasswordAction($padid = 0) {
+	    $translator = $this->get('translator');
 	    $eplite = $this->get('etherpadlite');
 	    
 	    if(!$padid) {
 	        $this->get('session')
-	        ->getFlashBag()->set('notice', 'Bitte geben Sie eine gültige padid an.');
+	        ->getFlashBag()->set('notice', $translator->trans('invalidID', array(), 'notifications'));
 	        return $this->redirect($this->generateUrl('base'));
 	    }
 	    
 	    try {
 	        $eplite->setPassword($padid, null);
 	        $this->removePasswordFromDatabase($padid);
-	        $this->get('session')->getFlashBag()->set('notice', 'Passwort gelöscht');
+	        $this->get('session')->getFlashBag()->set('notice', $translator->trans('passRemoved', array(), 'notifications'));
 	    }
 	    catch (\Exception $e) {
-	        $this->get('session')->getFlashBag()->set('notice', 'FEHLER! setPublicStatus');
+	        $this->get('session')->getFlashBag()->set('notice', $translator->trans('removePassError', array(), 'notifications'));
 	    }
 	    
 	    return $this->redirect($this->generateUrl('pad', array('padid' => $padid)));
@@ -490,11 +496,12 @@ class DefaultController extends Controller {
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
 	 */
 	public function deletePadAction($padid = 0) {
+	    $translator = $this->get('translator');
 	    $eplite = $this->get('etherpadlite');
 	    
 	    if(!$padid) {
 	        $this->get('session')
-	        ->getFlashBag()->set('notice', 'Bitte geben Sie eine gültige padid an.');
+	        ->getFlashBag()->set('notice', $translator->trans('invalidID', array(), 'notifications'));
 	        return $this->redirect($this->generateUrl('base'));
 	    }
 	    
@@ -504,7 +511,7 @@ class DefaultController extends Controller {
 	    }
 	    catch (\Exception $e) {
 	        $this->get('session')
-	        ->getFlashBag()->set('notice', 'Pad konnte nicht gelöscht werden');
+	        ->getFlashBag()->set('notice', $translator->trans('removePadError', array(), 'notifications'));
 	    }
 	    
 	    $padsplit = $this->splitPadid($padid);
@@ -522,7 +529,7 @@ class DefaultController extends Controller {
 	public function switchPublicAction($padid = 0) {
 	    if(!$padid) {
 	        $this->get('session')
-	        ->getFlashBag()->set('notice', 'Bitte geben Sie eine gültige padid an.');
+	        ->getFlashBag()->set('notice', $translator->trans('invalidID', array(), 'notifications'));
 	    }
 	    
 	    $etherpadlite = $this->get('etherpadlite');
@@ -531,6 +538,7 @@ class DefaultController extends Controller {
 	        $ispublic = $etherpadlite->getPublicStatus($padid)->publicStatus;
 	    }
 	    catch (\Exception $e) {
+	        // TODO better error handling
 	        $this->get('session')
 	        ->getFlashBag()->set('notice', 'FEHLER! getPublicStatus');
 	    }
@@ -539,6 +547,7 @@ class DefaultController extends Controller {
 	        $etherpadlite->setPublicStatus($padid, !$ispublic);
 	    }
 	    catch (\Exception $e) {
+	        // TODO better error handling
 	        $this->get('session')->getFlashBag()->set('notice', 'FEHLER! setPublicStatus');
 	    }
 	    
