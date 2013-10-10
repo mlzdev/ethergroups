@@ -305,7 +305,7 @@ class DefaultController extends Controller {
                              ->setBody(
                                  $this->renderView(
                                      'EthergroupsMainBundle:Mails:userrequest.txt.twig',
-                                     array('group' => $group)
+                                     array('group' => $group, 'user' => $this->getUser())
                                  )
                              );
                          $this->get('mailer')->send($message);
