@@ -1,0 +1,24 @@
+{% extends 'EthergroupsMainBundle::layout.html.twig' %}
+
+{% block stylesheets %}
+{{ parent() }}
+<style type="text/css">
+    textarea {
+        width: 1200px;
+        height: 320px;
+    }
+    #form div {
+        margin-bottom: 20px;
+    }
+    #form_save {
+        width: 80px;
+        height: 30px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+{{ form(form) }}
+
+{% endblock %}

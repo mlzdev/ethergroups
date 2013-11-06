@@ -18,3 +18,5 @@ parameters:
     etherpadlite.apikey: '[APIKEY]'
     etherpadlite.url: 'http://etherpad.example.com:9001'
     forgotpasswordurl: 'http://Forgot.password.com/'
+    admin_login: admin
+    admin_pass: ch4ng3ME!!
