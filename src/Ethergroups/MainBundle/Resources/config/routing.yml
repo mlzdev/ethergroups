@@ -1,3 +1,7 @@
+admin:
+    pattern:  /admin
+    defaults: { _controller: EthergroupsMainBundle:Default:admin }
+
 login:
     pattern:  /login
     defaults: { _controller: EthergroupsMainBundle:Security:login }

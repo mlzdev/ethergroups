@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Translation\IdentityTranslator;
 use Ethergroups\MainBundle\Entity\Pads;
 use Symfony\Bundle\FrameworkBundle\Translation\Translator;
+use Symfony\Component\Filesystem\Filesystem;
 
 class DefaultController extends Controller {
     
@@ -617,6 +618,37 @@ class DefaultController extends Controller {
 	    
 	    return $this->render('EthergroupsMainBundle:Default:policy.html.twig', array('form'=>$form->createView()));
 	}
+        
+        /**
+         * This function shows the admin area
+         */
+        public function adminAction(Request $request) {
+            $translator = $this->get('translator');
+            $fs = new Filesystem();
+            
+            $texts = new \stdClass();
+            $texts->de = $translator->trans('logininfo', array(), 'frontpage', 'de');
+            $texts->en = $translator->trans('logininfo', array(), 'frontpage', 'en');
+            
+            $form = $this->createFormBuilder($texts)
+                    ->add('de', 'textarea')
+                    ->add('en', 'textarea')
+                    ->add('save', 'submit')
+                    ->getForm();
+            
+            $form->handleRequest($request);
+
+            if ($form->isValid()) {
+                $textDE = "logininfo: |\n  ".preg_replace("/\n/", "\n  ", $texts->de);
+                $textEN = "logininfo: |\n  ".preg_replace("/\n/", "\n  ", $texts->en);
+                $dir = dirname(__DIR__)."/Resources/translations/";
+                
+                $fs->dumpFile($dir."frontpage.de.yml", $textDE);
+                $fs->dumpFile($dir."frontpage.en.yml", $textEN);
+            }
+            
+            return $this->render('EthergroupsMainBundle:Default:admin.html.twig', array('form'=>$form->createView()));
+        }
 	
 	/**
 	 * Split the pad id into group id and pad name
