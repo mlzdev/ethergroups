@@ -1,6 +1,10 @@
 admin:
     pattern:  /admin
     defaults: { _controller: EthergroupsMainBundle:Default:admin }
+    
+clearCache:
+    pattern:  /admin/clearCache
+    defaults: { _controller: EthergroupsMainBundle:Default:clearCache }
 
 login:
     pattern:  /login

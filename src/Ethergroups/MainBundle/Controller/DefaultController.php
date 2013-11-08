@@ -649,6 +649,25 @@ class DefaultController extends Controller {
             
             return $this->render('EthergroupsMainBundle:Default:admin.html.twig', array('form'=>$form->createView()));
         }
+        
+        public function clearCacheAction() {
+            $this->execute('cache:clear');
+            
+            return $this->redirect($this->generateUrl('admin'));
+        }
+        
+        private function execute($command)
+        {
+            $app = new \Symfony\Bundle\FrameworkBundle\Console\Application($this->get('kernel'));
+            $app->setAutoExit(false);
+
+            $input = new \Symfony\Component\Console\Input\StringInput($command);
+            $output = new \Symfony\Component\Console\Output\NullOutput();
+
+            $error = $app->run($input, $output);
+
+            return $error;
+        }
 	
 	/**
 	 * Split the pad id into group id and pad name
