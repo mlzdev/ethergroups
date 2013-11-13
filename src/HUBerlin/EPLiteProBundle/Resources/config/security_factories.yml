@@ -1,5 +1,0 @@
-services:
-    security.authentication.factory.ldap:
-        class:  HUBerlin\EPLiteProBundle\DependencyInjection\Security\Factory\LdapFactory
-        tags:
-            - { name: security.listener.factory }

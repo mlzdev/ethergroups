@@ -1,0 +1,49 @@
+{% extends 'EthergroupsMainBundle::layout.html.twig' %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	<link href="{{ asset('/bundles/ethergroupsmain/css/login.css') }}" type="text/css" rel="stylesheet" />
+{% endblock %}
+
+{% block javascript %}
+{{ parent() }}
+<script type="text/javascript">
+$(function() {
+    $('#username').focus();
+});
+</script>
+{% endblock %}
+
+{% block menu %}
+	<div class="headerbaritem headerbaritemactive">Anmelden</div>
+	{{ parent() }}
+{% endblock %}
+
+{% block header_buttons %}
+{% endblock %}
+
+{% block content %}
+<div id="loginwrapper">
+    <div id="loginpanel">
+    	<div class="login">
+    		<form action="{{ path('login_check') }}" method="post">
+    			<div class="loginform">
+    				<label for="username">{{ 'username'|trans }}</label><br />
+    				<input type="text" id="username" name="_username" value="{{ last_username }}" /><br />
+    				<label for="password">{{ 'password'|trans }}</label><br />
+    				<input type="password" id="password" name="_password" /><br />
+    				<input type="hidden" name="_target_path" value="/" />
+    				{% if error %}
+    					<div class="error">{{ error.message }}</div>
+    				{% endif %}
+    			</div>
+    			<button type="submit">{{ 'log-in'|trans }}</button>
+    			<a href="{{ forgotpasswordurl }}">{{ 'forgotpassword'|trans }}</a>
+    		</form>
+    	</div>
+	</div>
+	<div id="logininfopanel">
+	    <div id="logininfo">{{ 'logininfo'|trans({},"frontpage")|raw }}</div>
+	</div>
+</div>
+{% endblock %}

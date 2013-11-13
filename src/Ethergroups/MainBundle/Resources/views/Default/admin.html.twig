@@ -1,0 +1,32 @@
+{% extends 'EthergroupsMainBundle::layout.html.twig' %}
+
+{% block stylesheets %}
+{{ parent() }}
+<style type="text/css">
+    textarea {
+        width: 1200px;
+        height: 320px;
+    }
+    #form div {
+        margin-bottom: 20px;
+    }
+    #form_save {
+        width: 80px;
+        height: 30px;
+    }
+    #clearCache {
+        width: 100px;
+        height: 30px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+{{ form(form) }}
+
+<form method="POST" action="{{ path('clearCache') }}">
+    <button id="clearCache" type="submit">Cache leeren</button>
+</form>
+
+{% endblock %}
