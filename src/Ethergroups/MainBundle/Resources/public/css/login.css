@@ -2,14 +2,13 @@
 
 #loginpanel {
 	float: left;
-	width: 30%;
+	width: 18%;
 }
 
 #logininfopanel {
 	float: left;
-	width: 50%;
-	border-left: 1px solid black;
-	padding-left: 40px;
+	width: 60%;
+	padding-left: 20px;
 }
 
 .login form {
