@@ -47,11 +47,11 @@ class Groups
     private $creationdate;
     
     /**
-     * @var User $user
+     * @var Users $user
      *
-     * @ORM\ManyToMany(targetEntity="User", indexBy="uid", inversedBy="groups")
+     * @ORM\ManyToMany(targetEntity="Users", indexBy="uid", inversedBy="groups")
      */
-    private $user;
+    private $users;
     
     /**
      * @var User $userRequests
@@ -209,19 +209,19 @@ public function upload()
      */
     public function __construct()
     {
-        $this->user = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->users = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
     /**
      * Add user
      *
-     * @param \Ethergroups\MainBundle\Entity\User $user
+     * @param \Ethergroups\MainBundle\Entity\Users $user
      * @return Groups
      */
     public function addUser(\Ethergroups\MainBundle\Entity\User $user)
     {
-        if(!$this->user->containsKey($user->getUid())) {
-            $this->user[] = $user;
+        if(!$this->users->containsKey($user->getUid())) {
+            $this->users[] = $user;
             return $this;
         }
         else {
@@ -232,11 +232,11 @@ public function upload()
     /**
      * Remove user
      *
-     * @param \Ethergroups\MainBundle\Entity\User $user
+     * @param \Ethergroups\MainBundle\Entity\Users $user
      */
-    public function removeUser(\Ethergroups\MainBundle\Entity\User $user)
+    public function removeUser(\Ethergroups\MainBundle\Entity\Users $user)
     {
-        $this->user->removeElement($user);
+        $this->users->removeElement($user);
     }
 
     /**
@@ -244,13 +244,13 @@ public function upload()
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getUser()
+    public function getUsers()
     {
-        return $this->user;
+        return $this->users;
     }
     
-    public function getActivatedUser() {
-        return $this->user->filter(function($elem) {
+    public function getActivatedUsers() {
+        return $this->users->filter(function($elem) {
             if($elem->getIsActivated()) return $elem;
         });
     }
