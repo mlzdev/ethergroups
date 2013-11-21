@@ -314,10 +314,10 @@ public function upload()
     /**
      * Add userRequests
      *
-     * @param \Ethergroups\MainBundle\Entity\User $userRequests
+     * @param \Ethergroups\MainBundle\Entity\Users $userRequests
      * @return Groups
      */
-    public function addUserRequest(\Ethergroups\MainBundle\Entity\User $userRequests)
+    public function addUserRequest(\Ethergroups\MainBundle\Entity\Users $userRequests)
     {
         $this->userRequests[] = $userRequests;
     
@@ -327,9 +327,9 @@ public function upload()
     /**
      * Remove userRequests
      *
-     * @param \Ethergroups\MainBundle\Entity\User $userRequests
+     * @param \Ethergroups\MainBundle\Entity\Users $userRequests
      */
-    public function removeUserRequest(\Ethergroups\MainBundle\Entity\User $userRequests)
+    public function removeUserRequest(\Ethergroups\MainBundle\Entity\Users $userRequests)
     {
         $this->userRequests->removeElement($userRequests);
     }
