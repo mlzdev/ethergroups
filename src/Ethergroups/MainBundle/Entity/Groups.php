@@ -211,7 +211,7 @@ public function upload()
      * @param \Ethergroups\MainBundle\Entity\Users $user
      * @return Groups
      */
-    public function addUser(\Ethergroups\MainBundle\Entity\User $user)
+    public function addUser(\Ethergroups\MainBundle\Entity\Users $user)
     {
         if(!$this->users->containsKey($user->getUid())) {
             $this->users[] = $user;
