@@ -6,7 +6,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Entities\User;
+use Entities\Users;
 
 class LDAPCommand extends ContainerAwareCommand {
     
@@ -28,7 +28,7 @@ class LDAPCommand extends ContainerAwareCommand {
         $grouphandler = $this->getContainer()->get('grouphandler');
         
         // Get all local users
-        $localusers = $em->getRepository('EthergroupsMainBundle:User')->findAll();
+        $localusers = $em->getRepository('EthergroupsMainBundle:Users')->findAll();
         
         foreach ($localusers as $localuser) {
             // Is the user in ldap yet?

@@ -7,14 +7,14 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * Ethergroups\MainBundle\Entity\User
+ * Ethergroups\MainBundle\Entity\Users
  *
- * @ORM\Table(name="User")
+ * @ORM\Table(name="Users")
  * @ORM\Entity
  * @UniqueEntity("uid")
  * 
  */
-class User implements UserInterface
+class Users implements UserInterface
 {
     /**
      * @var integer $id
@@ -91,7 +91,7 @@ class User implements UserInterface
     /**
      * @var Groups $groups
      *
-     * @ORM\ManyToMany(targetEntity="Groups", indexBy="id", mappedBy="user")
+     * @ORM\ManyToMany(targetEntity="Groups", indexBy="id", mappedBy="users")
      * @ORM\OrderBy({"name" = "ASC"})
      */
     private $groups;
@@ -313,7 +313,7 @@ class User implements UserInterface
      * Set isenabled
      *
      * @param boolean $isenabled
-     * @return User
+     * @return Users
      */
     public function setIsenabled($isenabled)
     {
@@ -359,7 +359,7 @@ class User implements UserInterface
      * Add groups
      *
      * @param \Ethergroups\MainBundle\Entity\Groups $groups
-     * @return User
+     * @return Users
      */
     public function addGroup(\Ethergroups\MainBundle\Entity\Groups $groups)
     {
@@ -392,7 +392,7 @@ class User implements UserInterface
      * Set authorid
      *
      * @param string $authorid
-     * @return User
+     * @return Users
      */
     public function setAuthorid($authorid)
     {
@@ -415,7 +415,7 @@ class User implements UserInterface
      * Set language
      *
      * @param string $language
-     * @return User
+     * @return Users
      */
     public function setLanguage($language)
     {
@@ -438,7 +438,7 @@ class User implements UserInterface
      * Set policyagreed
      *
      * @param boolean $policyagreed
-     * @return User
+     * @return Users
      */
     public function setPolicyagreed($policyagreed)
     {
