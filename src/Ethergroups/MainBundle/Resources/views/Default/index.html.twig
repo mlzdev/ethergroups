@@ -226,7 +226,7 @@ $(function() {
             </form>
             <span class="actions">
                 <a href="#" style="display: none" class="editgroup" ><img src="{{ asset('bundles/ethergroupsmain/images/edit.png') }}" /> </a>
-                <a href="{{ path('group_delete', {id: group.id}) }}" class="group_delete {% if group.activatedUser.count == 1 %}last{% endif %}"> <img src="{{ asset('bundles/ethergroupsmain/images/delete.png') }}" /> </a>
+                <a href="{{ path('group_delete', {id: group.id}) }}" class="group_delete {% if group.activatedUsers.count == 1 %}last{% endif %}"> <img src="{{ asset('bundles/ethergroupsmain/images/delete.png') }}" /> </a>
             </span>
             <img width="20" class="loader" style="display: none" src="{{ asset('bundles/ethergroupsmain/images/loader.gif') }}"/>
         </div>
@@ -235,10 +235,10 @@ $(function() {
                 <span class="creationdate">({{ group.creationdate.date | date('d.m.Y')}})</span>
             </div>
             <div class="user">
-                <a href="#" class="userinfo" style="display: none"><span class="usernumber">{{ 'user'|trans }} ({{ group.activatedUser.count }}/{{ group.user.count }})</span> <img alt="plus" src="{{ asset('bundles/ethergroupsmain/images/plus.png') }}" /><img alt="minus" src="{{ asset('bundles/ethergroupsmain/images/minus.png') }}" style="display:none"/></a>
+                <a href="#" class="userinfo" style="display: none"><span class="usernumber">{{ 'user'|trans }} ({{ group.activatedUsers.count }}/{{ group.users.count }})</span> <img alt="plus" src="{{ asset('bundles/ethergroupsmain/images/plus.png') }}" /><img alt="minus" src="{{ asset('bundles/ethergroupsmain/images/minus.png') }}" style="display:none"/></a>
                 <div class="usernames">
                     <div>
-                        {% for user in group.user %} 
+                        {% for user in group.users %} 
                             <span class="{% if user.isactivated == false %}notactivated{% endif %}" title="{{ user.uid }}{% if user.isactivated == false %} (not activated){% endif %}">{{ user.name }}</span>&nbsp;
                         {% endfor %}
                     </div>

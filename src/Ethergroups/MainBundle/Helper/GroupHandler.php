@@ -15,13 +15,13 @@ class GroupHandler {
     }
     
     public function removeUser($group, $user) {
-        $groupUser = $group->getUser();
+        $groupUsers = $group->getUsers();
         
         $notice = '';
         
-        if($groupUser->containsKey($user->getUid())) { // Is the user in the group
+        if($groupUsers->containsKey($user->getUid())) { // Is the user in the group
              
-            if($groupUser->count()==1) { // Last user -> remove group
+            if($groupUsers->count()==1) { // Last user -> remove group
                 $notice = $this->deleteGroup($group);
             }
             else { // Just remove user from group

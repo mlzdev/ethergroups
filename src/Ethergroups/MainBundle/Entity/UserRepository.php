@@ -29,7 +29,7 @@ class UserRepository implements UserProviderInterface {
     public function loadUserByUsername($username, $activate = true) {
         // Build the query to fetch the user
         $q = $this->entityManager
-                ->getRepository('Ethergroups\MainBundle\Entity\User')
+                ->getRepository('Ethergroups\MainBundle\Entity\Users')
                 ->createQueryBuilder('u')
                 ->where('u.uid = :username')
                 ->setParameter('username', $username)
@@ -41,7 +41,7 @@ class UserRepository implements UserProviderInterface {
             $user = $q->getSingleResult();
         } catch (NoResultException $e) {
 //             throw new UsernameNotFoundException(sprintf('Benutzer "%s" scheint nicht in der lokalen Benutzerdatenbank zu existieren.', $username), null, 0, $e);
-            $user = new User();
+            $user = new Users();
             $user->setUid($username);
             $user->setIsadmin(false);
             $user->setIsenabled(true);
@@ -111,7 +111,7 @@ class UserRepository implements UserProviderInterface {
     }
 
     public function supportsClass($class) {
-        return 'Ethergroups\MainBundle\Entity\User' === $class || is_subclass_of($class, 'Ethergroups\MainBundle\Entity\User');
+        return 'Ethergroups\MainBundle\Entity\Users' === $class || is_subclass_of($class, 'Ethergroups\MainBundle\Entity\Users');
     }
 
 }
