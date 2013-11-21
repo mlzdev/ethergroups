@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Ethergroups\MainBundle\Entity\Groups;
-use Ethergroups\MainBundle\Entity\User;
+use Ethergroups\MainBundle\Entity\Users;
 
 class GroupController extends Controller {
     
