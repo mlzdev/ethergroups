@@ -293,7 +293,7 @@ class DefaultController extends Controller {
 	                 $userProvider->updateUser($user);
 	                 
 	                 // Is the user already a member of this group?
-	                 if($group->getUser()->contains($user)) {
+	                 if($group->getUsers()->contains($user)) {
 	                     $this->get('session')
 	                     ->getFlashBag()->set('notice', $translator->trans('userExistsInGroup', array(), 'notifications'));
 	                 }
