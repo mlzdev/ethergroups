@@ -13,11 +13,14 @@ class GroupHandler {
         $this->em = $em;
         $this->etherpadlite = $etherpadlite;
     }
-    
+
+    /**
+     * @param \Ethergroups\MainBundle\Entity\Groups $group
+     * @param \Ethergroups\MainBundle\Entity\Users $user
+     * @return string
+     */
     public function removeUser($group, $user) {
         $groupUsers = $group->getUsers();
-        
-        $notice = '';
         
         if($groupUsers->containsKey($user->getUid())) { // Is the user in the group
              
@@ -37,8 +40,12 @@ class GroupHandler {
         
         return $notice;
     }
-    
-	public function deleteGroup($group) {
+
+    /**
+     * @param \Ethergroups\MainBundle\Entity\Groups $group
+     * @return string
+     */
+    public function deleteGroup($group) {
 	    
 	    try {
 	        $this->etherpadlite->deleteGroup($group->getGroupid());

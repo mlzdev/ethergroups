@@ -2,7 +2,10 @@
 
 namespace Ethergroups\MainBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Ethergroups\MainBundle\Entity\Groups;
+use Symfony\Component\Security\Core\Role\Role;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -203,7 +206,7 @@ class Users implements UserInterface
      */
     public function __construct()
     {
-        $this->permissions = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->permissions = new ArrayCollection();
     }
 
     /**
@@ -358,10 +361,10 @@ class Users implements UserInterface
     /**
      * Add groups
      *
-     * @param \Ethergroups\MainBundle\Entity\Groups $groups
+     * @param Groups $groups
      * @return Users
      */
-    public function addGroup(\Ethergroups\MainBundle\Entity\Groups $groups)
+    public function addGroup(Groups $groups)
     {
         $this->groups[] = $groups;
     
@@ -371,9 +374,9 @@ class Users implements UserInterface
     /**
      * Remove groups
      *
-     * @param \Ethergroups\MainBundle\Entity\Groups $groups
+     * @param Groups $groups
      */
-    public function removeGroup(\Ethergroups\MainBundle\Entity\Groups $groups)
+    public function removeGroup(Groups $groups)
     {
         $this->groups->removeElement($groups);
     }

@@ -6,6 +6,7 @@
 /app/config/parameters.yml
 .DS_Store
 /.settings/
+/.idea
 /.project
 /.buildpath
 /web/uploads/*
