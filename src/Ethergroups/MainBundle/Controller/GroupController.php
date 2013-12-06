@@ -11,9 +11,11 @@ use Ethergroups\MainBundle\Entity\Users;
 class GroupController extends Controller {
     
     public function confirmAction(Request $request, $id) {
+        $translator = $this->get('translator');
+
         if(!$id) {
             $this->get('session')
-            ->getFlashBag()->set('notice', 'Bitte geben Sie eine gültige id an.');
+                ->getFlashBag()->set('notice', $translator->trans('invalidID', array(), 'notifications'));
             return $this->redirect($this->generateUrl('base'));
         }
         
@@ -40,9 +42,11 @@ class GroupController extends Controller {
     }
     
     public function declineAction(Request $request, $id) {
+        $translator = $this->get('translator');
+
         if(!$id) {
             $this->get('session')
-            ->getFlashBag()->set('notice', 'Bitte geben Sie eine gültige id an.');
+                ->getFlashBag()->set('notice', $translator->trans('invalidID', array(), 'notifications'));
             return $this->redirect($this->generateUrl('base'));
         }
         
