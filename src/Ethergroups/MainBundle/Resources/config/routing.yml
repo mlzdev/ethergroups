@@ -55,6 +55,10 @@ group_removePicture:
 group_rename:
     pattern:    /group/rename/{id}
     defaults:   { _controller: EthergroupsMainBundle:Default:rename, id: 0 }
+
+group_isLast:
+    pattern:    /group/islast/{id}
+    defaults:   { _controller: EthergroupsMainBundle:Group:isLast, id: 0 }
     
 pad:
     pattern:   /pad/{padid}

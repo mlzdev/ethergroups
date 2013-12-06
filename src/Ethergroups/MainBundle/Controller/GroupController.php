@@ -70,4 +70,27 @@ class GroupController extends Controller {
         
         return $this->redirect($this->generateUrl('base'));
     }
+
+    public function isLastAction(Request $request, $id) {
+        $translator = $this->get('translator');
+
+        if(!$id) {
+            $this->get('session')
+                ->getFlashBag()->set('notice', $translator->trans('invalidID', array(), 'notifications'));
+            return $this->redirect($this->generateUrl('base'));
+        }
+
+        $em = $this->getDoctrine()->getManager();
+
+        /** @var $group Groups */
+        $group = $em->getRepository('EthergroupsMainBundle:Groups')->find($id);
+        $user = $this->getUser();
+
+        $isLast = false;
+        if($group->getUsers()->count() == 1) {
+            $isLast = true;
+        }
+
+        return new JsonResponse(array('last'=>$isLast));
+    }
 }

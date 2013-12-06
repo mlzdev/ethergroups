@@ -1,26 +1,30 @@
 function removeGroupHandler(obj) {
 	obj.click(function(e) {
 		e.preventDefault();
-		
-		var dialog;
-		if(obj.hasClass('last')) {
-			dialog = $('#removeGroupLastDialog');
-		}
-		else {
-			dialog = $('#removeGroupDialog');
-		}
-		
-		handleDialog(dialog, function(pageUnblock) {
-			$.get(obj.attr('href'), function(data) {
-				data = $(data);
-				obj.parent().parent().parent().hide('drop', function() {
-	    		    $(this).remove();
-	        	});
-				flashmessages.show(data.find('#flash-messages'));
-				pageUnblock();
-			});
-		});
-	});
+
+        $.getJSON(obj.next().attr('href'), function(data) {
+            var dialog;
+
+            if(data.last) {
+                dialog = $('#removeGroupLastDialog');
+            }
+            else {
+                dialog = $('#removeGroupDialog');
+            }
+
+            handleDialog(dialog, function(pageUnblock) {
+                $.get(obj.attr('href'), function(data) {
+                    data = $(data);
+                    obj.parent().parent().parent().hide('drop', function() {
+                        $(this).remove();
+                    });
+                    flashmessages.show(data.find('#flash-messages'));
+                    pageUnblock();
+                });
+            });
+
+        });
+    });
 }
 
 function handleDialog(obj, yesFunction) {

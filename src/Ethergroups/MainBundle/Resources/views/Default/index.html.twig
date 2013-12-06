@@ -44,6 +44,7 @@
             <span class="actions">
                 <a href="#" style="display: none" class="editgroup" ><img src="{{ asset('bundles/ethergroupsmain/images/edit.png') }}" /> </a>
                 <a href="{{ path('group_delete', {id: group.id}) }}" class="group_delete {% if group.users.count == 1 %}last{% endif %}"> <img src="{{ asset('bundles/ethergroupsmain/images/delete.png') }}" /> </a>
+                <a href="{{ path('group_isLast', {id: group.id}) }}" class="group_islast" style="display: none"></a>
             </span>
             <img width="20" class="loader" style="display: none" src="{{ asset('bundles/ethergroupsmain/images/loader.gif') }}"/>
         </div>
