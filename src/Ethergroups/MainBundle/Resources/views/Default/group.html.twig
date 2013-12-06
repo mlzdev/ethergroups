@@ -7,8 +7,10 @@
 
 {% block javascript %}
 {{ parent() }}
-<script src="{{ asset('bundles/ethergroupsmain/js/jquery.iframe-post-form.js') }}"></script>
-<script src="{{ asset('bundles/ethergroupsmain/js/groupPicture.js') }}"></script>
+<script src="{{ asset('bundles/ethergroupsmain/js/libs/jquery.iframe-post-form.js') }}"></script>
+
+<script src="{{ asset('bundles/ethergroupsmain/js/uploadGroupPicture.js') }}"></script>
+
 <script type="text/javascript">
 $(function() {
 	var uploadGroupPicture = new UploadGroupPicture({

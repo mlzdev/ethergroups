@@ -46,7 +46,7 @@ class DefaultController extends Controller {
 			$form->bind($request);
 			if ($form->isValid()) {
 
-				$groupid = $etherpadlite->createGroup();
+                $groupid = $etherpadlite->createGroup();
 
 				$group->setGroupid($groupid->groupID);
 				$group->setCreationDate(new \DateTime());
@@ -79,9 +79,8 @@ class DefaultController extends Controller {
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
 	 */
 	public function deleteGroupAction($id = null) {
-	    $eplite = $this->get('etherpadlite');
 	    $translator = $this->get('translator');
-	    
+
 	    $em = $this->getDoctrine()->getManager();
 	    $group = $em->getRepository('EthergroupsMainBundle:Groups')->find($id);
 	    
@@ -101,14 +100,14 @@ class DefaultController extends Controller {
 	    return $this->redirect($this->generateUrl('base'));
 	    
 	}
-	
-	/**
-	 * Rename a group and return Json with the new name
-	 * 
-	 * @param Request $request
-	 * @param number $id    The group id
-	 * @return \Symfony\Component\HttpFoundation\JsonResponse
-	 */
+
+    /**
+     * Rename a group and return Json with the new name
+     *
+     * @param Request $request
+     * @param int|number $id The group id
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
 	public function renameAction(Request $request, $id=0) {
 	    if ($request->isMethod('POST') && $request->isXmlHttpRequest()) {
 	        
@@ -253,14 +252,14 @@ class DefaultController extends Controller {
 	    }
 	    return $lastEdited;
 	}
-	
-	/**
-	 * Add a user to a group
-	 * 
-	 * @param number $id    group id
-	 * @param Request $request
-	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
-	 */
+
+    /**
+     * Add a user to a group
+     *
+     * @param int|number $id group id
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
 	public function addUserAction ($id=0, Request $request) {
 	    $em = $this->getDoctrine()->getManager();
 	    $translator = $this->get('translator');
@@ -345,14 +344,14 @@ class DefaultController extends Controller {
 	    
 	    return $this->redirect($this->generateUrl('base'));
 	}
-	
-	/**
-	 * Add a picture to a group and return the url to the picture
-	 * 
-	 * @param Request $request
-	 * @param number $id    group id
-	 * @return \Symfony\Component\HttpFoundation\Response
-	 */
+
+    /**
+     * Add a picture to a group and return the url to the picture
+     *
+     * @param Request $request
+     * @param int|number $id group id
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
 	public function addPictureAction (Request $request, $id=0) {
 	    $em = $this->getDoctrine()->getManager();
 	    $group = $em->getRepository('EthergroupsMainBundle:Groups')
@@ -367,14 +366,14 @@ class DefaultController extends Controller {
 	    
 	    return new Response($json);
 	}
-	
-	/**
-	 * Remove the picture of a group
-	 * 
-	 * @param Request $request
-	 * @param number $id    group id
-	 * @return \Symfony\Component\HttpFoundation\JsonResponse
-	 */
+
+    /**
+     * Remove the picture of a group
+     *
+     * @param Request $request
+     * @param int|number $id group id
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
 	public function removePictureAction(Request $request, $id=0) {
 	    $em = $this->getDoctrine()->getManager();
 	    $group = $em->getRepository('EthergroupsMainBundle:Groups')
@@ -387,13 +386,13 @@ class DefaultController extends Controller {
 	    return new JsonResponse(array('success'=>true));
 	}
 
-	/**
-	 * Show the pad | Add Password
-	 * 
-	 * @param number $padid    pad id
-	 * @param Request $request
-	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-	 */
+    /**
+     * Show the pad | Add Password
+     *
+     * @param int|number $padid pad id
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
 	public function padAction($padid = 0, Request $request) {
 	    $em = $this->getDoctrine()->getManager();
 	    $translator = $this->get('translator');
@@ -453,13 +452,13 @@ class DefaultController extends Controller {
 		return $this->render('EthergroupsMainBundle:Default:pad.html.twig',
 						array('group' => $group, 'pad' => $pad, 'padid' => $padid, 'padname' => $padname, 'url' => $url, 'ispublic' => $ispublic, 'form' => $form->createView(), 'isPasswordProtected' => $isPasswordProtected));
 	}
-	
-	/**
-	 * Remove the password from the pad
-	 * 
-	 * @param number $padid     The pad id
-	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
-	 */
+
+    /**
+     * Remove the password from the pad
+     *
+     * @param int|number $padid The pad id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
 	public function deletePasswordAction($padid = 0) {
 	    $translator = $this->get('translator');
 	    $eplite = $this->get('etherpadlite');
@@ -489,13 +488,13 @@ class DefaultController extends Controller {
 	    $em->remove($pad);
 	    $em->flush();
 	}
-	
-	/**
-	 * Remove a pad
-	 * 
-	 * @param number $padid    pad id
-	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
-	 */
+
+    /**
+     * Remove a pad
+     *
+     * @param int|number $padid pad id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
 	public function deletePadAction($padid = 0) {
 	    $translator = $this->get('translator');
 	    $eplite = $this->get('etherpadlite');
@@ -520,14 +519,15 @@ class DefaultController extends Controller {
 	         
 	    return $this->redirect($this->generateUrl('group', array('id'=>$group->getId())));
 	}
-	
-	/**
-	 * Switch the public status of a pad
-	 * 
-	 * @param number $padid    the pad id
-	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
-	 */
+
+    /**
+     * Switch the public status of a pad
+     *
+     * @param int|number $padid the pad id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
 	public function switchPublicAction($padid = 0) {
+        $translator = $this->get('translator');
 	    if(!$padid) {
 	        $this->get('session')
 	        ->getFlashBag()->set('notice', $translator->trans('invalidID', array(), 'notifications'));

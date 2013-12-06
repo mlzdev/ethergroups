@@ -152,5 +152,4 @@ function UploadGroupPicture(options) {
         	leftlogo.unblock();
         });
     });
-	    
 }
