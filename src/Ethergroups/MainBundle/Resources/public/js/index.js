@@ -2,7 +2,7 @@
  * Created by timowelde on 06.12.13.
  */
 
-$(function() {
+function initIndex(pathRemovePic) {
     // Collapse other groups
     $('.group-content').hide();
 
@@ -25,7 +25,7 @@ $(function() {
 
     // initialise group picture upload
     var uploadGroupPicture = new UploadGroupPicture({
-        pathRemovePic: "{{ asset('bundles/ethergroupsmain/images/delete_red.png') }}",
+        pathRemovePic: pathRemovePic,
         pathOrigPic: $('#headerpic').attr('src')
     });
 
@@ -47,6 +47,7 @@ $(function() {
         // Clear the form
         $form.find('input[name="form[name]"]').val('');
 
+        // post form via ajax
         var posting = $.post (url, {'form[name]':fname, 'form[_token]':ftoken })
             .done(function (data) {
                 if(data.success) {
@@ -81,7 +82,6 @@ $(function() {
                     flashmessages.show(data.find('#flash-messages'));
                 }
             });
-
     });
 
     // Ajax call for expanding group, if clicked
@@ -188,5 +188,4 @@ $(function() {
         $('#pad').toggleClass('fullwidth');
         $(this).find('img').toggle();
     });
-
-});
+}
