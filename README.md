@@ -173,10 +173,14 @@ For automatic removal of in ldap deleted users, you have to add following comman
 ### URL Schema
 The URL Schema for public pads is: `http[s]://[www].[sub].[domain].[tld]/[yourDirectory]/p/[groupID]$[padID]`
 
-### Editing language strings
+### Editing language strings and mail content
 You can edit the language strings here:
 	
 	/path/to/ethergroups/src/Ethergroups/MainBundle/Resources/translations/
+	
+The mail contents can be edited here:
+
+	/path/to/ethergroups/src/Ethergroups/MainBundle/Resource/views/Mails
 	
 ### Adding another language
 To add another language, you have to add a file with the translations, according to `messages.en.yml` with the naming schema: `messages.[langCode].yml` in

@@ -1,6 +1,6 @@
 groupCreated: Gruppe erstellt!
 groupNotExistent: Diese Gruppe existiert nicht
-unvalidID: Bitte geben Sie eine gültige id an
+invalidID: Bitte geben Sie eine gültige id an
 padCreated: Pad erstellt!
 padnameExists: Padname existiert bereits!
 noUsernameGiven: Bitte geben Sie einen Benutzernamen an.

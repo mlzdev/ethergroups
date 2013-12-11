@@ -11,205 +11,22 @@
 
 {% block javascript %}
 {{ parent() }}
-<script src="{{ asset('bundles/ethergroupsmain/js/jquery.iframe-post-form.js') }}"></script>
-<script src="{{ asset('bundles/ethergroupsmain/js/jquery.blockUI.js') }}"></script>
-<script src="{{ asset('bundles/ethergroupsmain/js/groupPicture.js') }}"></script>
+<script src="{{ asset('bundles/ethergroupsmain/js/libs/jquery.iframe-post-form.js') }}"></script>
+<script src="{{ asset('bundles/ethergroupsmain/js/libs/jquery.blockUI.js') }}"></script>
+<script src="{{ asset('bundles/ethergroupsmain/js/libs/strnatcmp.js') }}" ></script>
+<script src="{{ asset('bundles/ethergroupsmain/js/libs/strcmp.js') }}" ></script>
+<script src="{{ asset('bundles/ethergroupsmain/js/libs/modernizr-build.min.js') }}" ></script>
+
+<script src="{{ asset('bundles/ethergroupsmain/js/uploadGroupPicture.js') }}"></script>
 <script src="{{ asset('bundles/ethergroupsmain/js/flashmessages.js') }}"></script>
 <script src="{{ asset('bundles/ethergroupsmain/js/pad.js') }}"></script>
 <script src="{{ asset('bundles/ethergroupsmain/js/groups.js') }}" ></script>
-<script src="{{ asset('bundles/ethergroupsmain/js/strnatcmp.js') }}" ></script>
-<script src="{{ asset('bundles/ethergroupsmain/js/strcmp.js') }}" ></script>
-<script src="{{ asset('bundles/ethergroupsmain/js/modernizr-build.min.js') }}" ></script>
+<script src="{{ asset('bundles/ethergroupsmain/js/index.js') }}" ></script>
 
 <script type="text/javascript">
-$(function() {
-	// Collapse other groups 
-    $('.group-content').hide();
-
-    // Hide actions
-    $('.actions').hide();
-
-    // Hide usernames and enable showUsernamesHandler
-    usernamesHandler();
-    // Add Submithandler to the newuser form
-    newUserHandler();
-
-    // Hide flash messages with a click
-    flashmessages.clickHandler();
-
-    // Add Handler for "remove group"
-    $('.group_delete').each(function() {
-        removeGroupHandler($(this));
-    });
-    
-
-    // initialise group picture upload
-	var uploadGroupPicture = new UploadGroupPicture({
-	    pathRemovePic: "{{ asset('bundles/ethergroupsmain/images/delete_red.png') }}",
-	    pathOrigPic: $('#headerpic').attr('src')
-	});
-
-    // Prepare newpadforms
-	var newpadform = $('.pads .newpadform');
-	
-    // Add submit handler for the newpadforms
-    newpadform.submit(function(e){
-        e.preventDefault();
-        var obj = $(this);
-        var padsloader = obj.parent().find('.loader'); 
-        padsloader.show();
-
-    	var $form = $(this), 
-        fname = $form.find('input[name="form[name]"]').val(), 
-        ftoken = $form.find('input[name="form[_token]"]').val(), 
-        url = $form.attr('action');
-
-    	// Clear the form
-    	$form.find('input[name="form[name]"]').val('');
-
-        var posting = $.post (url, {'form[name]':fname, 'form[_token]':ftoken })
-        .done(function (data) {
-            if(data.success) {
-            	data = $(data.data);
-                var padscontent = obj.parent().parent().find('.content');
-                // Get the newpad; hide it and its actions
-                var newpad = data.find('.pad').hide();
-                newpad.find('.actions').hide();
-                var newName = newpad.find('.padname').text().toLowerCase();
-                var inserted = false;
-                padscontent.children().each(function(index, element) {
-                    element = $(element);
-                    var padname = element.find('.padname').text();
-                    if(strnatcmp(newName, padname.toLowerCase()) <=0 ) {
-                        newpad.insertBefore(element);
-                        inserted = true;
-                        return false;
-                    }
-                });
-                if(!inserted) {
-                	padscontent.append(newpad);
-                }
-                padsloader.hide();
-                newpad.show('drop');
-                //newpad.slideDown();
-                removePadHandler(padscontent);
-                openPadAndGroupHandler(padscontent, padscontent.closest('.group'), uploadGroupPicture);
-            }
-            else {
-            	data = $(data.data);
-                padsloader.hide();
-                flashmessages.show(data.find('#flash-messages'));
-            }
-        });
-    
-    });
-
-    // Ajax call for expanding group, if clicked
-    $('.group-link').click(function(e) {
-        e.preventDefault();
-        
-        var obj = $(this);
-        var parent = obj.parent();
-        var group = obj.parent().parent();
-        var group_content = group.find('.group-content');
-
-        if (group_content.hasClass('expanded-new')) {
-            group_content.slideUp();
-            group_content.removeClass('expanded-new');
-        }
-        else if (!group_content.hasClass('expanded')) {
-
-            // Close other new expanded groups
-            $('.group-content.expanded-new').slideUp();
-            $('.group-content.expanded-new').removeClass('expanded-new');
-
-        	// Prepare loading process
-            parent.find('.loader').show();
-            group_content.slideUp();
-    
-            // Get the pads
-            $.get(obj.attr('href'), function(data) {
-                data = $(data);
-    
-                // Add the pads in this page
-                var padscontent = group.find('.pads .content');
-                padscontent.empty();
-                padscontent.append(data.find('#pads').html());
-    
-                // Add click handler for openPad
-                openPadAndGroupHandler(padscontent, group, uploadGroupPicture);
-                
-                // Add click handler for removePad
-                removePadHandler(padscontent);
-                parent.find('.loader').hide();
-
-                // Hide Removepad icon
-                padscontent.find('.actions').hide();
-    
-                // Add "new pad" form under the pads
-                newpadform.empty().append(data.find('#newpad').html());
-    
-                // expand actual group
-                group_content.slideDown();
-                group_content.addClass('expanded-new');
-    
-                // If no pad is open yet, open first one
-                if($('#pad-content').hasClass('empty')) {
-                    padscontent.find('a:first').click();    
-                }
-                
-            });
-        }
-    });
-
-    // Trigger click for first group
-    $('.group:first .group-link').click();
-
-    // Show group_edit button
-    var editgroup = $('.group .editgroup');
-    editgroup.show();
-
-    // Edit groupname click handler
-    editgroup.click(function(e) {
-        e.preventDefault();
-        var groupname = $(this).parent().parent();
-        var name = groupname.find('.group-link').text();
-        groupname.find('.editform input[name="groupname"]').val(name);
-        groupname.find('.group-link').toggle();
-        groupname.find('.editform').toggle();
-        groupname.find('.editform input[name="groupname"]').focus();
-    });
-
-    // groupname form submit handler
-    $('.group .editform').submit(function(e) {
-        e.preventDefault();
-        
-        var $form = $(this), 
-        fname = $form.find('input[name="groupname"]').val(), 
-        url = $form.attr('action');
-
-        var groupname = $form.parent(); 
-
-        var editloader = $form.find('.editloader');
-        editloader.show();
-        
-        $.post (url, {'groupname':fname })
-        .done(function (data) {
-            groupname.find('.group-link').text(data.newname);
-            editloader.hide();
-            groupname.find('.group-link').toggle();
-            groupname.find('.editform').toggle();
-        });
-    });
-
-    $('#togglegroups').click(function(e){
-        e.preventDefault();
-        $('#groups-menu').toggle();
-        $('#pad').toggleClass('fullwidth');
-        $(this).find('img').toggle();
-    });
-    
-});
+    $(function() {
+        initIndex("{{ asset('bundles/ethergroupsmain/images/delete_red.png') }}");
+    })
 </script>
 {% endblock %}
 
@@ -226,7 +43,8 @@ $(function() {
             </form>
             <span class="actions">
                 <a href="#" style="display: none" class="editgroup" ><img src="{{ asset('bundles/ethergroupsmain/images/edit.png') }}" /> </a>
-                <a href="{{ path('group_delete', {id: group.id}) }}" class="group_delete {% if group.activatedUsers.count == 1 %}last{% endif %}"> <img src="{{ asset('bundles/ethergroupsmain/images/delete.png') }}" /> </a>
+                <a href="{{ path('group_delete', {id: group.id}) }}" class="group_delete {% if group.users.count == 1 %}last{% endif %}"> <img src="{{ asset('bundles/ethergroupsmain/images/delete.png') }}" /> </a>
+                <a href="{{ path('group_isLast', {id: group.id}) }}" class="group_islast" style="display: none"></a>
             </span>
             <img width="20" class="loader" style="display: none" src="{{ asset('bundles/ethergroupsmain/images/loader.gif') }}"/>
         </div>
@@ -235,11 +53,14 @@ $(function() {
                 <span class="creationdate">({{ group.creationdate.date | date('d.m.Y')}})</span>
             </div>
             <div class="user">
-                <a href="#" class="userinfo" style="display: none"><span class="usernumber">{{ 'user'|trans }} ({{ group.activatedUsers.count }}/{{ group.users.count }})</span> <img alt="plus" src="{{ asset('bundles/ethergroupsmain/images/plus.png') }}" /><img alt="minus" src="{{ asset('bundles/ethergroupsmain/images/minus.png') }}" style="display:none"/></a>
+                <a href="#" class="userinfo" style="display: none"><span class="usernumber">{{ 'user'|trans }} ({{ group.users.count }}/{{ group.users.count + group.userRequests.count }})</span> <img alt="plus" src="{{ asset('bundles/ethergroupsmain/images/plus.png') }}" /><img alt="minus" src="{{ asset('bundles/ethergroupsmain/images/minus.png') }}" style="display:none"/></a>
                 <div class="usernames">
                     <div>
                         {% for user in group.users %} 
-                            <span class="{% if user.isactivated == false %}notactivated{% endif %}" title="{{ user.uid }}{% if user.isactivated == false %} (not activated){% endif %}">{{ user.name }}</span>&nbsp;
+                            <span title="{{ user.uid }}">{{ user.name }}</span>&nbsp;
+                        {% endfor %}
+                        {% for user in group.userRequests %}
+                            <span class="notactivated" title="{{ user.uid }} (not activated)">{{ user.name }}</span>&nbsp;
                         {% endfor %}
                     </div>
                     <form class="adduserform" action="{{ path('group_addUser', {id: group.id}) }}" method="post">
@@ -260,6 +81,20 @@ $(function() {
             <input type="hidden" name="picUrl" value="{% if group.getWebPath is not null %}{{ group.getWebPath }}{% endif %}" />
         </div>
     </div>
+    {% endfor %}
+    </div>
+    <div id="group-requests">
+    {% for group in groupRequests %}
+        <div id="group-{{ group.id }}" class="group">
+            <div class="group-name">
+                <a class="group-link" href="{{ path('group', {id: group.id}) }}">{{ group.name }}</a>
+                <span class="approval-actions">
+                    <a href="{{ path('group_confirm', {id: group.id}) }}" class="group_confirm"> <img src="{{ asset('bundles/ethergroupsmain/images/approve.png') }}" /> </a>
+                    <a href="{{ path('group_decline', {id: group.id}) }}" class="group_remove"> <img src="{{ asset('bundles/ethergroupsmain/images/delete.png') }}" /> </a>
+                </span>
+                <img width="20" class="loader" style="display: none" src="{{ asset('bundles/ethergroupsmain/images/loader.gif') }}"/>
+            </div>
+        </div>
     {% endfor %}
     </div>    
     <br/>
@@ -283,7 +118,7 @@ $(function() {
         <div id="pad-content" class="empty"></div>
     </div>
 
-    <img src="{{ asset('bundles/ethergroupsmain/images/loader-bar.gif') }}" id="loader-bar" style="display: none"></img>
+    <img src="{{ asset('bundles/ethergroupsmain/images/loader-bar.gif') }}" id="loader-bar" style="display: none"/>
     
     <div id="removeDialogs" style="display: none">
         <div id="removeGroupDialog" style="display: none">{{ 'removeGroupDialog'|trans({}, 'dialogs') }}</div>

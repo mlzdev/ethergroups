@@ -2,7 +2,10 @@
 
 namespace Ethergroups\MainBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Ethergroups\MainBundle\Entity\Groups;
+use Symfony\Component\Security\Core\Role\Role;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -95,6 +98,14 @@ class Users implements UserInterface
      * @ORM\OrderBy({"name" = "ASC"})
      */
     private $groups;
+    
+    /**
+     * @var Groups $groupRequests
+     * 
+     * @ORM\ManyToMany(targetEntity="Groups", indexBy="id", inversedBy="userRequests")
+     * @ORM\OrderBy({"name" = "ASC"})
+     */
+    private $groupRequests;
 
     // LDAP Attributes
     protected $attributes;
@@ -144,10 +155,12 @@ class Users implements UserInterface
     
     public function getMail() {
         $mail = $this->getSingleAttribute("mail");
-    
+        
         if (!$mail) {
-            $mail = $this->getUid() . '@htw-berlin.de';
+            $mail = $this->getUid();
         }
+        
+        $mail .= '@hu-berlin.de';
     
         return $mail;
     }
@@ -203,7 +216,7 @@ class Users implements UserInterface
      */
     public function __construct()
     {
-        $this->permissions = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->permissions = new ArrayCollection();
     }
 
     /**
@@ -358,10 +371,10 @@ class Users implements UserInterface
     /**
      * Add groups
      *
-     * @param \Ethergroups\MainBundle\Entity\Groups $groups
+     * @param Groups $groups
      * @return Users
      */
-    public function addGroup(\Ethergroups\MainBundle\Entity\Groups $groups)
+    public function addGroup(Groups $groups)
     {
         $this->groups[] = $groups;
     
@@ -371,9 +384,9 @@ class Users implements UserInterface
     /**
      * Remove groups
      *
-     * @param \Ethergroups\MainBundle\Entity\Groups $groups
+     * @param Groups $groups
      */
-    public function removeGroup(\Ethergroups\MainBundle\Entity\Groups $groups)
+    public function removeGroup(Groups $groups)
     {
         $this->groups->removeElement($groups);
     }
@@ -455,5 +468,38 @@ class Users implements UserInterface
     public function getPolicyagreed()
     {
         return $this->policyagreed;
+    }
+
+    /**
+     * Add groupRequests
+     *
+     * @param \Ethergroups\MainBundle\Entity\Groups $groupRequests
+     * @return User
+     */
+    public function addGroupRequest(\Ethergroups\MainBundle\Entity\Groups $groupRequests)
+    {
+        $this->groupRequests[] = $groupRequests;
+    
+        return $this;
+    }
+
+    /**
+     * Remove groupRequests
+     *
+     * @param \Ethergroups\MainBundle\Entity\Groups $groupRequests
+     */
+    public function removeGroupRequest(\Ethergroups\MainBundle\Entity\Groups $groupRequests)
+    {
+        $this->groupRequests->removeElement($groupRequests);
+    }
+
+    /**
+     * Get groupRequests
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getGroupRequests()
+    {
+        return $this->groupRequests;
     }
 }

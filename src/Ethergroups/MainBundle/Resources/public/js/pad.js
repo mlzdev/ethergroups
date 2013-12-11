@@ -40,7 +40,8 @@ function initPad() {
 	        d[0].id = 'temp_div';
 	        d.css({position:'absolute'});
 	        d.css({top: ifr.position().top, left:0});
-	        d.height(ifr.height());
+//	        d.height(ifr.height());
+            d.height('100%');
 	        d.width('100%');
 	    },
 	    stop: function(){

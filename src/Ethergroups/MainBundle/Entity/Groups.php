@@ -54,6 +54,13 @@ class Groups
     private $users;
     
     /**
+     * @var User $userRequests
+     * 
+     * @ORM\ManyToMany(targetEntity="Users", indexBy="uid", mappedBy="groupRequests")
+     */
+    private $userRequests;
+    
+    /**
      * @var Pads $pads
      * 
      * @OneToMany(targetEntity="Pads", mappedBy="group")
@@ -302,5 +309,38 @@ public function upload()
     public function getPads()
     {
         return $this->pads;
+    }
+
+    /**
+     * Add userRequests
+     *
+     * @param \Ethergroups\MainBundle\Entity\Users $userRequests
+     * @return Groups
+     */
+    public function addUserRequest(\Ethergroups\MainBundle\Entity\Users $userRequests)
+    {
+        $this->userRequests[] = $userRequests;
+    
+        return $this;
+    }
+
+    /**
+     * Remove userRequests
+     *
+     * @param \Ethergroups\MainBundle\Entity\Users $userRequests
+     */
+    public function removeUserRequest(\Ethergroups\MainBundle\Entity\Users $userRequests)
+    {
+        $this->userRequests->removeElement($userRequests);
+    }
+
+    /**
+     * Get userRequests
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getUserRequests()
+    {
+        return $this->userRequests;
     }
 }
