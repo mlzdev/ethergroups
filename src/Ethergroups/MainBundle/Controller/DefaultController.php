@@ -535,7 +535,7 @@ class DefaultController extends Controller {
 	    $em = $this->getDoctrine()->getManager();
 	    $repository = $em->getRepository('EthergroupsMainBundle:Pads');
 	    $pad = $repository->findOneBy(array('padid'=>$padid));
-	    $em->remove($pad);
+        if(isset($pad)) $em->remove($pad);
 	    $em->flush();
 	}
 
