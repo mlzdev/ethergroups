@@ -317,7 +317,7 @@ class DefaultController extends Controller {
 	                 $userProvider->updateUser($user);
 	                 
 	                 // Is the user already a member of this group?
-	                 if($group->getUsers()->contains($user)) {
+	                 if($group->getUsers()->contains($user) || $group->getUserRequests()->contains($user)) {
 	                     $this->get('session')
 	                     ->getFlashBag()->set('notice', $translator->trans('userExistsInGroup', array(), 'notifications'));
                          $logger->info('add user failed: user already exists in group,'.$group->getGroupid().(($logUserData)?',"'.$username.'",'.$this->getUser()->getAuthorid():''));
