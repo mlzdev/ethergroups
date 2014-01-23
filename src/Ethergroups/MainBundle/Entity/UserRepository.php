@@ -2,6 +2,7 @@
 
 namespace Ethergroups\MainBundle\Entity;
 
+use Symfony\Bridge\Monolog\Logger;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
@@ -19,11 +20,15 @@ class UserRepository implements UserProviderInterface {
     private $entityManager;
     private $etherpadlite;
     private $translator;
+    private $logger;
+    private $logUserData;
 
-    public function __construct(EntityManager $em, EtherpadLiteClient $etherpadlite, Translator $translator) {
+    public function __construct(EntityManager $em, EtherpadLiteClient $etherpadlite, Translator $translator, Logger $logger, $logUserData) {
         $this->entityManager = $em;
         $this->etherpadlite = $etherpadlite;
         $this->translator = $translator;
+        $this->logger = $logger;
+        $this->logUserData = $logUserData;
     }
 
     public function loadUserByUsername($username, $activate = true) {
@@ -56,6 +61,8 @@ class UserRepository implements UserProviderInterface {
             catch (Exception $e) {
                 throw new ErrorException(sprintf('Mapping failed with message: %s', $e->getMessage()));
             }
+
+            $this->logger->info('new user added to system'.(($this->logUserData)?','.$user->getAuthorid():''));
         }
         
         // Is the user disabled?
@@ -63,7 +70,7 @@ class UserRepository implements UserProviderInterface {
             throw new DisabledException(sprintf('Benutzer "%s" wurde vom System gesperrt', $username));
         }
         
-        // Activate User
+        // Activate User (it's the first time, the user logs in)
         if($activate && $user->getIsactivated() === false) {
             $newgroupid = $this->etherpadlite->createGroup();
             
@@ -77,6 +84,8 @@ class UserRepository implements UserProviderInterface {
             $this->etherpadlite->createGroupPad($newgroupid->groupID, $this->translator->trans('firstpadname'), $this->translator->trans('firstpadtext'));
             
             $user->setIsactivated(true);
+
+            $this->logger->info('user logged in for first time'.(($this->logUserData)?','.$user->getAuthorid():''));
         }
 
         return $user;

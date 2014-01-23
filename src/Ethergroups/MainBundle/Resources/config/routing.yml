@@ -79,3 +79,7 @@ pad_deletePassword:
 changeLanguage:
     pattern:    /changeLanguage
     defaults:   { _controller: EthergroupsMainBundle:Default:changeLanguage }
+
+changeLanguageLogin:
+    pattern:    /changeLanguageLogin
+    defaults:   { _controller: EthergroupsMainBundle:Default:changeLanguageLogin }

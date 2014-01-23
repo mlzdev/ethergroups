@@ -3,15 +3,20 @@
 namespace Ethergroups\MainBundle\Helper;
 
 use Doctrine\ORM\EntityManager;
+use Symfony\Bridge\Monolog\Logger;
 
 class GroupHandler {
     
     private $em;
     private $etherpadlite;
+    private $logger;
+    private $logUserData;
     
-    public function __construct(EntityManager $em, EtherpadLiteClient $etherpadlite) {
+    public function __construct(EntityManager $em, EtherpadLiteClient $etherpadlite, Logger $logger, $logUserData) {
         $this->em = $em;
         $this->etherpadlite = $etherpadlite;
+        $this->logger = $logger;
+        $this->logUserData = $logUserData;
     }
 
     /**
@@ -25,11 +30,13 @@ class GroupHandler {
         if($groupUsers->containsKey($user->getUid())) { // Is the user in the group
              
             if($groupUsers->count()==1) { // Last user -> remove group
+                $this->logger->info('remove user from group: is last user,'.$group->getGroupid().(($this->logUserData)?','.$user->getAuthorid():''));
                 $notice = $this->deleteGroup($group);
             }
             else { // Just remove user from group
                 $group->removeUser($user);
                 $notice = 'Sie wurden aus dieser Gruppe ausgetragen!';
+                $this->logger->info('user removed from group'.$group->getGroupid().(($this->logUserData)?','.$user->getAuthorid():''));
             }
              
             $this->em->flush();
@@ -50,6 +57,8 @@ class GroupHandler {
 	    try {
 	        $this->etherpadlite->deleteGroup($group->getGroupid());
 	        $this->em->remove($group);
+
+            $this->logger->info('group deleted,'.$group->getGroupid(). ',"'.$group->getName().'"');
 	         
 	        return 'Gruppe gelöscht';
 	         
@@ -58,9 +67,13 @@ class GroupHandler {
 	        if($e instanceof \InvalidArgumentException)
 	        {
 	            $this->em->remove($group);
-	            return 'Gruppe existiert nicht auf dem Etherpad Lite Server. Gruppe gelöscht.';
-	        }
+
+                $this->logger->info('group doesn\t exist on etherpad server: groupd deleted,'.$group->getGroupid(). ',"'.$group->getName().'"');
+
+                return 'Gruppe existiert nicht auf dem Etherpad Lite Server. Gruppe gelöscht.';
+            }
 	        else {
+                $this->logger->info('group couldn\'t be deleted,'.$group->getGroupid(). ',"'.$group->getName().'"');
 	            return 'Gruppe konnte nicht gelöscht werden';
 	        }
 	    }

@@ -41,7 +41,7 @@
                             </span>
                         {% endif %}
                             <span id="langselector">
-                                <form id="langform" action="{{ path('changeLanguage') }}" method="POST">
+                                <form id="langform" action="{% if app.security.token %}{{ path('changeLanguage') }}{% else %}{{ path('changeLanguageLogin') }}{% endif %}" method="POST">
                                     <select name="lang" >
                                         <option value="de" {% if app.request.locale == 'de' %} selected {% endif %}>Deutsch</option>
                                         <option value="en" {% if app.request.locale == 'en' %} selected {% endif %}>English</option>

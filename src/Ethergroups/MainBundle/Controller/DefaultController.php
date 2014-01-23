@@ -26,6 +26,8 @@ class DefaultController extends Controller {
 	public function indexAction(Request $request) {
 		$etherpadlite = $this->get('etherpadlite');
 		$translator = $this->get('translator');
+        $logger = $this->get('statLogger');
+        $logUserData = $this->container->getParameter('logUserData');
 
 		$user = $this->getUser();
 		
@@ -56,6 +58,8 @@ class DefaultController extends Controller {
 				$em->flush();
 
 				$this->get('session')->getFlashBag()->set('notice', $translator->trans('groupCreated', array(), 'notifications'));
+
+                $logger->info("new group added,".$group->getGroupid().',"'.$group->getName().'"'.(($logUserData)?','.$this->getUser()->getAuthorid():''));
 
 				return $this->redirect($this->generateUrl('base'));
 			}
@@ -110,16 +114,21 @@ class DefaultController extends Controller {
      */
 	public function renameAction(Request $request, $id=0) {
 	    if ($request->isMethod('POST') && $request->isXmlHttpRequest()) {
-	        
+
 	        $em = $this->getDoctrine()->getManager();
-	        $group = $em->getRepository('EthergroupsMainBundle:Groups')
+            $group = $em->getRepository('EthergroupsMainBundle:Groups')
 	        ->find($id);
-	        
+
+            $oldname = $group->getName();
 	        $newname = $request->request->get('groupname');
 	        $group->setName($newname);
 	        
 	        $em->flush();
-	        
+
+            $logger = $this->get('statLogger');
+            $logUserData = $this->container->getParameter('loguserdata');
+            $logger->info('group renamed,'.$group->getGroupid().',"'.$oldname.'->'.$newname.'"'.(($logUserData)?','.$this->getUser()->getAuthorid():''));
+
 	        return new JsonResponse(array('newname'=>$newname));
 	    }
 	}
@@ -135,6 +144,8 @@ class DefaultController extends Controller {
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\JsonResponse|number|\Symfony\Component\HttpFoundation\Response
 	 */
 	public function groupAction(Request $request, $id = null) {
+        $logger = $this->get('statLogger');
+        $logUserData = $this->container->getParameter('loguserdata');
 	    $translator = $this->get('translator');
 	    if(!$id) {
 	        $this->get('session')
@@ -180,10 +191,14 @@ class DefaultController extends Controller {
 			        $newpad->name = $newpad->name[1];
 			        $lastEdited = substr_replace($etherpadlite->getLastEdited($newpad->id)->lastEdited, "", -3);
 			        $newpad->lastEdited = $this->getLastEdited($lastEdited);
+
+                    $logger->info('new pad added,'.$newpad->id.',"'.$newpad->name.'"'.(($logUserData)?','.$this->getUser()->getAuthorid():''));
 			
 			        return new JsonResponse(array('success'=>true, 'data'=>$this->renderView('EthergroupsMainBundle:Default:newpad.html.twig', array('pad'=>$newpad))));
 			    }
 			    else {
+                    $logger->info('new pad failed: padname exists already,'.$group->getGroupId().',"'.$name.'"'.(($logUserData)?','.$this->getUser()->getAuthorid():''));
+
 			        return new JsonResponse(array('success'=>false, 'data'=>$this->renderView('EthergroupsMainBundle::layout.html.twig')));
 			    }
 			}
@@ -262,6 +277,9 @@ class DefaultController extends Controller {
      */
 	public function addUserAction ($id=0, Request $request) {
 	    $em = $this->getDoctrine()->getManager();
+        /** @var $logger \Symfony\Bridge\Monolog\Logger*/
+        $logger = $this->get('statLogger');
+        $logUserData = $this->container->getParameter('loguserdata');
 	    $translator = $this->get('translator');
 	    if(!$id) {
 	        $this->get('session')
@@ -295,6 +313,7 @@ class DefaultController extends Controller {
 	                 if($group->getUsers()->contains($user)) {
 	                     $this->get('session')
 	                     ->getFlashBag()->set('notice', $translator->trans('userExistsInGroup', array(), 'notifications'));
+                         $logger->info('add user failed: user already exists in group,'.$group->getGroupid().(($logUserData)?',"'.$username.'",'.$this->getUser()->getAuthorid():''));
 	                 }
 	                 else {
 	                     // Make the request
@@ -316,6 +335,7 @@ class DefaultController extends Controller {
                          
                          $this->get('session')
                          ->getFlashBag()->set('notice', $translator->trans('userAdded', array(), 'notifications'));
+                         $logger->info('user added to group,'.$group->getGroupid().(($logUserData)?',"'.$username.'",'.$this->getUser()->getAuthorid():''));
 	                 }
 	             }
 	             else {
@@ -327,7 +347,7 @@ class DefaultController extends Controller {
 	                     $this->get('session')
 	                     ->getFlashBag()->set('notice', $translator->trans('multipleUserFound', array(), 'notification'));
 	                 }
-	                 
+                     $logger->info('add user failed: user not found, or multiple users found,'.$group->getGroupid().(($logUserData)?',"'.$username.'",'.$this->getUser()->getAuthorid():''));
   	             }
 	        }
 	        else {
@@ -338,6 +358,7 @@ class DefaultController extends Controller {
 	    else {
 	        $this->get('session')
 	        ->getFlashBag()->set('notice', $translator->trans(groupNotExistent));
+            $logger->info('add user failed: group not existent,'.$group->getGroupid().(($logUserData)?','.$this->getUser()->getAuthorid():''));
 	    }
 	    
 
@@ -364,6 +385,10 @@ class DefaultController extends Controller {
 	    
 	    $json = json_encode(array('url'=>$group->getWebPath(), 'success'=>true));
 	    
+        $logger = $this->get('statLogger');
+        $logUserData = $this->container->getParameter('loguserdata');
+        $logger->info('picture added,'.$group->getGroupid().(($logUserData)?','.$this->getUser()->getAuthorid():''));
+	    
 	    return new Response($json);
 	}
 
@@ -383,6 +408,10 @@ class DefaultController extends Controller {
 	    
 	    $em->flush();
 	    
+        $logger = $this->get('statLogger');
+        $logUserData = $this->container->getParameter('loguserdata');
+        $logger->info('picture removed,'.$group->getGroupid().(($logUserData)?','.$this->getUser()->getAuthorid():''));
+	    
 	    return new JsonResponse(array('success'=>true));
 	}
 
@@ -397,6 +426,8 @@ class DefaultController extends Controller {
 	    $em = $this->getDoctrine()->getManager();
 	    $translator = $this->get('translator');
         $etherpadlite = $this->get('etherpadlite');
+        $logger = $this->get('statLogger');
+        $logUserData = $this->container->getParameter('loguserdata');
 		
 	    $padsplit = $this->splitPadid($padid);
 	    
@@ -435,8 +466,12 @@ class DefaultController extends Controller {
 		            $em->flush();
 		            
 		            $this->get('session')->getFlashBag()->set('notice', $translator->trans('passCreated', array(), 'notifications'));
+
+                    $logger->info('password added,'.$pad->getPadid().(($logUserData)?','.$this->getUser()->getAuthorid():''));
+
 		        } catch (\Exception $e) {
 		            $this->get('session')->getFlashBag()->set('notice', $translator->trans('passError', array(), 'notifications'));
+                    $logger->info('add password failure,'.$pad->getPadid().(($logUserData)?','.$this->getUser()->getAuthorid():''));
 		        }
 		        return $this->redirect($this->generateUrl('pad', array('padid' => $padid)));
 		    }
@@ -462,6 +497,8 @@ class DefaultController extends Controller {
 	public function deletePasswordAction($padid = 0) {
 	    $translator = $this->get('translator');
 	    $eplite = $this->get('etherpadlite');
+        $logger = $this->get('statLogger');
+        $logUserData = $this->container->getParameter('loguserdata');
 	    
 	    if(!$padid) {
 	        $this->get('session')
@@ -473,6 +510,7 @@ class DefaultController extends Controller {
 	        $eplite->setPassword($padid, null);
 	        $this->removePasswordFromDatabase($padid);
 	        $this->get('session')->getFlashBag()->set('notice', $translator->trans('passRemoved', array(), 'notifications'));
+            $logger->info('password removed,'.$padid.(($logUserData)?','.$this->getUser()->getAuthorid():''));
 	    }
 	    catch (\Exception $e) {
 	        $this->get('session')->getFlashBag()->set('notice', $translator->trans('removePassError', array(), 'notifications'));
@@ -498,6 +536,8 @@ class DefaultController extends Controller {
 	public function deletePadAction($padid = 0) {
 	    $translator = $this->get('translator');
 	    $eplite = $this->get('etherpadlite');
+        $logger = $this->get('statLogger');
+        $logUserData = $this->container->getParameter('loguserdata');
 	    
 	    if(!$padid) {
 	        $this->get('session')
@@ -508,6 +548,7 @@ class DefaultController extends Controller {
 	    try {
 	        $eplite->deletePad($padid);
 	        $this->removePasswordFromDatabase($padid);
+            $logger->info('pad removed,'.$padid.(($logUserData)?','.$this->getUser()->getAuthorid():''));
 	    }
 	    catch (\Exception $e) {
 	        $this->get('session')
@@ -534,6 +575,8 @@ class DefaultController extends Controller {
 	    }
 	    
 	    $etherpadlite = $this->get('etherpadlite');
+        $logger = $this->get('statLogger');
+        $logUserData = $this->container->getParameter('loguserdata');
 	    
 	    try {
 	        $ispublic = $etherpadlite->getPublicStatus($padid)->publicStatus;
@@ -546,6 +589,7 @@ class DefaultController extends Controller {
 	    
 	    try {
 	        $etherpadlite->setPublicStatus($padid, !$ispublic);
+            $logger->info('public status to '.((!$ispublic)?'true':'false').','.$padid.(($logUserData)?','.$this->getUser()->getAuthorid():''));
 	    }
 	    catch (\Exception $e) {
 	        // TODO better error handling
@@ -558,12 +602,27 @@ class DefaultController extends Controller {
 	}
 	
 	/**
-	 * Change the Language of the whole site
+	 * Change the Language of the whole site w/o login site
 	 * 
 	 * @param Request $request
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
 	 */
 	public function changeLanguageAction(Request $request) {
+        $logUserData = $this->container->getParameter('loguserdata');
+        return $this->changeLanguage($request, $logUserData);
+    }
+
+    /**
+     * Change language of the login site
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function changeLanguageLoginAction(Request $request) {
+        return $this->changeLanguage($request, false);
+    }
+
+    private function changeLanguage(Request $request, $logUserData) {
 	    if($request->isMethod('POST')) {
 	        if($lang = $request->request->get('lang')) {
 	            //$user = $this->get('security.context')->getToken()->getUser();
@@ -577,6 +636,9 @@ class DefaultController extends Controller {
 	                $em->flush();
 	                */
 	                $request->getSession()->set('_locale', $lang);
+
+                    $logger = $this->get('statLogger');
+                    $logger->info('language changed to '.$lang.(($logUserData)?','.$this->getUser()->getAuthorid():''));
 	            }
 	        }
 	    }
