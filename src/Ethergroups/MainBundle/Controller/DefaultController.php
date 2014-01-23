@@ -141,6 +141,7 @@ class DefaultController extends Controller {
      *
      * @param Request $request
      * @param number $id - The id of the group
+     * @throws \Exception throws an exception, if an unexpected error occurs with the etherpad server
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\JsonResponse|number|\Symfony\Component\HttpFoundation\Response
      */
 	public function groupAction(Request $request, $id = null) {
@@ -177,9 +178,12 @@ class DefaultController extends Controller {
 				    $name = str_replace(array('/', '\\'), '', $pad->name);
 					$pad = $etherpadlite->createGroupPad($group->getGroupid(), $name, null);
 					$this->get('session')->getFlashBag()->set('notice', $translator->trans('padCreated', array(), 'notifications'));
-				} catch (\Exception $e) {
+				} catch (\InvalidArgumentException $e) {
 					$this->get('session')->getFlashBag()->set('notice', $translator->trans('padnameExists', array(), 'notifications'));
 					$errors = true;
+				} catch (\Exception $e) {
+                    $this->get('session')->getFlashBag()->set('notice', $translator->trans('error', array(), 'notifications'));
+                    throw $e;
                 }
 			}
 
@@ -423,6 +427,7 @@ class DefaultController extends Controller {
      *
      * @param int|number $padid pad id
      * @param Request $request
+     * @throws \Exception throws exceptions, if etherpad server is not working
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
 	public function padAction($padid = 0, Request $request) {
@@ -486,6 +491,7 @@ class DefaultController extends Controller {
 		}
 		catch (\Exception $e) {
 		    $this->get('session')->getFlashBag()->set('notice', $translator->trans('passCheckError', array(), 'notifications'));
+            throw $e;
 		}
 		
 		return $this->render('EthergroupsMainBundle:Default:pad.html.twig',
@@ -496,6 +502,7 @@ class DefaultController extends Controller {
      * Remove the password from the pad
      *
      * @param int|number $padid The pad id
+     * @throws \Exception etherpad server is not working
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
 	public function deletePasswordAction($padid = 0) {
@@ -518,6 +525,7 @@ class DefaultController extends Controller {
 	    }
 	    catch (\Exception $e) {
 	        $this->get('session')->getFlashBag()->set('notice', $translator->trans('removePassError', array(), 'notifications'));
+            throw $e;
 	    }
 	    
 	    return $this->redirect($this->generateUrl('pad', array('padid' => $padid)));
