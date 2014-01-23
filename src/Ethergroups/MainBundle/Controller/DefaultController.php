@@ -77,7 +77,7 @@ class DefaultController extends Controller {
 	}
 
 	/**
-	 * Delete a group
+	 * Remove a user from a group
 	 * 
 	 * @param number $id    group id
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
@@ -133,16 +133,16 @@ class DefaultController extends Controller {
 	    }
 	}
 
-	/**
-	 * This function..
-	 *     ..returns all pads from the group
-	 *     ..adds a new pad to the group
-	 *     ..can add a new pad via AJAX
-	 * 
-	 * @param Request $request
-	 * @param number $id - The id of the group
-	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\JsonResponse|number|\Symfony\Component\HttpFoundation\Response
-	 */
+    /**
+     * This function..
+     *     ..returns all pads from the group
+     *     ..adds a new pad to the group
+     *     ..can add a new pad via AJAX
+     *
+     * @param Request $request
+     * @param number $id - The id of the group
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\JsonResponse|number|\Symfony\Component\HttpFoundation\Response
+     */
 	public function groupAction(Request $request, $id = null) {
         $logger = $this->get('statLogger');
         $logUserData = $this->container->getParameter('loguserdata');
@@ -180,9 +180,10 @@ class DefaultController extends Controller {
 				} catch (\Exception $e) {
 					$this->get('session')->getFlashBag()->set('notice', $translator->trans('padnameExists', array(), 'notifications'));
 					$errors = true;
-				}
+                }
 			}
 
+            // if ajax, send back a json response w/ all info needed
 			if($request->isXmlHttpRequest()) {
 			    if(!$errors) {
 			        $newpad = new \stdClass();
@@ -199,8 +200,8 @@ class DefaultController extends Controller {
 			    else {
                     $logger->info('new pad failed: padname exists already,'.$group->getGroupId().',"'.$name.'"'.(($logUserData)?','.$this->getUser()->getAuthorid():''));
 
-			        return new JsonResponse(array('success'=>false, 'data'=>$this->renderView('EthergroupsMainBundle::layout.html.twig')));
-			    }
+                    return new JsonResponse(array('success'=>false, 'data'=>$this->renderView('EthergroupsMainBundle::layout.html.twig')));
+                }
 			}
 			else {
 			    return $this->redirect($this->generateUrl('group', array('id' => $id)));
@@ -286,8 +287,8 @@ class DefaultController extends Controller {
 	        ->getFlashBag()->set('notice', $translator->trans('invalidID', array(), 'notifications'));
 	        return $this->redirect($this->generateUrl('base'));
 	    }
-	    
-	    $group = $em->getRepository('EthergroupsMainBundle:Groups')->find($id);
+
+        $group = $em->getRepository('EthergroupsMainBundle:Groups')->find($id);
 	    
 	    if($group) {
 	        if($request->isMethod('POST')) {
@@ -298,10 +299,12 @@ class DefaultController extends Controller {
 	                
 	                return $this->redirect($this->generateUrl('base'));
 	            }
-	            
+
+                // Get the user record
 	             $ldap = $this->get('ldap.data.provider');
 	             $ldapuser = $ldap->getUserRecordExtended($username);
-	             
+
+                // Was the user found?
 	             if($ldapuser[0]) {
 	                 $ldapuser = $ldapuser[1];
 	                 $userProvider = $this->get('ldap_user_provider');
@@ -338,7 +341,7 @@ class DefaultController extends Controller {
                          $logger->info('user added to group,'.$group->getGroupid().(($logUserData)?',"'.$username.'",'.$this->getUser()->getAuthorid():''));
 	                 }
 	             }
-	             else {
+	             else { // User not found, or mutliple users found
 	                 if($ldapuser[1]==0) {
 	                     $this->get('session')
 	                     ->getFlashBag()->set('notice', $translator->trans('noUserFound', array(), 'notifications'));
@@ -350,7 +353,7 @@ class DefaultController extends Controller {
                      $logger->info('add user failed: user not found, or multiple users found,'.$group->getGroupid().(($logUserData)?',"'.$username.'",'.$this->getUser()->getAuthorid():''));
   	             }
 	        }
-	        else {
+	        else { // if request method wasn't POST
 	            $this->get('session')
 	            ->getFlashBag()->set('notice', $translator->trans('POSTOnly', array(), 'notifications'));
 	        }
@@ -375,7 +378,7 @@ class DefaultController extends Controller {
      */
 	public function addPictureAction (Request $request, $id=0) {
 	    $em = $this->getDoctrine()->getManager();
-	    $group = $em->getRepository('EthergroupsMainBundle:Groups')
+        $group = $em->getRepository('EthergroupsMainBundle:Groups')
 				->find($id);
 	    $group->file = $request->files->get('file');
 	    
@@ -384,7 +387,7 @@ class DefaultController extends Controller {
 	    $em->flush();
 	    
 	    $json = json_encode(array('url'=>$group->getWebPath(), 'success'=>true));
-	    
+
         $logger = $this->get('statLogger');
         $logUserData = $this->container->getParameter('loguserdata');
         $logger->info('picture added,'.$group->getGroupid().(($logUserData)?','.$this->getUser()->getAuthorid():''));
@@ -407,7 +410,7 @@ class DefaultController extends Controller {
 	    unset($group->path);
 	    
 	    $em->flush();
-	    
+
         $logger = $this->get('statLogger');
         $logUserData = $this->container->getParameter('loguserdata');
         $logger->info('picture removed,'.$group->getGroupid().(($logUserData)?','.$this->getUser()->getAuthorid():''));
@@ -453,7 +456,8 @@ class DefaultController extends Controller {
 		->add('pass', 'text',
 		        array('max_length' => 20, 'attr' => array('placeholder' => 'Passwort')))
 		        ->getForm();
-		
+
+        // if method of request is post, then we want to add a password to the pad
 		if ($request->isMethod('POST')) {
 		    $form->bind($request);
 		    if ($form->isValid()) {
@@ -623,29 +627,29 @@ class DefaultController extends Controller {
     }
 
     private function changeLanguage(Request $request, $logUserData) {
-	    if($request->isMethod('POST')) {
-	        if($lang = $request->request->get('lang')) {
-	            //$user = $this->get('security.context')->getToken()->getUser();
-	            
-	            // Is the selected lang available? 
-	            $languages = array('de', 'en');
-	            if(\in_array($lang, $languages)) {
-	                /*
-	                $em = $this->getDoctrine()->getManager();
-	                $user->setLanguage($lang);
-	                $em->flush();
-	                */
-	                $request->getSession()->set('_locale', $lang);
+        if($request->isMethod('POST')) {
+            if($lang = $request->request->get('lang')) {
+                //$user = $this->get('security.context')->getToken()->getUser();
+
+                // Is the selected lang available?
+                $languages = array('de', 'en');
+                if(\in_array($lang, $languages)) {
+                    /*
+                    $em = $this->getDoctrine()->getManager();
+                    $user->setLanguage($lang);
+                    $em->flush();
+                    */
+                    $request->getSession()->set('_locale', $lang);
 
                     $logger = $this->get('statLogger');
                     $logger->info('language changed to '.$lang.(($logUserData)?','.$this->getUser()->getAuthorid():''));
-	            }
-	        }
-	    }
-	    return $this->redirect($request->headers->get('referer'));
-	}
-	
-	/**
+                }
+            }
+        }
+        return $this->redirect($request->headers->get('referer'));
+    }
+
+    /**
 	 * This function shows the policy and sets the user attribute for it, according to the users decision to aggree, or disagree it.
 	 */
 	public function policyAction(Request $request) {
@@ -681,55 +685,66 @@ class DefaultController extends Controller {
 	    return $this->render('EthergroupsMainBundle:Default:policy.html.twig', array('form'=>$form->createView()));
 	}
         
-        /**
-         * This function shows the admin area
-         */
-        public function adminAction(Request $request) {
-            $translator = $this->get('translator');
-            $fs = new Filesystem();
-            
-            $texts = new \stdClass();
-            $texts->de = $translator->trans('logininfo', array(), 'frontpage', 'de');
-            $texts->en = $translator->trans('logininfo', array(), 'frontpage', 'en');
-            
-            $form = $this->createFormBuilder($texts)
-                    ->add('de', 'textarea')
-                    ->add('en', 'textarea')
-                    ->add('save', 'submit')
-                    ->getForm();
-            
-            $form->handleRequest($request);
+    /**
+     * This function shows the admin area
+     */
+    public function adminAction(Request $request) {
+        $translator = $this->get('translator');
+        $fs = new Filesystem();
 
-            if ($form->isValid()) {
-                $textDE = "logininfo: |\n  ".preg_replace("/\n/", "\n  ", $texts->de);
-                $textEN = "logininfo: |\n  ".preg_replace("/\n/", "\n  ", $texts->en);
-                $dir = dirname(__DIR__)."/Resources/translations/";
-                
-                $fs->dumpFile($dir."frontpage.de.yml", $textDE);
-                $fs->dumpFile($dir."frontpage.en.yml", $textEN);
-            }
-            
-            return $this->render('EthergroupsMainBundle:Default:admin.html.twig', array('form'=>$form->createView()));
+        $texts = new \stdClass();
+        $texts->de = $translator->trans('logininfo', array(), 'frontpage', 'de');
+        $texts->en = $translator->trans('logininfo', array(), 'frontpage', 'en');
+
+        $form = $this->createFormBuilder($texts)
+                ->add('de', 'textarea')
+                ->add('en', 'textarea')
+                ->add('save', 'submit')
+                ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $textDE = "logininfo: |\n  ".preg_replace("/\n/", "\n  ", $texts->de);
+            $textEN = "logininfo: |\n  ".preg_replace("/\n/", "\n  ", $texts->en);
+            $dir = dirname(__DIR__)."/Resources/translations/";
+
+            $fs->dumpFile($dir."frontpage.de.yml", $textDE);
+            $fs->dumpFile($dir."frontpage.en.yml", $textEN);
         }
-        
-        public function clearCacheAction() {
-            $this->execute('cache:clear');
-            
-            return $this->redirect($this->generateUrl('admin'));
-        }
-        
-        private function execute($command)
-        {
-            $app = new \Symfony\Bundle\FrameworkBundle\Console\Application($this->get('kernel'));
-            $app->setAutoExit(false);
 
-            $input = new \Symfony\Component\Console\Input\StringInput($command);
-            $output = new \Symfony\Component\Console\Output\NullOutput();
+        return $this->render('EthergroupsMainBundle:Default:admin.html.twig', array('form'=>$form->createView()));
+    }
 
-            $error = $app->run($input, $output);
+    /**
+     * Clears the cache from the admin menu
+     *
+     * @return RedirectResponse a redirect response to the admin page
+     */
+    public function clearCacheAction() {
+        $this->execute('cache:clear');
 
-            return $error;
-        }
+        return $this->redirect($this->generateUrl('admin'));
+    }
+
+    /**
+     * Execute a command line command
+     *
+     * @param $command the command to be executed
+     * @return int an error code
+     */
+    private function execute($command)
+    {
+        $app = new \Symfony\Bundle\FrameworkBundle\Console\Application($this->get('kernel'));
+        $app->setAutoExit(false);
+
+        $input = new \Symfony\Component\Console\Input\StringInput($command);
+        $output = new \Symfony\Component\Console\Output\NullOutput();
+
+        $error = $app->run($input, $output);
+
+        return $error;
+    }
 	
 	/**
 	 * Split the pad id into group id and pad name
