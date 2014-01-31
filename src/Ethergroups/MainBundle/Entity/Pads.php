@@ -39,7 +39,7 @@ class Pads
     /**
      * @var string $padid
      * 
-     * @ORM\Column(name="padid", type="string", length=45, nullable=false)
+     * @ORM\Column(name="padid", type="string", length=70, nullable=false)
      */
     private $padid;
     
