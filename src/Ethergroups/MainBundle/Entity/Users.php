@@ -52,7 +52,7 @@ class Users implements UserInterface
     /**
      * @var string $authorid
      * 
-     * @ORM\Column(name="authorid", type="string", length=45, nullable=false)
+     * @ORM\Column(name="authorid", type="string", length=45, nullable=true)
      */
     private $authorid;
     

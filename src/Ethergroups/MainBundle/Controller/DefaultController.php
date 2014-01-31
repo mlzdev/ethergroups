@@ -442,9 +442,16 @@ class DefaultController extends Controller {
 	    $group = $this->getGroupFromGroupid($padsplit[0]);
 	    $padname = $padsplit[1];
 
-		$url = $this->container->getParameter('etherpadlite.url') . '/p/'
-				. $padid;
-		
+        $url = $this->container->getParameter('etherpadlite.url').'/p/';
+        // If readonly, get readonly ID and initialise $url properly
+        if (!$this->container->getParameter('readonly')) {
+            $url .= $padid;
+        }
+        else {
+            $readonlyid = $etherpadlite->getReadOnlyID($padid)->readOnlyID;
+            $url .= $readonlyid;
+        }
+
 		$ispublic = $etherpadlite->getPublicStatus($padid)->publicStatus;
 		
 		$this->updateCookieIfNecessary();

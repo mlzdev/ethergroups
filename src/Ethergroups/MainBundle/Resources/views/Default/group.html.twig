@@ -39,9 +39,11 @@ $(function() {
     {% for pad in pads %}
         <div class="pad">
             <a class="padname" href="{{ path('pad', {padid: pad.id}) }}" >{{ pad.name }}</a>
+            {% if not readonly %}
             <span class="actions" >
                 <a class="padremovelink" href="{{ path('pad_delete', {padid: pad.id}) }}"> <img src="{{ asset('bundles/ethergroupsmain/images/delete.png') }}" /> </a>
             </span>
+            {% endif %}
             <span class="lastEdited">{{ pad.lastEdited }}</span>
             <img width="20" class="loader" style="display: none" src="{{ asset('bundles/ethergroupsmain/images/loader.gif') }}"/>
         </div>
@@ -49,6 +51,7 @@ $(function() {
     </div>
     
     <br/>
+    {% if not readonly %}
     <form id="newpad" action="{{ path('group', {id: group.id}) }}" method="post" {{ form_enctype(form) }}>
         {{ form_errors(form) }}
             {{ form_errors(form.name) }}
@@ -57,4 +60,5 @@ $(function() {
         <input type="submit" value="Senden" />
         <img width="20" class="loader" style="display: none" src="{{ asset('bundles/ethergroupsmain/images/loader.gif') }}"/>
     </form>
+    {% endif %}
 {% endblock %}

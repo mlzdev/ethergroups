@@ -53,7 +53,12 @@ class UserRepository implements UserProviderInterface {
             $user->setIsactivated(false);
             $user->setPolicyagreed(false);
             $user->newUser = true;
-            
+
+            $this->logger->info('new user added to system'.(($this->logUserData)?','.$user->getAuthorid():''));
+        }
+
+        $authorid = $user->getAuthorid();
+        if(empty($authorid)){
             try {
                 $authorid = $this->etherpadlite->createAuthorIfNotExistsFor($user->getUid(), $user->getName());
                 $user->setAuthorid($authorid->authorID);
@@ -61,8 +66,7 @@ class UserRepository implements UserProviderInterface {
             catch (Exception $e) {
                 throw new ErrorException(sprintf('Mapping failed with message: %s', $e->getMessage()));
             }
-
-            $this->logger->info('new user added to system'.(($this->logUserData)?','.$user->getAuthorid():''));
+            $this->logger->info('user did get an authorID'.(($this->logUserData)?','.$user->getAuthorid():''));
         }
         
         // Is the user disabled?

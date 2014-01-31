@@ -22,3 +22,4 @@ parameters:
     admin_login: admin
     admin_pass: ch4ng3ME!!
     loguserdata: false
+    readonly: false
