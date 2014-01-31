@@ -95,7 +95,7 @@ class Users implements UserInterface
      * @var Groups $groups
      *
      * @ORM\ManyToMany(targetEntity="Groups", indexBy="id", mappedBy="users")
-     * @ORM\OrderBy({"name" = "ASC"})
+     * @ORM\OrderBy({"name" = "ASC", "id" = "ASC"})
      */
     private $groups;
     
@@ -103,7 +103,7 @@ class Users implements UserInterface
      * @var Groups $groupRequests
      * 
      * @ORM\ManyToMany(targetEntity="Groups", indexBy="id", inversedBy="userRequests")
-     * @ORM\OrderBy({"name" = "ASC"})
+     * @ORM\OrderBy({"name" = "ASC", "id" = "ASC"})
      */
     private $groupRequests;
 
