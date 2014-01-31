@@ -24,6 +24,7 @@ twig:
     strict_variables: "%kernel.debug%"
     globals:
         forgotpasswordurl:  %forgotpasswordurl%
+        readonly: %readonly%
 
 # Assetic Configuration
 assetic:

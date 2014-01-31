@@ -41,11 +41,13 @@
                 <input type="text" name="groupname" maxlength="45" >
                 <img width="20" class="editloader" style="display: none" src="{{ asset('bundles/ethergroupsmain/images/loader.gif') }}"/>
             </form>
+            {% if not readonly %}
             <span class="actions">
                 <a href="#" style="display: none" class="editgroup" ><img src="{{ asset('bundles/ethergroupsmain/images/edit.png') }}" /> </a>
                 <a href="{{ path('group_delete', {id: group.id}) }}" class="group_delete {% if group.users.count == 1 %}last{% endif %}"> <img src="{{ asset('bundles/ethergroupsmain/images/delete.png') }}" /> </a>
                 <a href="{{ path('group_isLast', {id: group.id}) }}" class="group_islast" style="display: none"></a>
             </span>
+            {% endif %}
             <img width="20" class="loader" style="display: none" src="{{ asset('bundles/ethergroupsmain/images/loader.gif') }}"/>
         </div>
         <div class="group-content">
@@ -63,18 +65,22 @@
                             <span class="notactivated" title="{{ user.uid }} (not activated)">{{ user.name }}</span>&nbsp;
                         {% endfor %}
                     </div>
+                    {% if not readonly%}
                     <form class="adduserform" action="{{ path('group_addUser', {id: group.id}) }}" method="post">
                         <input type="text" placeholder="{{ 'newuser'|trans }}" name="username" maxlength="45" />
                         <input type="submit" />
                     </form>
+                    {% endif %}
                 </div>
             </div>
             <div class="pads">
                 <div class="content"></div>
+                {% if not readonly %}
                 <div class="newpad">
                     <form class="newpadform" action="{{ path('group', {id: group.id}) }}" method="post" {{ form_enctype(form) }}>
                     </form>
                 </div>
+                {% endif %}
             </div>
             <input type="hidden" name="pathAdd" value="{{ path('group_addPicture', {id: group.id}) }}" />
             <input type="hidden" name="pathRemove" value="{{ path('group_removePicture', {id: group.id}) }}" />
@@ -99,6 +105,7 @@
     </div>    
     <br/>
 
+    {% if not readonly %}
     <form action="{{ path('base') }}" method="post" {{ form_enctype(form) }}>
         {{ form_errors(form) }}
             {{ form_errors(form.name) }}
@@ -106,6 +113,7 @@
         {{ form_rest(form) }}
         <input type="submit" value="Senden"/>
     </form>
+    {% endif %}
     </div>
     
     <div id="pad">
