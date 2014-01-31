@@ -35,7 +35,7 @@ class Groups
     /**
      * @var string $groupid
      * 
-     * @ORM\Column(name="groupid", type="string", length=45, nullable=false)
+     * @ORM\Column(name="groupid", type="string", length=45, nullable=true)
      */
     private $groupid;
     
