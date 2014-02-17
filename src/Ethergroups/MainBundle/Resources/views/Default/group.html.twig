@@ -41,7 +41,7 @@ $(function() {
             <a class="padname" href="{{ path('pad', {padid: pad.id}) }}" >{{ pad.name }}</a>
             {% if not readonly %}
             <span class="actions" >
-                <a class="padremovelink" href="{{ path('pad_delete', {padid: pad.id}) }}"> <img src="{{ asset('bundles/ethergroupsmain/images/delete.png') }}" /> </a>
+                <a class="padremovelink" href="{{ path('pad_delete', {padid: pad.id}) }}"> <img title="{{ 'deletePad'|trans }}" src="{{ asset('bundles/ethergroupsmain/images/delete.png') }}" /> </a>
             </span>
             {% endif %}
             <span class="lastEdited">{{ pad.lastEdited }}</span>

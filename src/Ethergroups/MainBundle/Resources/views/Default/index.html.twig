@@ -43,8 +43,8 @@
             </form>
             {% if not readonly %}
             <span class="actions">
-                <a href="#" style="display: none" class="editgroup" ><img src="{{ asset('bundles/ethergroupsmain/images/edit.png') }}" /> </a>
-                <a href="{{ path('group_delete', {id: group.id}) }}" class="group_delete {% if group.users.count == 1 %}last{% endif %}"> <img src="{{ asset('bundles/ethergroupsmain/images/delete.png') }}" /> </a>
+                <a href="#" style="display: none" class="editgroup" ><img title="{{ 'editGroup'|trans }}" src="{{ asset('bundles/ethergroupsmain/images/edit.png') }}" /> </a>
+                <a href="{{ path('group_delete', {id: group.id}) }}" class="group_delete {% if group.users.count == 1 %}last{% endif %}"> <img title="{{ 'removeGroup'|trans }}" src="{{ asset('bundles/ethergroupsmain/images/delete.png') }}" /> </a>
                 <a href="{{ path('group_isLast', {id: group.id}) }}" class="group_islast" style="display: none"></a>
             </span>
             {% endif %}
@@ -55,7 +55,7 @@
                 <span class="creationdate">({{ group.creationdate.date | date('d.m.Y')}})</span>
             </div>
             <div class="user">
-                <a href="#" class="userinfo" style="display: none"><span class="usernumber">{{ 'user'|trans }} ({{ group.users.count }}/{{ group.users.count + group.userRequests.count }})</span> <img alt="plus" src="{{ asset('bundles/ethergroupsmain/images/plus.png') }}" /><img alt="minus" src="{{ asset('bundles/ethergroupsmain/images/minus.png') }}" style="display:none"/></a>
+                <a href="#" class="userinfo" style="display: none"><span class="usernumber">{{ 'user'|trans }} ({{ group.users.count }}/{{ group.users.count + group.userRequests.count }})</span> <img title="{{ 'expandMembers'|trans }}" alt="plus" src="{{ asset('bundles/ethergroupsmain/images/plus.png') }}" /><img title="{{ 'collapseMembers'|trans }}"alt="minus" src="{{ asset('bundles/ethergroupsmain/images/minus.png') }}" style="display:none"/></a>
                 <div class="usernames">
                     <div>
                         {% for user in group.users %} 
@@ -95,8 +95,8 @@
             <div class="group-name">
                 <a class="group-link" href="{{ path('group', {id: group.id}) }}">{{ group.name }}</a>
                 <span class="approval-actions">
-                    <a href="{{ path('group_confirm', {id: group.id}) }}" class="group_confirm"> <img src="{{ asset('bundles/ethergroupsmain/images/approve.png') }}" /> </a>
-                    <a href="{{ path('group_decline', {id: group.id}) }}" class="group_remove"> <img src="{{ asset('bundles/ethergroupsmain/images/delete.png') }}" /> </a>
+                    <a href="{{ path('group_confirm', {id: group.id}) }}" class="group_confirm"> <img title="{{ 'confirmGroup'|trans }}" src="{{ asset('bundles/ethergroupsmain/images/approve.png') }}" /> </a>
+                    <a href="{{ path('group_decline', {id: group.id}) }}" class="group_remove"> <img title="{{ 'declineGroup'|trans }}" src="{{ asset('bundles/ethergroupsmain/images/delete.png') }}" /> </a>
                 </span>
                 <img width="20" class="loader" style="display: none" src="{{ asset('bundles/ethergroupsmain/images/loader.gif') }}"/>
             </div>
@@ -119,8 +119,8 @@
     <div id="pad">
         <div id="togglegroups" >
             <a href="#">
-                <img class="left" alt="Hide Groups" src="{{ asset('bundles/ethergroupsmain/images/left.png') }}" />
-                <img class="right" alt="Show Groups" src="{{ asset('bundles/ethergroupsmain/images/right.png') }}" style="display:none"/>
+                <img class="left" title="{{ 'hideGroups'|trans }}" alt="Hide Groups" src="{{ asset('bundles/ethergroupsmain/images/left.png') }}" />
+                <img class="right" title="{{ 'showGroups'|trans }}" alt="Show Groups" src="{{ asset('bundles/ethergroupsmain/images/right.png') }}" style="display:none"/>
                 </a>
         </div>
         <div id="pad-content" class="empty"></div>
