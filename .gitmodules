@@ -1,0 +1,3 @@
+[submodule "app/Resources/translations"]
+	path = app/Resources/translations
+	url = ./
