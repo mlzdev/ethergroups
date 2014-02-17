@@ -1,4 +1,4 @@
-name: EP-Schreibmaschine
+name: Ethergroups
 headernote: Gemeinsam schreiben
 username: Benutzername
 password: Passwort
@@ -10,9 +10,8 @@ confirm: Bestätigen
 cancel: Abbrechen
 policy: >
   <h2>Nutzungsbedingungen</h2>
-  <p>Der Server ist derzeit im Testbetrieb. Bei aller Sorgfalt im Betrieb und in der Datensicherung können Störungen auftreten, bei denen Datenverlust nicht auszuschließen ist.<br /> 
-  Es gilt die <a href="http://www.cms.hu-berlin.de/publikationen/ordnungen/cbo_html">Computerbetriebsordnung der HU</a>. Die Regeln und Verfahrensweisen zum Datenschutz, die der Computer- und Medienservice auf andere Systeme im Regelbetrieb anwendet, werden eingehalten. Eine detaillierte Datenschutz-Information folgt mit Aufnahme des Regelbetriebs. Zu dem Zeitpunkt wird diese Zustimmung erneut eingeholt.</p>
-  <p>Vielen Dank für Ihr Vertrauen und viel Erfolg mit Etherpad-Schreibmaschine!</p>
+  <p>Der Server ist derzeit im Testbetrieb. Bei aller Sorgfalt im Betrieb und in der Datensicherung können Störungen auftreten, bei denen Datenverlust nicht auszuschließen ist.<br />
+  <p>Vielen Dank für Ihr Vertrauen und viel Erfolg mit Ethergroups!</p>
 today: heute
 yesterday: gestern
 daysago: vor %days% Tagen
@@ -37,13 +36,12 @@ requestmailsubject: "Ethergroups: Sie wurden zu einer Gruppe hinzugefügt"
 firstgroupname: Meine erste Gruppe
 firstpadname: Mein erstes Blatt
 firstpadtext: |
-  Willkommen - das ist Ihr erstes EP-Schreibmaschinen-Blatt!
+  Willkommen - das ist Ihr erstes Pad!
 
-  Löschen Sie diese Hinweise oder legen Sie ein neues Blatt an.
+  Löschen Sie diese Hinweise oder legen Sie ein neues Pad an.
   Im Editor finden Sie oben links einige Möglichkeiten zur Formatierung, rechts zu Export, Versionen und Einstellungen.
-  Mit Etherpad-Schreibmaschine können Sie zu mehreren gleichzeitig an Ihrem Text schreiben. Laden Sie weitere HU-Angehörige in Ihre Gruppe ein, indem Sie deren HU-Benutzernamen eingeben. Alle Beteiligten haben eine eigene Farbe. Oben rechts erscheinen alle Mitglieder, die ebenfalls gerade online sind.
+  Mit Ethergroups können Sie zu mehreren gleichzeitig an Ihrem Text schreiben. Laden Sie weitere Nutzer über LDAP in Ihre Gruppe ein, indem Sie deren Benutzernamen oder Mailalias eingeben. Alle Beteiligten haben eine eigene Farbe. Oben rechts erscheinen alle Mitglieder, die ebenfalls gerade online sind.
   Legen Sie für verschiedene Aufgaben und Teams neue Gruppen an.
-  HU-Angehörige können einzelne Blätter öffentlich schalten, ein Passwort vergeben, und das Pad auch wieder sperren. Über den freigeschalteten Link können Externe auch ohne HU-Account problemlos mitarbeiten.
+  Mitglieder können einzelne Pads öffentlich schalten, ein Passwort vergeben, und das Pad auch wieder sperren. Über den freigeschalteten Link können Externe auch ohne LDAP-Account problemlos mitarbeiten.
   Alle Mitglieder einer Gruppe haben gleiche Rechte innerhalb der Gruppe und können sie jederzeit verlassen. Wenn eine Gruppe keine Mitglieder mehr hat, wird sie automatisch gelöscht.
-  Weitere Informationen und eine FAQ zu Etherpad-Schreibmaschine finden Sie im <a href="http://web-support.hu-berlin.de">Web-Support des CMS</a>.
-footer: Etherpad-Schreibmaschine ist derzeit im Testbetrieb und wird vom <a target="_blank" href="http://www.cms.hu-berlin.de/mlz/">Multimedia Lehr- und Lernzentrum</a> im CMS der HU Berlin betreut. | <a href="mailto:moodle-support@cms.hu-berlin.de?subject=EP-Schreibmaschine: Support-Anfrage">Support-Anfrage</a> | <a target="_blank" href="http://web-support.hu-berlin.de/Etherpad">EP-Hilfen</a>
+footer: Ethergroups ist derzeit im Testbetrieb. | <a href="mailto:yourSupportMail@yourDomain.tld?subject=Ethergroups: Support-Anfrage">Support-Anfrage</a> | <a target="_blank" href="http://yourHelpDomain.tld">Ethergroups-Hilfen</a>

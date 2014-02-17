@@ -1,19 +1,18 @@
 logininfo: |
-  <h2>Willkommen bei den Etherpad-Schreibmaschinen der HU!</h2>
-  <h3>Was ist Etherpad-Schreibmaschine?</h3>
+  <h2>Willkommen bei den Ethergroups!</h2>
+  <h3>Was ist Ethergroups?</h3>
   <ul>
-  <li>Mit Etherpad können Sie zu mehreren gleichzeitig Texte auf einem Blatt schreiben. Alle Beteiligten haben eine eigene Farbe, Sie können durch Versionen scrollen und das Ergebnis exportieren.</li>
-  <li>Weitere Informationen und eine FAQ zu Etherpad-Schreibmaschine finden Sie im <a href="http://web-support.hu-berlin.de">Web-Support des CMS</a>.</li>
+  <li>Mit Etherpad können Sie zu mehreren gleichzeitig Texte in einem Pad schreiben. Alle Beteiligten haben eine eigene Farbe, Sie können durch Versionen scrollen und das Ergebnis exportieren.</li>
   </ul>
-  <h3>Einloggen mit HU-Account</h3>  
+  <h3>Einloggen mit LDAP-Account</h3>
   <ul>
-  <li>Bitte loggen Sie sich mit Ihrem 8-stelligen HU-Benutzernamen ein. Danach gelangen Sie in Ihren persönlichen Bereich, in dem sie beliebig viele Gruppen anlegen können.</li>
-  <li>Laden Sie per HU-Benutzername andere HU-Angehörige zur Mitarbeit in Ihrer Gruppe ein.</li>
-  <li>Legen Sie beliebig viele Blätter in Ihrer Gruppe an.</li>
+  <li>Bitte loggen Sie sich mit Ihrem LDAP-Benutzernamen ein. Danach gelangen Sie in Ihren persönlichen Bereich, in dem sie beliebig viele Gruppen anlegen können.</li>
+  <li>Laden Sie per LDAP-Benutzername andere LDAP-Angehörige zur Mitarbeit in Ihrer Gruppe ein.</li>
+  <li>Legen Sie beliebig viele Pads in Ihrer Gruppe an.</li>
   <li>Alle Mitglieder der Gruppe haben gleiche Rechte innerhalb der Gruppe und können sie jederzeit verlassen. Wenn eine Gruppe keine Mitglieder mehr hat, wird sie automatisch gelöscht.</li>
   </ul>
   <h3>Zusammenarbeit mit Externen</h3>
   <ul>
-  <li>Festes Mitglied einer Gruppe können nur HU-Angehörige werden.</li>
-  <li>HU-Angehörige können jedoch einzelne Blätter öffentlich schalten, ein Passwort vergeben, und das Pad auch wieder sperren. Über den freigeschalteten Link können Externe auch ohne HU-Account problemlos mitarbeiten.</li>
+  <li>Festes Mitglied einer Gruppe können nur LDAP-Angehörige werden.</li>
+  <li>LDAP-Angehörige können jedoch einzelne Blätter öffentlich schalten, ein Passwort vergeben, und das Pad auch wieder sperren. Über den freigeschalteten Link können Externe auch ohne LDAP-Account problemlos mitarbeiten.</li>
   </ul>
