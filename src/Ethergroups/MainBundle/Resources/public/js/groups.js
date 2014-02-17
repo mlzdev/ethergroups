@@ -1,6 +1,7 @@
 function renameGroupClickHandler(obj) {
     obj.click(function(e) {
         e.preventDefault();
+        e.stopPropagation();
         var groupname = $(this).parent().parent();
         var name = groupname.find('.group-link').text();
         groupname.find('.editform input[name="groupname"]').val(name);
@@ -36,6 +37,7 @@ function renameGroupFormHandler(obj) {
 function removeGroupHandler(obj) {
 	obj.click(function(e) {
 		e.preventDefault();
+        e.stopPropagation();
         var obj = $(this);
 
         $.getJSON(obj.next().attr('href'), function(data) {
@@ -67,16 +69,16 @@ function expandGroupHandler(obj, newpadform, uploadGroupPicture) {
     obj.click(function(e) {
         e.preventDefault();
 
-        var obj = $(this);
+        var obj = $(this).find('.group-link');
         var parent = obj.parent();
         var group = obj.parent().parent();
         var group_content = group.find('.group-content');
 
-        if (group_content.hasClass('expanded-new')) {
+        if (group_content.hasClass('expanded-new')) { // Group has been expanded before, but isn't open group
             group_content.slideUp();
             group_content.removeClass('expanded-new');
         }
-        else if (!group_content.hasClass('expanded')) {
+        else if (!group_content.hasClass('expanded')) {  // Group isn't open group, but should be expanded
 
             // Close other new expanded groups
             $('.group-content.expanded-new').slideUp();
@@ -101,6 +103,9 @@ function expandGroupHandler(obj, newpadform, uploadGroupPicture) {
                 // Add click handler for removePad
                 removePadHandler(padscontent);
                 parent.find('.loader').hide();
+
+                // Show pad actions on hover
+                showActionsHandler(padscontent.children());
 
                 // Hide Removepad icon
                 padscontent.find('.actions').hide();
@@ -165,6 +170,7 @@ function newPadFormSubmitHandler(newpadform, uploadGroupPicture) {
                     //newpad.slideDown();
                     removePadHandler(padscontent);
                     openPadAndGroupHandler(padscontent, padscontent.closest('.group'), uploadGroupPicture);
+                    showActionsHandler(newpad);
                 }
                 else {
                     data = $(data.data);
@@ -212,6 +218,7 @@ function removePadHandler(obj) {
 	obj.find('.padremovelink').off();
 	obj.find('.padremovelink').click(function(e) {
         e.preventDefault();
+        e.stopPropagation();
         
         var dialog = $('#removePadDialog');
         var obj = $(this);
@@ -233,26 +240,29 @@ function removePadHandler(obj) {
 }
 
 function openPadAndGroupHandler(obj, group, uploadGroupPicture) {
-	obj.find('.padname').off();
-	obj.find('.padname').click(function(e) {
+	obj.find('.pad').off('click');
+	obj.find('.pad').click(function(e) {
 		e.preventDefault();
-		
+
 		// Collabse other groups and expand actual group
 		if(!group.find('.group-content').hasClass('expanded')) {
-			$('.group-content.expanded').slideUp();
-	        $('.group-content.expanded').removeClass('expanded');
-	        
+            var otherOpenGroup = $('.group-content.expanded');
+			otherOpenGroup.slideUp();
+            showActionsHandler(otherOpenGroup.parent().children('.group-name'));
+	        otherOpenGroup.removeClass('expanded');
+
 	        var newgroup = $('.group-content.expanded-new');
 	        newgroup.removeClass('expanded-new');
 	        newgroup.addClass('expanded');
-	        
+
 	        $('.group-link.selected').removeClass('selected');
 	        group.find('.group-link').addClass('selected');
-	        
+
 	        // Only show actions for selected group
 			$('.actions').fadeOut();
 	        group.find('.group-name .actions').fadeIn();
-        
+            group.find('.group-name').off('hover mouseleave');
+
 	        // Change the paths for the group picture
 	        uploadGroupPicture.changePaths({
 	        	pathAdd: newgroup.find('input[name="pathAdd"]').val(),
@@ -260,10 +270,10 @@ function openPadAndGroupHandler(obj, group, uploadGroupPicture) {
 	            });
 	        // Change the pic
 	        uploadGroupPicture.changePic(newgroup.find('input[name="picUrl"]').val());
-	        
+
 		}
-		
-		clickedPadHandler(this);
+
+		clickedPadHandler($(this).children('.padname'));
 	});
 }
 
@@ -278,13 +288,17 @@ function openPadHandler(obj) {
 
 function clickedPadHandler (obj) {
 	var obj = $(obj);
-	
+
+    var otherOpenPad = $('.padname.selected');
+
 	// only show actions for selected pad
-	$('.pads .actions').fadeOut();
+	$('.pads .actions').not(obj.parent().find('.actions')).fadeOut();
+    showActionsHandler(otherOpenPad.parent());
 	obj.parent().find('.actions').fadeIn();
+    obj.parent().off('hover mouseleave');
 	
 	// deselect other pads & select this
-	$('.padname.selected').removeClass('selected');
+	otherOpenPad.removeClass('selected');
 	obj.addClass('selected');
 	
 	var pad = $('#pad');
@@ -360,4 +374,13 @@ function newUserHandler() {
         });
     	
 	});
+}
+
+function showActionsHandler(obj) {
+    obj.hover(function(){
+        $(this).children('.actions').show();
+    });
+    obj.mouseleave(function(){
+        $(this).children('.actions').hide();
+    });
 }
