@@ -29,6 +29,7 @@ After it was established, there was a demand to use this editor without the over
 ### [Features](id:features)
 * ldap authentication
 * distraction free writing by hiding header and sidebar
+* readonly mode
 * multilingual
 	* german
 	* english
@@ -99,10 +100,17 @@ PLEASE NOTE: New versions of etherpad-lite don't support this version anymore
 	In your site config (e.g. sites_available/ethergroups):
 	
 		DocumentRoot /path/to/ethergroups/web/
+		<Directory /var/www/ethergroups>
+                Options Indexes FollowSymLinks MultiViews
+                AllowOverride FileInfo
+                Order allow,deny
+                allow from all
+        </Directory>
 		AllowOverride FileInfo
 		
 3. Configure Nginx (If you want to use this on the same server, where etherpadlite is running)  [Tell me more](#why-nginx-apache)
-	* apache2 -> port `8080`
+	* nginx -> port `80`
+	* apache2 -> port `8080` (Maybe you have to listen on this port also in apache2 ports.conf)
 	* etherpadlite -> port `9001`
 	* nginx directory `/` -> proxy_pass to `8080`
 	* nginx directory `/eplite` -> proxy_pass to `9001`
@@ -112,7 +120,7 @@ PLEASE NOTE: New versions of etherpad-lite don't support this version anymore
 
 4. Checkout this repository with `git clone`.
 
-5. Execute the `check.php` script from the command line:
+5. Execute the `check.php` script from the command line and resolve problems (you should execute it with the apache2 user to avoid permission errors):
 		
 		php app/check.php
 
@@ -123,12 +131,19 @@ PLEASE NOTE: New versions of etherpad-lite don't support this version anymore
 	If you get any warnings or recommendations, fix them before moving on.
 
 6. Copy `app/config/parameters.yml.dist` to `app/config/parameters.yml` and modify it, to fit you installation
-	* database: we use `pdo_mysql`, you can have a look [here](http://docs.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/configuration.html) for other databases
-	* locale: this is the default locale, symfony should use
-	* secret: This is a secret code, symfony uses to prevent bots from filling out forms. you can generate one [here](https://tools.brain-tower.com/en/security/passwordgenerator?template=symfony-secret)
-	* ldap.data.provider: You ldap config
-	* etherpadlite apikey: found in the `APIKEY.txt` on your etherpad lite server
-	* forgotpasswordurl: The url the link for "Forgot your password?" should point to
+
+	Setting		|	Explanation
+	----------- |--------------
+	database\_* | we use `pdo_mysql`, you can have a look [here](http://docs.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/configuration.html) for other databases
+	mailer\_* | 
+	locale | this is the default locale, symfony should use
+	secret | this is a secret code, symfony uses to prevent bots from filling out forms. you can generate one [here](https://tools.brain-tower.com/en/security/passwordgenerator?template=symfony-secret)
+	ldap.data.provider_* | your ldap config
+	etherpadlite apikey | found in the `APIKEY.txt` on your etherpad lite server
+	forgotpasswordurl | the url the link for "Forgot your password?" should point to
+	admin\_* | admin login and password for the site under yourdomain.tld/**admin**
+	loguserdata | log user data on/off e.g. IPs and usernames [boolean]
+	readonly | readonly mode on/off [boolean]
 
 7. Change dir permissions of `app/cache`, `app/logs` & `web/uploads` to your webservers user:group
 

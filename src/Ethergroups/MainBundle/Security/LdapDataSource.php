@@ -34,7 +34,7 @@ class LdapDataSource
 		} catch(ErrorException $e) {
 			$result = false;
 		}
-		
+
 		// Did the bind succeed
 		if ($bind) {
 			// Try to retrieve the user record
@@ -42,7 +42,7 @@ class LdapDataSource
 		} else {
 			$result = false;
 		}
-		
+
 		// Shut down the ldap connection
 		$this->disconnect($resourceLink);
 		
