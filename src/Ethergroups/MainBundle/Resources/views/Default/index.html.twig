@@ -93,7 +93,7 @@
     {% for group in groupRequests %}
         <div id="group-{{ group.id }}" class="group">
             <div class="group-name">
-                <a class="group-link" href="{{ path('group', {id: group.id}) }}">{{ group.name }}</a>
+                <span class="group-link">{{ group.name }}</span>
                 <span class="approval-actions">
                     <a href="{{ path('group_confirm', {id: group.id}) }}" class="group_confirm"> <img src="{{ asset('bundles/ethergroupsmain/images/approve.png') }}" /> </a>
                     <a href="{{ path('group_decline', {id: group.id}) }}" class="group_remove"> <img src="{{ asset('bundles/ethergroupsmain/images/delete.png') }}" /> </a>

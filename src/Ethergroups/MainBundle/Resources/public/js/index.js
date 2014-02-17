@@ -31,10 +31,10 @@ function initIndex(pathRemovePic) {
     // Add submit handler for the newpadforms
     newPadFormSubmitHandler(newpadform, uploadGroupPicture);
     // Ajax call for expanding group, if clicked
-    expandGroupHandler($('.group-name'), newpadform, uploadGroupPicture);
+    expandGroupHandler($('#groups .group-name'), newpadform, uploadGroupPicture);
 
     // show action icons when mouseover groupname
-    showActionsHandler($('.group-name'))
+    showActionsHandler($('#groups .group-name'))
 
     // Trigger click for first group
     $('.group:first .group-link').click();
