@@ -1,19 +1,32 @@
 logininfo: |
-  <h2>Willkommen bei den Etherpad-Schreibmaschinen der HU!</h2>
+  <h2>Die Etherpad-Schreibmaschine auf neuer Adresse: <a title="EP-Schreibmaschine URL" href="https://etherpad.hu-berlin.de">https://etherpad.hu-berlin.de</a></h2>
+  <ul>
+  <li>Die EP-Schreibmaschine ist am 31.1. vom Entwicklungsserver auf ihre endgültige Adresse <a title="EP-Schreibmaschine URL" href="https://etherpad.hu-berlin.de">etherpad.hu-berlin.de</a> umgezogen und dabei auf eine neue Datenbank umgestellt worden.</li>
+  <li>Alle Nutzer/innen, Gruppen und Blätter (außer der jeweiligen Versionsgeschichte und Autorenzuordnung) haben wir dabei übernehmen können.</li>
+  <li>Bitte kontrollieren Sie Ihre Gruppen und Blätter. Für Fragen stehen wir gerne zur Verfügung: <a title="Fragen zur Etherpad-Schreibmaschine per Mail an das MLZ" href="mailto:mlz@cms.hu-berlin.de?subject=Etherpad-Schreibmaschine: Fragen">mlz@cms.hu-berlin.de</a></li>
+  <li>Leider gab es am 12.2. <a title="Störungsseite des CMS" href="https://www.cms.hu-berlin.de/stoerungen">Störungen</a> beim Login, die nun aber behoben sein sollten.</li>
+  </ul>
+  <hr />
+  <h2>Willkommen bei der Etherpad-Schreibmaschine der HU!</h2>
+  <a href="https://blog.hu-berlin.de/mlz/upload_mlz/2013/11/EP-Screenshot-1024x526.png" target="_blank" alt="Etherpad-Übersicht" title="Vergrößern in neuem Browser-Tab"><img src="https://blog.hu-berlin.de/mlz/upload_mlz/2013/11/EP-Screenshot-1024x526.png" width="100%" border="0" alt="Etherpad-Schreibmaschine"></a>
   <h3>Was ist Etherpad-Schreibmaschine?</h3>
+  <br />
   <ul>
-  <li>Mit Etherpad können Sie zu mehreren gleichzeitig Texte auf einem Blatt schreiben. Alle Beteiligten haben eine eigene Farbe, Sie können durch Versionen scrollen und das Ergebnis exportieren.</li>
-  <li>Weitere Informationen und eine FAQ zu Etherpad-Schreibmaschine finden Sie im <a href="http://web-support.hu-berlin.de">Web-Support des CMS</a>.</li>
+  <li>Mit Etherpad kann ich mit anderen gleichzeitig Texte auf einem Blatt schreiben. Alle Beteiligten haben eine eigene Farbe, können durch Versionen scrollen und das Ergebnis exportieren.</li>
+  <li>Für Mitschriften in Vorlesungen, Protokolle bei Treffen, Textentwürfe, Übersetzungen, To-do-Listen. Nur einfache Formatierungen sind möglich. Der Reiz des Etherpads ist die Einfachheit einer gemeinsamen Schreibmaschine, Blatt einspannen und los, neues Thema, neues Blatt.
   </ul>
-  <h3>Einloggen mit HU-Account</h3>  
+  <h3>Blätter, Freigabe und Gruppen</h3>
+  <br />  
   <ul>
-  <li>Bitte loggen Sie sich mit Ihrem 8-stelligen HU-Benutzernamen ein. Danach gelangen Sie in Ihren persönlichen Bereich, in dem sie beliebig viele Gruppen anlegen können.</li>
-  <li>Laden Sie per HU-Benutzername andere HU-Angehörige zur Mitarbeit in Ihrer Gruppe ein.</li>
-  <li>Legen Sie beliebig viele Blätter in Ihrer Gruppe an.</li>
-  <li>Alle Mitglieder der Gruppe haben gleiche Rechte innerhalb der Gruppe und können sie jederzeit verlassen. Wenn eine Gruppe keine Mitglieder mehr hat, wird sie automatisch gelöscht.</li>
+  <li>Ich logge mich mit meinem 8-stelligen HU-Benutzernamen ein. Beim ersten Aufruf ist eine erste Gruppe und ein erstes Blatt auf meiner persönlichen Startseite voreingerichtet.</li>
+  <li>Meine Blätter gebe ich entweder einzeln per Link frei (für HU oder Externe) oder lade HU-Angehörige direkt in meine Gruppe als dauerhafte Mitglieder ein. Die URL auf ein Blatt kann ich auch per Mail verschicken und auf einer Webseite verlinken oder einbetten.</li>
+  <li>Die erste Gruppe benenne ich um und lege je nach Aufgaben weitere Gruppen an. Innerhalb der Gruppe können alle nach Bedarf weitere Blätter anlegen, die für die ganze Gruppe gleichberechtigt zugänglich sind.</li>
+  <li>Ein Blatt, das nicht mehr gebraucht wird, lösche ich oder jemand anderes aus der Gruppe. Nach Sicherheitsabfrage ist es endgültig gelöscht.</li>
+  <li>Gruppenmitglieder können sich nur selbst austragen, es gibt keine Hierarchien. Wenn ich die Gruppe nicht mehr brauche, trage ich mich aus. Sollte ich der letzte sein, bekomme ich eine Sicherheitsabfrage: Eine Gruppe, die keine Mitglieder mehr hat, wird automatisch gelöscht und mit ihr alle enthaltenen Blätter.</li>
   </ul>
-  <h3>Zusammenarbeit mit Externen</h3>
+  <h3>Feedback</h3>
+  <br />
   <ul>
-  <li>Festes Mitglied einer Gruppe können nur HU-Angehörige werden.</li>
-  <li>HU-Angehörige können jedoch einzelne Blätter öffentlich schalten, ein Passwort vergeben, und das Pad auch wieder sperren. Über den freigeschalteten Link können Externe auch ohne HU-Account problemlos mitarbeiten.</li>
+  <li>Die Etherpad-Schreibmaschine wurde mit Unterstützung der Medienkommission des Akademischen Senats entwickelt und befindet sich vorläufig im Testbetrieb.</li>
+  <li>Wir freuen uns auf Ihr Feedback und wollen herausbekommen, wofür die Schreibmaschine genutzt wird und wie wir sie noch verbessern können (<a title="Feedback zu Etherpad-Schreibmaschine per Mail an das MLZ" href="mailto:mlz@cms.hu-berlin.de?subject=Etherpad-Schreibmaschine: Feedback">mlz@cms.hu-berlin.de</a>)!</li>
   </ul>
