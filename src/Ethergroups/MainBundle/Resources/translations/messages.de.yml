@@ -1,5 +1,16 @@
 name: Ethergroups
 headernote: Gemeinsam schreiben
+hideHeader: Header verbergen
+showHeader: Header anzeigen
+hideGroups: Gruppen verbergen
+showGroups: Gruppen anzeigen
+removeGroup: Aus Gruppe austragen
+editGroup: Gruppennamen bearbeiten
+deletePad: Pad löschen
+expandMembers: Mitglieder anzeigen/hinzufügen
+collapseMembers: Mitglieder verbergen
+confirmGroup: Anfrage annehmen
+declineGroup: Anfrage ablehnen
 username: Benutzername
 password: Passwort
 log-in: Login

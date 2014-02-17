@@ -1,5 +1,16 @@
 name: Ethergroups
 headernote: Collaborative writing
+hideHeader: hide header
+showHeader: show header
+hideGroups: hide groups
+showGroups: show groups
+removeGroup: sign out of group
+editGroup: edit groupname
+deletePad: delete pad
+expandMembers: show and add members
+collapseMembers: hide members
+confirmGroup: confirm request
+declineGroup: decline request
 username: Username
 password: Password
 log-in: log in
