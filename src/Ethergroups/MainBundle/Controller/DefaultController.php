@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Ethergroups\MainBundle\Entity\Groups;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Serializer\Encoder\JsonEncode;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -722,7 +723,8 @@ class DefaultController extends Controller {
         if ($form->isValid()) {
             $textDE = "logininfo: |\n  ".preg_replace("/\n/", "\n  ", $texts->de);
             $textEN = "logininfo: |\n  ".preg_replace("/\n/", "\n  ", $texts->en);
-            $dir = dirname(__DIR__)."/Resources/translations/";
+
+            $dir = $this->get('kernel')->getRootDir()."/Resources/translations/";
 
             $fs->dumpFile($dir."frontpage.de.yml", $textDE);
             $fs->dumpFile($dir."frontpage.en.yml", $textEN);
