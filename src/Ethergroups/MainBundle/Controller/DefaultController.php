@@ -254,11 +254,11 @@ class DefaultController extends Controller {
 	 * @return string
 	 */
 	public function getLastEdited($lastEdited, $now=null) {
-	    if(!isset($now)) $now = new \DateTime();
+	    if(!isset($now)) $now = new \DateTime(\date('Y-m-d'));
 	    
 	    $translator = $this->get('translator');
 	    
-	    $diff = $now->diff(new \DateTime('@'.$lastEdited));
+	    $diff = $now->diff(new \DateTime(\date('Y-m-d',$lastEdited)));
 	    if($diff->days == 0) { // today
 	        $lastEdited = $translator->trans('today').' '.\date('H:i' ,$lastEdited);
 	    }
