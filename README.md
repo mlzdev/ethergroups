@@ -51,7 +51,7 @@ After it was established, there was a demand to use this editor without the over
 * members
 	* have to agree a policy after first login
 	* get an email, when someone adds them to a group
-	* can decide after they logged in, if they want to be in a particualr group, or not
+	* can decide after they logged in, if they want to be in a particular group, or not
 
 
 ### [Why symfony2?](id:symfony2)
@@ -64,24 +64,24 @@ After it was established, there was a demand to use this editor without the over
 
 ### [Server architecture](id:server-architecture)
 As server architecture, we are using `apache2` as webserver for this software, because it's well known, secure and supports symfony2 very good.  
-To run this software next to etherpad lite on the same server and on the same port (so there are no firewall issues), we decided to use another webserver called `nginx` as a reverse proxy. The advantages of this webserver is, that it is lightweight, fast and that it is easy to setup as a reverse proxy. The directory `/eplite` goes to etherpad lite and all other are going to the apache server. [Why nginx + apache?](#why-nginx-apache)
+To run this software next to etherpad lite on the same server and on the same port (so there are no firewall issues), we decided to use another webserver called `nginx` as a reverse proxy. The advantages of this webserver is, that it is lightweight, fast and that it is easy to setup as a reverse proxy. The directory `/eplite` goes to etherpad lite and all other are going to the apache server.  
+Further information: [Why nginx + apache?](#why-nginx-apache)
 
 ## Installation
 ### [of Etherpad Lite](id:install)
-You need an etherpad-lite server, which is running on at least the same 2nd-level-domain as your ethergroups server.
+You need an etherpad-lite server, which is running on at least the same 2nd-level-domain as your ethergroups server, because we are using cookies to authenticate users.
 [Infos & Download](https://github.com/ether/etherpad-lite)
 
-We recommend to use the etherpad-lite version 1.2.7
+We recommend to use the etherpad-lite version 1.3.0
 
 It's also recommended to use the latest stable release of nodejs
 (http://nodejs.org/)  
-*we are using nodejs 0.6.12, installed over apt-get for our productive server. But we test new ep-lite versions always with this node version, before updating productive*  
-PLEASE NOTE: New versions of etherpad-lite don't support this version anymore
+*we are using nodejs 0.8.26, installed via n (a nodejs version managment tool installed via npm) for our productive server. But we test new ep-lite versions always with this node version, before updating productive*  
 
 #### Working ep-lite installation
 - Ubuntu 12.04
 - apt-get nodejs, npm, git, nginx, abiword, make, g++
-- etherpad-lite from git (v1.2.7)
+- etherpad-lite from git (v1.3.0)
 - ep-lite settings.json:
 	-	"requireSession":false
 	-	"editOnly":true
@@ -91,7 +91,7 @@ PLEASE NOTE: New versions of etherpad-lite don't support this version anymore
 
 ### [of Ethergroups](id:installpro)
 
-1. Install `apache2-prefork-dev, mysql, php5, php5-mysql, php5-intl, php5-ldap`
+1. Install `apache2-mpm-prefork, mysql, php5, php5-mysql, php5-intl, php5-ldap`
 
 2. Configure apache2:
 		
@@ -145,7 +145,7 @@ PLEASE NOTE: New versions of etherpad-lite don't support this version anymore
 	loguserdata | log user data on/off e.g. IPs and usernames [boolean]
 	readonly | readonly mode on/off [boolean]
 
-7. Change dir permissions of `app/cache`, `app/logs` & `web/uploads` to your webservers user:group
+7. Change dir permissions of `app/cache`, `app/logs`, `app/Resources/translations` & `web/uploads` to your webservers user:group
 
 8. Install vendors with `php composer.phar install`
 
@@ -162,8 +162,8 @@ PLEASE NOTE: New versions of etherpad-lite don't support this version anymore
 
 ###[Why nginx + apache?](id:why-nginx-apache)
 If you have one server for ethergroups (with apache) and a seperate with etherpadlite (with nginx e.g.), there is no problem.  
-When you want them both on one machine (on the same port, to prevent firewall issues) you can configure nginx as a reverse proxy for both.  
-E.g. for the etherpadlite server you redirect `/eplite`to port 9001 and everything else to port 8080, where apache (with ethergroups) is waiting. 
+BUT when you want them both on one machine and on the same port (to prevent firewall issues e.g. with firewalls which only allow port 80 and 443) you can configure nginx as a reverse proxy for both.  
+E.g. for the etherpadlite server you redirect `/eplite`to port 9001 and everything else to port 8080, where apache (with ethergroups) is listening.
 
 ![image](https://raw.github.com/goldquest/ethergroups/develop-local/doc/nginx_rp_diagram.png)
 
@@ -172,10 +172,10 @@ E.g. for the etherpadlite server you redirect `/eplite`to port 9001 and everythi
 ## Configuration
 ### [of Etherpad Lite](id:config)
 Settings file: `/path/to/eplite/settings.json`  
-It's strongly recommended to use a dedicated database (e.g. mysql) for a productive environment  
+It's strongly recommended to use a dedicated database (e.g. PostgreSQL) for a productive environment  
 We also recommend setting these settings, if you want to use it only with Ethergroups:
 
-	"requireSession" : true,
+	"requireSession" : false,
 	"editOnly" : true,
 
 ### [of Ethergroups](id:configpro)
@@ -189,13 +189,18 @@ For automatic removal of in ldap deleted users, you have to add following comman
 The URL Schema for public pads is: `http[s]://[www].[sub].[domain].[tld]/[yourDirectory]/p/[groupID]$[padID]`
 
 ### Editing language strings and mail content
-You can edit the language strings here:
+You can edit the language strings directly here:
 	
-	/path/to/ethergroups/src/Ethergroups/MainBundle/Resources/translations/
+	/path/to/ethergroups/app/Resources/translations/
 	
 The mail contents can be edited here:
 
 	/path/to/ethergroups/src/Ethergroups/MainBundle/Resource/views/Mails
+	
+#### Change frontpage strings via website
+There is an admin site, where you can change the frontpage.  
+You have to give a login and a password in the `parameters.yml` file.
+After that you can access the admin page under `http://yourdomain.tld/admin`.
 	
 ### Adding another language
 To add another language, you have to add a file with the translations, according to `messages.en.yml` with the naming schema: `messages.[langCode].yml` in
@@ -207,7 +212,7 @@ and add this language to the dropdown menu in
 	/path/to/ethergroups/src/Ethergroups/MainBundle/Resources/views/layout.html.twig
 
 ### Updating symfony2 vendors
-To update the symfony2 framework, you have to change into the base directory of this application and execute: `php composer.phar update`
+To update the symfony2 framework (e.g. when this repository updated the composer.lock file), you have to change into the base directory of this application and execute: `php composer.phar install`
 You maybe have to redo [step 10](#cache-clear) of the ethergroups installation.
 
 ### Updating this application
@@ -215,10 +220,11 @@ To update this application, you have to get the newest version from git e.g. wit
 and do [step 10](#cache-clear) of the ethergroups installation
 
 ### Log
-The logfiles from symfony2 are in the folder: `app/logs`
+The logfiles from symfony2 are in the folder: `app/logs`  
+There is a log file from symfony2 and a log file with statistical informations
 
 ### Backup
-To backup this application, make a backup of your databases (both Etherpad Lite *and* Ethergroups)
+To backup this application, make a backup of your databases (both Etherpad Lite *and* Ethergroups) and save the files in the `web/uploads` directory
 
 ## [Customizing](id:customizing)
 you can change images in `src/Ethergroups/MainBundle/Resources/public/images`  
