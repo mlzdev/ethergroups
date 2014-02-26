@@ -854,7 +854,7 @@ class DefaultController extends Controller {
 		$ssl = false;
 
 		// TODO needs a config for the URL
-		setcookie("sessionID", $sessionIDs, $validUntil, '/', '.hu-berlin.de',
+		setcookie("sessionID", $sessionIDs, $validUntil, '/', $this->container->getParameter('cookie_domain'),
 				$ssl); // Set a cookie
 	}
 	

@@ -17,7 +17,8 @@ parameters:
     ldap.data.provider.dn: "ou=users,c=DE"
     ldap.data.provider.uidAttribute: "uid"
     etherpadlite.apikey: '[APIKEY]'
-    etherpadlite.url: 'http://etherpad.example.com:9001'
+    etherpadlite.url: 'http://etherpad.yourdomain.com:9001'
+    cookie_domain: '.yourdomain.com'
     forgotpasswordurl: 'http://Forgot.password.com/'
     admin_login: admin
     admin_pass: ch4ng3ME!!
