@@ -68,7 +68,7 @@
                     {% if not readonly%}
                     <form class="adduserform" action="{{ path('group_addUser', {id: group.id}) }}" method="post">
                         <input type="text" placeholder="{{ 'newuser'|trans }}" name="username" maxlength="45" />
-                        <input type="submit" />
+                        <input type="submit" value="{{ 'add'|trans }}" />
                     </form>
                     {% endif %}
                 </div>
@@ -111,7 +111,7 @@
             {{ form_errors(form.name) }}
             {{ form_widget(form.name) }}
         {{ form_rest(form) }}
-        <input type="submit" value="Senden"/>
+        <input type="submit" value="{{ 'add'|trans }}"/>
     </form>
     {% endif %}
     </div>

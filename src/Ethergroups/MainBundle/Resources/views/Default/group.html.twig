@@ -57,7 +57,7 @@ $(function() {
             {{ form_errors(form.name) }}
             {{ form_widget(form.name) }}
         {{ form_rest(form) }}
-        <input type="submit" value="Senden" />
+        <input type="submit" value="{{ 'add'|trans }}" />
         <img width="20" class="loader" style="display: none" src="{{ asset('bundles/ethergroupsmain/images/loader.gif') }}"/>
     </form>
     {% endif %}

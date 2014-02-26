@@ -32,6 +32,7 @@ function initPad() {
 	// Make the etherpad iframe resizable
     $("#eplitewrap").resizable({ 
     	handles: { s: '#eplitehandle' },
+        minHeight: 128,
     	start: function(){
     		ifr = $('#etherpadiframe');
 	        var d = $('<div></div>');
@@ -46,6 +47,7 @@ function initPad() {
 	    },
 	    stop: function(){
 	    	$('#temp_div').remove();
+            $('#eplitewrap').css({width:'inherit'});
 	    }
       });
 

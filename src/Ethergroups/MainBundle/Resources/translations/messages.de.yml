@@ -43,6 +43,7 @@ removePassword: Passwort entfernen
 changePassword: Passwort ändern
 yes: Ja
 no: Nein
+add: hinzufügen
 requestmailsubject: "Ethergroups: Sie wurden zu einer Gruppe hinzugefügt"
 firstgroupname: Meine erste Gruppe
 firstpadname: Mein erstes Blatt
