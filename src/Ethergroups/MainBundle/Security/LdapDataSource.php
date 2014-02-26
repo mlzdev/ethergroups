@@ -63,6 +63,10 @@ class LdapDataSource
 	}
 	
 	public function getUserRecordExtended($user, $resourceLink = NULL) {
+        // strip off anything after @ (When someone wants to add a user via mail adress)
+        $userExploded = explode('@', $user);
+        $user = $userExploded[0];
+
 	    // Try to retrieve the user attributes
 	    $result = $this->searchRecords('(|('.$this->ldapUserAttribute . "=" . $user.')(sn='.$user.')(cn='.$user.')(givenName='.$user.')(mail='.$user.'))', array("uid", "sn", "cn", "mail", "givenName"), $resourceLink);
 	    
