@@ -13,7 +13,7 @@ services:
 
     ldap.security.authentication.listener:
         class:  Ethergroups\MainBundle\Security\Firewall\LdapListener
-        arguments: [@security.context, @security.authentication.manager, @security.authentication.session_strategy, @security.http_utils, 'ldap', null, null, [ ], null, null, @form.csrf_provider ]        
+        arguments: [@security.context, @security.authentication.manager, @security.authentication.session_strategy, @security.http_utils, 'ldap', null, null, [ ], null, null, @form.csrf_provider, %cookie_domain% ]
     
     ldap_user_provider:
         class: Ethergroups\MainBundle\Entity\UserRepository

@@ -36,7 +36,8 @@ class LdapListener implements ListenerInterface
                                 array $options = array(),
                                 LoggerInterface $logger = null,
                                 EventDispatcherInterface $dispatcher = null,
-                                CsrfProviderInterface $csrfProvider = null)
+                                CsrfProviderInterface $csrfProvider = null,
+                                $cookieDomain)
     {
         /*parent::__construct(
             $securityContext,
@@ -55,6 +56,7 @@ class LdapListener implements ListenerInterface
         $this->authenticationManager = $authenticationManager;
         $this->providerKey = $providerKey;
         $this->csrfProvider = $csrfProvider;
+        $this->cookieDomain = $cookieDomain;
     }
 	
     /*public function __construct(SecurityContextInterface $securityContext, AuthenticationManagerInterface $authenticationManager) {
@@ -97,6 +99,10 @@ class LdapListener implements ListenerInterface
     public function attemptAuthentication(Request $request)
     {
 		if ('post' !== strtolower($request->getMethod())) {
+            if(isset($_COOKIE['sessionID']) && isset($this->cookieDomain)) {
+                unset($_COOKIE['sessionID']);
+                setcookie('sessionID', '', time()-3600, '/', $this->cookieDomain);
+            }
 			return null;
         }
 
