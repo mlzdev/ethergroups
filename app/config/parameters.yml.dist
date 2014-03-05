@@ -10,6 +10,7 @@ parameters:
     mailer_user: null
     mailer_password: null
     mailer_noreply_address: noreply@example.com
+    support_address: support@yourdomain.tld
     locale: de
     secret: [random_secret]
     ldap.data.provider.host: "ldaps://ldap.example.com"
