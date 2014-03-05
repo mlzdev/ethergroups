@@ -25,6 +25,7 @@ twig:
     globals:
         forgotpasswordurl:  %forgotpasswordurl%
         readonly: %readonly%
+        support_address: %support_address%
 
 # Assetic Configuration
 assetic:
