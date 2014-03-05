@@ -3,7 +3,7 @@ logininfo: |
   <ul>
   <li>Die EP-Schreibmaschine ist am 31.1. vom Entwicklungsserver auf ihre endgültige Adresse <a title="EP-Schreibmaschine URL" href="https://etherpad.hu-berlin.de">etherpad.hu-berlin.de</a> umgezogen und dabei auf eine neue Datenbank umgestellt worden.</li>
   <li>Alle Nutzer/innen, Gruppen und Blätter (außer der jeweiligen Versionsgeschichte und Autorenzuordnung) haben wir dabei übernehmen können.</li>
-  <li>Bitte kontrollieren Sie Ihre Gruppen und Blätter. Für Fragen stehen wir gerne zur Verfügung: <a title="Fragen zur Etherpad-Schreibmaschine per Mail an das MLZ" href="mailto:mlz@cms.hu-berlin.de?subject=Etherpad-Schreibmaschine: Fragen">mlz@cms.hu-berlin.de</a></li>
+  <li>Bitte kontrollieren Sie Ihre Gruppen und Blätter. Für Fragen stehen wir gerne zur Verfügung: <a title="Fragen zur Etherpad-Schreibmaschine per Mail an das MLZ" href="mailto:ep-support@cms.hu-berlin.de?subject=Etherpad-Schreibmaschine: Fragen">ep-support@cms.hu-berlin.de</a></li>
   <li>Leider gab es am 12.2. <a title="Störungsseite des CMS" href="https://www.cms.hu-berlin.de/stoerungen">Störungen</a> beim Login, die nun aber behoben sein sollten.</li>
   </ul>
   <hr />
@@ -28,5 +28,5 @@ logininfo: |
   <br />
   <ul>
   <li>Die Etherpad-Schreibmaschine wurde mit Unterstützung der Medienkommission des Akademischen Senats entwickelt und befindet sich vorläufig im Testbetrieb.</li>
-  <li>Wir freuen uns auf Ihr Feedback und wollen herausbekommen, wofür die Schreibmaschine genutzt wird und wie wir sie noch verbessern können (<a title="Feedback zu Etherpad-Schreibmaschine per Mail an das MLZ" href="mailto:mlz@cms.hu-berlin.de?subject=Etherpad-Schreibmaschine: Feedback">mlz@cms.hu-berlin.de</a>)!</li>
+  <li>Wir freuen uns auf Ihr Feedback und wollen herausbekommen, wofür die Schreibmaschine genutzt wird und wie wir sie noch verbessern können (<a title="Feedback zu Etherpad-Schreibmaschine per Mail an das MLZ" href="mailto:ep-support@cms.hu-berlin.de?subject=Etherpad-Schreibmaschine: Feedback">ep-support@cms.hu-berlin.de</a>)!</li>
   </ul>
