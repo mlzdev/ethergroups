@@ -12,14 +12,14 @@ Written by *Timo Welde*
 	* [Why symfony2?](#symfony2)
 	* [Server architecture](#server-architecture)
 2. Installation
-	* [of Etherpad Lite](#install)
-	* [of Ethergroups](#installpro)
+	* [of Etherpad Lite](#of-etherpad-lite)
+	* [of Ethergroups](#of-ethergroups)
 3. Configuration
-	* [of Etherpad Lite](#config)
-	* [of Ethergroups](#configpro)
-4. [Administration](#admin)
+	* [of Etherpad Lite](#of-etherpad-lite-1)
+	* [of Ethergroups](#of-ethergroups-1)
+4. [Administration](#administration)
 5. [Customizing](#customizing)
-6. [Components & Licenses](#licenses)
+6. [Components & Licenses](#components--licenses)
 
 
 ## [Overview](id:overview)
@@ -68,7 +68,7 @@ To run this software next to etherpad lite on the same server and on the same po
 Further information: [Why nginx + apache?](#why-nginx-apache)
 
 ## Installation
-### [of Etherpad Lite](id:install)
+### [of Etherpad Lite](id:of-etherpad-lite)
 You need an etherpad-lite server, which is running on at least the same 2nd-level-domain as your ethergroups server, because we are using cookies to authenticate users.
 [Infos & Download](https://github.com/ether/etherpad-lite)
 
@@ -89,7 +89,7 @@ It's also recommended to use the latest stable release of nodejs
 - upstart script
 - logrotate
 
-### [of Ethergroups](id:installpro)
+### [of Ethergroups](id:of-ethergroups)
 
 1. Install `apache2-mpm-prefork, mysql, php5, php5-mysql, php5-intl, php5-ldap`
 
@@ -170,7 +170,7 @@ E.g. for the etherpadlite server you redirect `/eplite`to port 9001 and everythi
 ---
 
 ## Configuration
-### [of Etherpad Lite](id:config)
+### [of Etherpad Lite](id:of-etherpad-lite-1)
 Settings file: `/path/to/eplite/settings.json`  
 It's strongly recommended to use a dedicated database (e.g. PostgreSQL) for a productive environment  
 We also recommend setting these settings, if you want to use it only with Ethergroups:
@@ -178,12 +178,12 @@ We also recommend setting these settings, if you want to use it only with Etherg
 	"requireSession" : false,
 	"editOnly" : true,
 
-### [of Ethergroups](id:configpro)
+### [of Ethergroups](id:of-ethergroups-1)
 #### Automatic removal of missing ldap users
 For automatic removal of in ldap deleted users, you have to add following command to e.g. Cron:
 `php /path/to/ethergroups/app/console Ethergroups:ldap`
 
-## [Administration](id:admin)
+## [Administration](id:administration)
 
 ### URL Schema
 The URL Schema for public pads is: `http[s]://[www].[sub].[domain].[tld]/[yourDirectory]/p/[groupID]$[padID]`
@@ -231,7 +231,7 @@ you can change images in `src/Ethergroups/MainBundle/Resources/public/images`
 you can change colors and layout in `src/Ethergroups/MainBundle/Resources/public/css`
 
 
-## [Components & Licenses](id:licenses)
+## [Components & Licenses](id:components--licenses)
 Component						| Version	| License		| Usage
 ------------------------------ | --------	| -------------	| -------
 [Symfony2](http://symfony.com/)						| 2.3 (LTS)| MIT			| Main php framework
