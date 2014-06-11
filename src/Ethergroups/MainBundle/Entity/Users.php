@@ -12,7 +12,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * Ethergroups\MainBundle\Entity\Users
  *
- * @ORM\Table(name="Users")
+ * @ORM\Table(name="users")
  * @ORM\Entity
  * @UniqueEntity("uid")
  * 

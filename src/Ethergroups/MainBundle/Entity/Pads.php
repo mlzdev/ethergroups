@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping\ManyToOne;
 /**
  * Ethergroups\MainBundle\Entity\Pads
  *
- * @ORM\Table(name="Pads", indexes={@Index(name="padid_idx", columns={"padid"})})
+ * @ORM\Table(name="pads", indexes={@Index(name="padid_idx", columns={"padid"})})
  * @ORM\Entity
  * 
  */

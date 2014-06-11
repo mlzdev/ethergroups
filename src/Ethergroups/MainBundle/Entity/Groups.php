@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping\OneToMany;
 /**
  * Ethergroups\MainBundle\Entity\Group
  *
- * @ORM\Table(name="Groups")
+ * @ORM\Table(name="groups")
  * @ORM\Entity
  * 
  */
