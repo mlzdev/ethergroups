@@ -4,6 +4,7 @@ namespace Ethergroups\MainBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Ethergroups\MainBundle\Entity\Groups;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Kernel;
@@ -69,12 +70,13 @@ class DefaultController extends Controller {
 		$groups = $user->getGroups();
 		$groupRequests = $user->getGroupRequests();
 
-		$this->updateCookie($etherpadlite, $groups, $user);
+		$response = $this->updateCookie($etherpadlite, $groups, $user);
 
-		return $this
-				->render('EthergroupsMainBundle:Default:index.html.twig',
-						array('form' => $form->createView(),
-								'groups' => $groups, 'groupRequests'=>$groupRequests));
+		return $this->render(
+            'EthergroupsMainBundle:Default:index.html.twig',
+            array('form' => $form->createView(), 'groups' => $groups, 'groupRequests'=>$groupRequests),
+            $response
+        );
 	}
 
 	/**
@@ -237,12 +239,13 @@ class DefaultController extends Controller {
 	        return \strnatcasecmp($a->name, $b->name);
 	    });
 		
-		$this->updateCookieIfNecessary();
+		$response = $this->updateCookieIfNecessary();
 
-		return $this
-				->render('EthergroupsMainBundle:Default:group.html.twig',
-						array('form' => $form->createView(), 'group' => $group,
-								'pads' => $pads));
+		return $this->render(
+            'EthergroupsMainBundle:Default:group.html.twig',
+            array('form' => $form->createView(), 'group' => $group, 'pads' => $pads),
+            $response
+        );
 	}
 	
 	
@@ -455,7 +458,7 @@ class DefaultController extends Controller {
 
 		$ispublic = $etherpadlite->getPublicStatus($padid)->publicStatus;
 		
-		$this->updateCookieIfNecessary();
+		$response = $this->updateCookieIfNecessary();
 		
 		$repository = $em->getRepository('EthergroupsMainBundle:Pads');
 		$pad = $repository->findOneBy(array('padid'=>$padid));
@@ -502,8 +505,12 @@ class DefaultController extends Controller {
             throw $e;
 		}
 		
-		return $this->render('EthergroupsMainBundle:Default:pad.html.twig',
-						array('group' => $group, 'pad' => $pad, 'padid' => $padid, 'padname' => $padname, 'url' => $url, 'ispublic' => $ispublic, 'form' => $form->createView(), 'isPasswordProtected' => $isPasswordProtected));
+		return $this->render(
+            'EthergroupsMainBundle:Default:pad.html.twig',
+            array('group' => $group, 'pad' => $pad, 'padid' => $padid, 'padname' => $padname, 'url' => $url, 'ispublic' => $ispublic,
+                'form' => $form->createView(), 'isPasswordProtected' => $isPasswordProtected),
+            $response
+        );
 	}
 
     /**
@@ -785,6 +792,15 @@ class DefaultController extends Controller {
 	    ->findOneByGroupid($groupid);
 	}
 
+    /**
+     * Updates the sessionID cookie, to authorise against the etherpad server
+     * This method tries to create sessions as few as possible
+     *
+     * @param null $etherpadlite
+     * @param null $groups
+     * @param null $user
+     * @return Response
+     */
 	private function updateCookie($etherpadlite=null, $groups = null, $user = null) {
 	    if(!isset($etherpadlite)) {
 	        $etherpadlite = $this->get('etherpadlite');
@@ -853,18 +869,28 @@ class DefaultController extends Controller {
 		//$ssl = (stripos($CFG->etherpadlite_url, 'https://')===0)?true:false;
 		$ssl = false;
 
-		// TODO needs a config for the URL
-		setcookie("sessionID", $sessionIDs, $validUntil, '/', $this->container->getParameter('cookie_domain'),
-				$ssl); // Set a cookie
+        $response = new Response();
+
+        // Set cookie
+        $cookie = new Cookie("sessionID", $sessionIDs, $validUntil, '/', $this->container->getParameter('cookie_domain'), $ssl);
+        $response->headers->setCookie($cookie);
+
+        return $response;
 	}
 	
 	private function updateCookieIfNecessary() {
 	    /**
-	     * Always update Cookies
+	     * Update only, if cookie is not present
+         * This will happen, if the cookie is outdated (or the user removes it manually)
+         *
+         * TODO: Find a way to check if the presented cookie is valid for this site,
+         * because it could conflict with other etherpad instances on the same domain.
+         *
 	     */
  	    if(empty($_COOKIE['sessionID'])) {
-	        $this->updateCookie();
+	        return $this->updateCookie();
  	    }
+        return new Response();
 	}
 
 }
