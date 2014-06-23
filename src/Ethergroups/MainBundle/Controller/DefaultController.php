@@ -17,11 +17,11 @@ use Symfony\Bundle\FrameworkBundle\Translation\Translator;
 use Symfony\Component\Filesystem\Filesystem;
 
 class DefaultController extends Controller {
-    
-    
+
+
 	/**
 	 * Show all groups | Create a new group
-	 * 
+	 *
 	 * @param Request $request
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
 	 */
@@ -32,10 +32,10 @@ class DefaultController extends Controller {
         $logUserData = $this->container->getParameter('logUserData');
 
 		$user = $this->getUser();
-		
+
 		// TODO Sadly this is necessary, so that the localisation works
 		//$request->setLocale($request->getPreferredLanguage(array('en', 'de')));
-		
+
 		$em = $this->getDoctrine()->getManager();
 
 		$group = new Groups();
@@ -90,7 +90,7 @@ class DefaultController extends Controller {
 
 	/**
 	 * Remove a user from a group
-	 * 
+	 *
 	 * @param number $id    group id
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
 	 */
@@ -99,22 +99,22 @@ class DefaultController extends Controller {
 
 	    $em = $this->getDoctrine()->getManager();
 	    $group = $em->getRepository('EthergroupsMainBundle:Groups')->find($id);
-	    
+
 	    if(!$group) {
 	        $this->get('session')
 	        ->getFlashBag()->set('notice', $translator->trans('groupNotExistent', array(), 'notifications'));
-	        
+
 	        return $this->redirect($this->generateUrl('base'));
 	    }
-	    
-	    $grouphandler = $this->get('grouphandler'); 
+
+	    $grouphandler = $this->get('grouphandler');
 	    $notice = $grouphandler->removeUser($group, $this->getUser());
-	    
+
 	    $this->get('session')
 	    ->getFlashBag()->set('notice', ''.$notice);
-	    
+
 	    return $this->redirect($this->generateUrl('base'));
-	    
+
 	}
 
     /**
@@ -134,7 +134,7 @@ class DefaultController extends Controller {
             $oldname = $group->getName();
 	        $newname = $request->request->get('groupname');
 	        $group->setName($newname);
-	        
+
 	        $em->flush();
 
             $logger = $this->get('statLogger');
@@ -165,7 +165,7 @@ class DefaultController extends Controller {
 	            ->getFlashBag()->set('notice', $translator->trans('invalidID', array(), 'notifications'));
 	        return $this->redirect($this->generateUrl('base'));
 	    }
-	    
+
 		$etherpadlite = $this->get('etherpadlite');
 		$translator = $this->get('translator');
 
@@ -210,7 +210,7 @@ class DefaultController extends Controller {
 			        $newpad->lastEdited = $this->getLastEdited($lastEdited);
 
                     $logger->info('new pad added,'.$newpad->id.',"'.$newpad->name.'"'.(($logUserData)?','.$this->getUser()->getAuthorid():''));
-			
+
 			        return new JsonResponse(array('success'=>true, 'data'=>$this->renderView('EthergroupsMainBundle:Default:newpad.html.twig', array('pad'=>$newpad))));
 			    }
 			    else {
@@ -222,7 +222,7 @@ class DefaultController extends Controller {
 			else {
 			    return $this->redirect($this->generateUrl('group', array('id' => $id)));
 			}
-			
+
 		}
 
 		$padIDs = $etherpadlite->listPads($group->getGroupid())->padIDs;
@@ -235,19 +235,19 @@ class DefaultController extends Controller {
 			$pads[$i]->id = $padID;
 			$pads[$i]->name = explode('$', $padID);
 			$pads[$i]->name = $pads[$i]->name[1];
-			
+
 			// Different strings depending on when the pad was last edited
 			$lastEdited = substr_replace($etherpadlite->getLastEdited($padID)->lastEdited, "", -3);
 			$pads[$i]->lastEdited = $this->getLastEdited($lastEdited, $now);
-			
+
 			$i++;
 		}
-		
+
 		// Sortieren
 		\usort($pads, function($a, $b) {
 	        return \strnatcasecmp($a->name, $b->name);
 	    });
-		
+
 		$response = $this->updateCookieIfNecessary();
 
 		return $this->render(
@@ -256,20 +256,20 @@ class DefaultController extends Controller {
             $response
         );
 	}
-	
-	
+
+
 	/**
 	 * Calculate a string, depending on when the pad was last edited
-	 * 
+	 *
 	 * @param long $lastEdited    The time in long, when the pad was last edited
 	 * @param \DateTime $now       Current time
 	 * @return string
 	 */
 	public function getLastEdited($lastEdited, $now=null) {
 	    if(!isset($now)) $now = new \DateTime(\date('Y-m-d'));
-	    
+
 	    $translator = $this->get('translator');
-	    
+
 	    $diff = $now->diff(new \DateTime(\date('Y-m-d',$lastEdited)));
 	    if($diff->days == 0) { // today
 	        $lastEdited = $translator->trans('today').' '.\date('H:i' ,$lastEdited);
@@ -306,14 +306,14 @@ class DefaultController extends Controller {
 	    }
 
         $group = $em->getRepository('EthergroupsMainBundle:Groups')->find($id);
-	    
+
 	    if($group) {
 	        if($request->isMethod('POST')) {
 	            $username = $request->request->get('username');
 	            if(!$username) {
 	                $this->get('session')
 	                ->getFlashBag()->set('notice', $translator->trans('noUsernameGiven', array(), 'notifications'));
-	                
+
 	                return $this->redirect($this->generateUrl('base'));
 	            }
 
@@ -328,7 +328,7 @@ class DefaultController extends Controller {
 	                 $user = $userProvider->loadUserByUsername($ldapuser['uid'][0], false);
 	                 $user->setAttributes($ldapuser);
 	                 $userProvider->updateUser($user);
-	                 
+
 	                 // Is the user already a member of this group?
 	                 if($group->getUsers()->contains($user) || $group->getUserRequests()->contains($user)) {
 	                     $this->get('session')
@@ -339,7 +339,7 @@ class DefaultController extends Controller {
 	                     // Make the request
 	                     $user->addGroupRequest($group);
                          $em->flush();
-                         
+
                          //Write a mail to the added user
                          $message = \Swift_Message::newInstance()
                              ->setSubject($translator->trans('requestmailsubject'))
@@ -352,7 +352,7 @@ class DefaultController extends Controller {
                                  )
                              );
                          $this->get('mailer')->send($message);
-                         
+
                          $this->get('session')
                          ->getFlashBag()->set('notice', $translator->trans('userAdded', array(), 'notifications'));
                          $logger->info('user added to group,'.$group->getGroupid().(($logUserData)?',"'.$username.'",'.$this->getUser()->getAuthorid():''));
@@ -380,9 +380,9 @@ class DefaultController extends Controller {
 	        ->getFlashBag()->set('notice', $translator->trans(groupNotExistent));
             $logger->info('add user failed: group not existent,'.$group->getGroupid().(($logUserData)?','.$this->getUser()->getAuthorid():''));
 	    }
-	    
 
-	    
+
+
 	    return $this->redirect($this->generateUrl('base'));
 	}
 
@@ -398,17 +398,17 @@ class DefaultController extends Controller {
         $group = $em->getRepository('EthergroupsMainBundle:Groups')
 				->find($id);
 	    $group->file = $request->files->get('file');
-	    
+
 	    $group->upload();
-	    
+
 	    $em->flush();
-	    
+
 	    $json = json_encode(array('url'=>$group->getWebPath(), 'success'=>true));
 
         $logger = $this->get('statLogger');
         $logUserData = $this->container->getParameter('loguserdata');
         $logger->info('picture added,'.$group->getGroupid().(($logUserData)?','.$this->getUser()->getAuthorid():''));
-	    
+
 	    return new Response($json);
 	}
 
@@ -423,15 +423,15 @@ class DefaultController extends Controller {
 	    $em = $this->getDoctrine()->getManager();
 	    $group = $em->getRepository('EthergroupsMainBundle:Groups')
 	    ->find($id);
-	    
+
 	    unset($group->path);
-	    
+
 	    $em->flush();
 
         $logger = $this->get('statLogger');
         $logUserData = $this->container->getParameter('loguserdata');
         $logger->info('picture removed,'.$group->getGroupid().(($logUserData)?','.$this->getUser()->getAuthorid():''));
-	    
+
 	    return new JsonResponse(array('success'=>true));
 	}
 
@@ -449,9 +449,9 @@ class DefaultController extends Controller {
         $etherpadlite = $this->get('etherpadlite');
         $logger = $this->get('statLogger');
         $logUserData = $this->container->getParameter('loguserdata');
-		
+
 	    $padsplit = $this->splitPadid($padid);
-	    
+
 	    $group = $this->getGroupFromGroupid($padsplit[0]);
 	    $padname = $padsplit[1];
 
@@ -466,9 +466,9 @@ class DefaultController extends Controller {
         }
 
 		$ispublic = $etherpadlite->getPublicStatus($padid)->publicStatus;
-		
+
 		$response = $this->updateCookieIfNecessary();
-		
+
 		$repository = $em->getRepository('EthergroupsMainBundle:Pads');
 		$pad = $repository->findOneBy(array('padid'=>$padid));
 		if (!$pad) {
@@ -476,7 +476,7 @@ class DefaultController extends Controller {
 		    $pad->setPadid($padid);
 		    $pad->setGroup($group);
 		}
-		
+
 		$form = $this->createFormBuilder($pad)
 		->add('pass', 'text',
 		        array('max_length' => 20, 'attr' => array('placeholder' => 'Passwort')))
@@ -493,7 +493,7 @@ class DefaultController extends Controller {
    		                $em->persist($pad);
 		            }
 		            $em->flush();
-		            
+
 		            $this->get('session')->getFlashBag()->set('notice', $translator->trans('passCreated', array(), 'notifications'));
 
                     $logger->info('password added,'.$pad->getPadid().(($logUserData)?','.$this->getUser()->getAuthorid():''));
@@ -505,7 +505,7 @@ class DefaultController extends Controller {
 		        return $this->redirect($this->generateUrl('pad', array('padid' => $padid)));
 		    }
 		}
-		
+
 		try {
 		    $isPasswordProtected = $etherpadlite->isPasswordProtected($padid)->isPasswordProtected;
 		}
@@ -513,7 +513,7 @@ class DefaultController extends Controller {
 		    $this->get('session')->getFlashBag()->set('notice', $translator->trans('passCheckError', array(), 'notifications'));
             throw $e;
 		}
-		
+
 		return $this->render(
             'EthergroupsMainBundle:Default:pad.html.twig',
             array('group' => $group, 'pad' => $pad, 'padid' => $padid, 'padname' => $padname, 'url' => $url, 'ispublic' => $ispublic,
@@ -534,13 +534,13 @@ class DefaultController extends Controller {
 	    $eplite = $this->get('etherpadlite');
         $logger = $this->get('statLogger');
         $logUserData = $this->container->getParameter('loguserdata');
-	    
+
 	    if(!$padid) {
 	        $this->get('session')
 	        ->getFlashBag()->set('notice', $translator->trans('invalidID', array(), 'notifications'));
 	        return $this->redirect($this->generateUrl('base'));
 	    }
-	    
+
 	    try {
 	        $eplite->setPassword($padid, null);
 	        $this->removePasswordFromDatabase($padid);
@@ -551,10 +551,10 @@ class DefaultController extends Controller {
 	        $this->get('session')->getFlashBag()->set('notice', $translator->trans('removePassError', array(), 'notifications'));
             throw $e;
 	    }
-	    
+
 	    return $this->redirect($this->generateUrl('pad', array('padid' => $padid)));
 	}
-	
+
 	private function removePasswordFromDatabase($padid) {
 	    $em = $this->getDoctrine()->getManager();
 	    $repository = $em->getRepository('EthergroupsMainBundle:Pads');
@@ -574,13 +574,13 @@ class DefaultController extends Controller {
 	    $eplite = $this->get('etherpadlite');
         $logger = $this->get('statLogger');
         $logUserData = $this->container->getParameter('loguserdata');
-	    
+
 	    if(!$padid) {
 	        $this->get('session')
 	        ->getFlashBag()->set('notice', $translator->trans('invalidID', array(), 'notifications'));
 	        return $this->redirect($this->generateUrl('base'));
 	    }
-	    
+
 	    try {
 	        $eplite->deletePad($padid);
 	        $this->removePasswordFromDatabase($padid);
@@ -590,10 +590,10 @@ class DefaultController extends Controller {
 	        $this->get('session')
 	        ->getFlashBag()->set('notice', $translator->trans('removePadError', array(), 'notifications'));
 	    }
-	    
+
 	    $padsplit = $this->splitPadid($padid);
 	    $group = $this->getGroupFromGroupid($padsplit[0]);
-	         
+
 	    return $this->redirect($this->generateUrl('group', array('id'=>$group->getId())));
 	}
 
@@ -609,11 +609,11 @@ class DefaultController extends Controller {
 	        $this->get('session')
 	        ->getFlashBag()->set('notice', $translator->trans('invalidID', array(), 'notifications'));
 	    }
-	    
+
 	    $etherpadlite = $this->get('etherpadlite');
         $logger = $this->get('statLogger');
         $logUserData = $this->container->getParameter('loguserdata');
-	    
+
 	    try {
 	        $ispublic = $etherpadlite->getPublicStatus($padid)->publicStatus;
 	    }
@@ -622,7 +622,7 @@ class DefaultController extends Controller {
 	        $this->get('session')
 	        ->getFlashBag()->set('notice', 'FEHLER! getPublicStatus');
 	    }
-	    
+
 	    try {
 	        $etherpadlite->setPublicStatus($padid, !$ispublic);
             $logger->info('public status to '.((!$ispublic)?'true':'false').','.$padid.(($logUserData)?','.$this->getUser()->getAuthorid():''));
@@ -631,15 +631,15 @@ class DefaultController extends Controller {
 	        // TODO better error handling
 	        $this->get('session')->getFlashBag()->set('notice', 'FEHLER! setPublicStatus');
 	    }
-	    
+
 	    return $this->redirect($this->generateUrl('pad', array('padid' => $padid)));
-	    
-	    
+
+
 	}
-	
+
 	/**
 	 * Change the Language of the whole site w/o login site
-	 * 
+	 *
 	 * @param Request $request
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
 	 */
@@ -687,19 +687,19 @@ class DefaultController extends Controller {
 	public function policyAction(Request $request) {
 	    $em = $this->getDoctrine()->getManager();
 	    $translator = $this->get('translator');
-	    
+
 	    $user = $this->getUser();
-	    
+
 	    $form = $this->createFormBuilder($user)
 	        ->add('policyagreed', null, array('required'=> false, 'label'=>$translator->trans('agreepolicy')))
 	        ->add('confirm', 'submit', array('label'=>$translator->trans('confirm')))
-	        ->add('cancel', 'submit', array('label'=>$translator->trans('cancel')))    
+	        ->add('cancel', 'submit', array('label'=>$translator->trans('cancel')))
 	        ->getForm();
-	    
+
 	    $form->handleRequest($request);
-	    
+
 	    if ($form->isValid()) {
-	        if($form->get('confirm')->isClicked()) { 
+	        if($form->get('confirm')->isClicked()) {
 	            if($user->getPolicyAgreed()) {
 	                $em->flush();
 	                return $this->redirect($this->generateUrl('base'));
@@ -713,10 +713,10 @@ class DefaultController extends Controller {
 	            return $this->redirect($this->generateUrl('logout'));
 	        }
 	    }
-	    
+
 	    return $this->render('EthergroupsMainBundle:Default:policy.html.twig', array('form'=>$form->createView()));
 	}
-        
+
     /**
      * This function shows the admin area
      */
@@ -778,25 +778,25 @@ class DefaultController extends Controller {
 
         return $error;
     }
-	
+
 	/**
 	 * Split the pad id into group id and pad name
-	 * 
+	 *
 	 * @param string $padid
 	 * @return string[] 0: The group id 1: The pad name
 	 */
 	private function splitPadid($padid) {
 	    return \preg_split('.\$.', $padid);
 	}
-	
+
 	/**
 	 * Get the group from database from the group id
-	 * 
+	 *
 	 * @param string $groupid
 	 */
 	private function getGroupFromGroupid($groupid) {
 	    $em = $this->getDoctrine()->getManager();
-	    
+
 	    return $em->getRepository('EthergroupsMainBundle:Groups')
 	    ->findOneByGroupid($groupid);
 	}
@@ -810,7 +810,7 @@ class DefaultController extends Controller {
      * @param null $user
      * @return Response
      */
-	private function updateCookie($etherpadlite=null, $groups = null, $user = null) {
+    private function updateCookie($etherpadlite=null, $groups = null, $user = null) {
 	    if(!isset($etherpadlite)) {
 	        $etherpadlite = $this->get('etherpadlite');
 	    }
@@ -824,7 +824,7 @@ class DefaultController extends Controller {
 		foreach ($groups as $group) {
 			$groupIDs[$group->getGroupid()] = 0;
 		}
-		
+
 		if(!isset($groupIDs)) return;
 
 		$authorID = $user->getAuthorid();
@@ -837,7 +837,7 @@ class DefaultController extends Controller {
 		if(!empty($sessions)) {
 		    $sessions = get_object_vars($sessions);
 		}
-		
+
 		/**
 		 * Here we have the possibility to disallow the creation of new sessions by unsetting the sessionIDs, which the etherpad server already knows
 		 * If one of the servers sessions isn't valid anymore, it will be deleted and afterwards a session for the group will be created
@@ -879,10 +879,10 @@ class DefaultController extends Controller {
 			}
 			$sessionIDs .= $sessionID->sessionID . ',';
 		}
-		
+
 		$sessionIDs = substr($sessionIDs, 0, -1);
 
-		// if we reach the etherpadlite server over https, then the cookie should only be delivered over ssl 
+		// if we reach the etherpadlite server over https, then the cookie should only be delivered over ssl
 		//$ssl = (stripos($CFG->etherpadlite_url, 'https://')===0)?true:false;
 		$ssl = false;
 
@@ -894,7 +894,7 @@ class DefaultController extends Controller {
 
         return array($response, $firstExpiration);
 	}
-	
+
 	private function updateCookieIfNecessary() {
 	    /**
 	     * Update only, if cookie is not present
