@@ -19,7 +19,8 @@ Written by *Timo Welde*
 	* [of Ethergroups](#of-ethergroups-1)
 4. [Administration](#administration)
 5. [Customizing](#customizing)
-6. [Components & Licenses](#components--licenses)
+6. [Security](#security)
+7. [Components & Licenses](#components--licenses)
 
 
 ## [Overview](id:overview)
@@ -140,6 +141,8 @@ It's also recommended to use the latest stable release of nodejs
 	secret | this is a secret code, symfony uses to prevent bots from filling out forms. you can generate one [here](https://tools.brain-tower.com/en/security/passwordgenerator?template=symfony-secret)
 	ldap.data.provider_* | your ldap config
 	etherpadlite apikey | found in the `APIKEY.txt` on your etherpad lite server
+	cookie\_domain | The part of your domain, which the ethergroups and etherpad server ahve in common. E.g.: `.example.com`
+	cookie\_expires | how long an etherpad session and the etherpad session cookie should be valid (in seconds)
 	forgotpasswordurl | the url the link for "Forgot your password?" should point to
 	admin\_* | admin login and password for the site under yourdomain.tld/**admin**
 	loguserdata | log user data on/off e.g. IPs and usernames [boolean]
@@ -230,6 +233,12 @@ To backup this application, make a backup of your databases (both Etherpad Lite 
 you can change images in `src/Ethergroups/MainBundle/Resources/public/images`  
 you can change colors and layout in `src/Ethergroups/MainBundle/Resources/public/css`
 
+## [Security](id:security)
+Connection can be encrypted fully via https.  
+If the ethergroups session cookie is missing, the etherpad cookie gets deleted.  
+### Security issues
+If someone closes the browser, w/o logging out, the session cookie expires not until the last session is expired. This can lead to an issue, if someone knows the direct link to a pad, where its session is still valid. (Which is a very rare situation)  
+*Set the cookie_expires setting not too high*
 
 ## [Components & Licenses](id:components--licenses)
 Component						| Version	| License		| Usage

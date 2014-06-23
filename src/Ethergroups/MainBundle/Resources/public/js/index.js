@@ -47,10 +47,33 @@ function initIndex(pathRemovePic) {
     // groupname form submit handler
     renameGroupFormHandler($('.group .editform'));
 
+    // show/hide groups
     $('#togglegroups').click(function(e){
         e.preventDefault();
         $('#groups-menu').toggle();
         $('#pad').toggleClass('fullwidth');
         $(this).find('img').toggle();
     });
+
+    // renew cookie every x seconds
+    renewCookieHandler()
+}
+
+function renewCookieHandler() {
+    var renewObj = $('#renewCookie')
+    var url = renewObj.attr('href')
+
+    var delay = parseInt(renewObj.data('expires'))*1000
+
+    timeoutFunc = function(delay) {
+        renewCookieTimeout = setTimeout(function(){
+            $.get(url, function(data, textStatus, jqXHR) {
+                var delay = parseInt(data)*1000
+                timeoutFunc(delay)
+            })
+        }, delay)
+    }
+
+    timeoutFunc(delay)
+
 }

@@ -11,21 +11,25 @@ login:
     defaults: { _controller: EthergroupsMainBundle:Security:login }
 
 login_check:
-    pattern:   /login_check
+    pattern:  /login_check
     
 logout:
-    pattern:   /logout
+    pattern:  /logout
     
 policy:
-    pattern:   /policy
-    defaults:  { _controller: EthergroupsMainBundle:Default:policy }
+    pattern:  /policy
+    defaults: { _controller: EthergroupsMainBundle:Default:policy }
     
 base:
-    pattern:   /
-    defaults: { _controller: EthergroupsMainBundle:Default:index}
+    pattern:  /
+    defaults: { _controller: EthergroupsMainBundle:Default:index }
+
+renewCookie:
+    pattern:  /renewcookie
+    defaults: { _controller: EthergroupsMainBundle:Default:renewCookie }
     
 group:
-    pattern:   /group/{id}
+    pattern:  /group/{id}
     defaults: { _controller: EthergroupsMainBundle:Default:group, id: 0 }
     
 group_confirm:
@@ -41,45 +45,45 @@ group_decline:
     defaults: { _controller: EthergroupsMainBundle:Group:decline, id: 0 }
     
 group_addUser:
-    pattern:    /group/add/user/{id}
-    defaults:   { _controller: EthergroupsMainBundle:Default:addUser, id: 0 }
+    pattern:  /group/add/user/{id}
+    defaults: { _controller: EthergroupsMainBundle:Default:addUser, id: 0 }
 
 group_addPicture:
-    pattern:    /group/add/picture/{id}
-    defaults:   { _controller: EthergroupsMainBundle:Default:addPicture, id: 0  }
+    pattern:  /group/add/picture/{id}
+    defaults: { _controller: EthergroupsMainBundle:Default:addPicture, id: 0  }
     
 group_removePicture:
-    pattern:    /group/remove/picture/{id}
-    defaults:   { _controller: EthergroupsMainBundle:Default:removePicture, id: 0  }
+    pattern:  /group/remove/picture/{id}
+    defaults: { _controller: EthergroupsMainBundle:Default:removePicture, id: 0  }
     
 group_rename:
-    pattern:    /group/rename/{id}
-    defaults:   { _controller: EthergroupsMainBundle:Default:rename, id: 0 }
+    pattern:  /group/rename/{id}
+    defaults: { _controller: EthergroupsMainBundle:Default:rename, id: 0 }
 
 group_isLast:
-    pattern:    /group/islast/{id}
-    defaults:   { _controller: EthergroupsMainBundle:Group:isLast, id: 0 }
+    pattern:  /group/islast/{id}
+    defaults: { _controller: EthergroupsMainBundle:Group:isLast, id: 0 }
     
 pad:
-    pattern:   /pad/{padid}
-    defaults:  { _controller: EthergroupsMainBundle:Default:pad, padid: 0 }
+    pattern:  /pad/{padid}
+    defaults: { _controller: EthergroupsMainBundle:Default:pad, padid: 0 }
     
 pad_delete:
-    pattern:   /pad/delete/{padid}
-    defaults:  { _controller: EthergroupsMainBundle:Default:deletePad, padid: 0 }
+    pattern:  /pad/delete/{padid}
+    defaults: { _controller: EthergroupsMainBundle:Default:deletePad, padid: 0 }
     
 pad_switchPublic:
-    pattern:    /pad/switch/{padid}
-    defaults:  { _controller: EthergroupsMainBundle:Default:switchPublic, padid: 0 }
+    pattern:  /pad/switch/{padid}
+    defaults: { _controller: EthergroupsMainBundle:Default:switchPublic, padid: 0 }
     
 pad_deletePassword:
-    pattern:    /pad/deletepass/{padid}
-    defaults:   { _controller: EthergroupsMainBundle:Default:deletePassword, padid: 0 }
+    pattern:  /pad/deletepass/{padid}
+    defaults: { _controller: EthergroupsMainBundle:Default:deletePassword, padid: 0 }
     
 changeLanguage:
-    pattern:    /changeLanguage
-    defaults:   { _controller: EthergroupsMainBundle:Default:changeLanguage }
+    pattern:  /changeLanguage
+    defaults: { _controller: EthergroupsMainBundle:Default:changeLanguage }
 
 changeLanguageLogin:
-    pattern:    /changeLanguageLogin
-    defaults:   { _controller: EthergroupsMainBundle:Default:changeLanguageLogin }
+    pattern:  /changeLanguageLogin
+    defaults: { _controller: EthergroupsMainBundle:Default:changeLanguageLogin }
