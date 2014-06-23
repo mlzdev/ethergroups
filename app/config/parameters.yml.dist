@@ -20,6 +20,7 @@ parameters:
     etherpadlite.apikey: '[APIKEY]'
     etherpadlite.url: 'http://etherpad.yourdomain.com:9001'
     cookie_domain: '.yourdomain.com'
+    cookie_expires: 5400
     forgotpasswordurl: 'http://Forgot.password.com/'
     admin_login: admin
     admin_pass: ch4ng3ME!!

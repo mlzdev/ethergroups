@@ -23,6 +23,10 @@ policy:
 base:
     pattern:   /
     defaults: { _controller: EthergroupsMainBundle:Default:index}
+
+renewCookie:
+    pattern:  /renewcookie
+    defaults: { _controller: EthergroupsMainBundle:Default:renewCookie }
     
 group:
     pattern:   /group/{id}

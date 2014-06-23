@@ -70,14 +70,23 @@ class DefaultController extends Controller {
 		$groups = $user->getGroups();
 		$groupRequests = $user->getGroupRequests();
 
-		$response = $this->updateCookie($etherpadlite, $groups, $user);
+		list($response, $firstExpiration) = $this->updateCookie($etherpadlite, $groups, $user);
 
 		return $this->render(
             'EthergroupsMainBundle:Default:index.html.twig',
-            array('form' => $form->createView(), 'groups' => $groups, 'groupRequests'=>$groupRequests),
+            array('form' => $form->createView(), 'groups' => $groups, 'groupRequests'=>$groupRequests, 'firstExpiration'=>$firstExpiration),
             $response
         );
 	}
+
+    public function renewCookieAction(Request $request) {
+        /** @var $response Response */
+        list($response, $firstExpiresIn) = $this->updateCookie();
+
+        $response->setContent($firstExpiresIn);
+
+        return $response;
+    }
 
 	/**
 	 * Remove a user from a group
@@ -820,8 +829,8 @@ class DefaultController extends Controller {
 
 		$authorID = $user->getAuthorid();
 
-		// TODO Needs a config
-		$validUntil = time() + 5400;
+		$validUntil = time() + $this->container->getParameter('cookie_expires');
+        $firstExpiration = $validUntil;
 
 		$sessionIDs = "";
 		$sessions = $etherpadlite->listSessionsOfAuthor($authorID);
@@ -841,7 +850,13 @@ class DefaultController extends Controller {
 		    $now = time();
 			foreach ($sessions as $sessionID => $value) {
 			    if($value->validUntil > $now) {
+                    // Add to sessionIDs
 				    $sessionIDs .= $sessionID . ',';
+
+                    if($value->validUntil < $firstExpiration) {
+                        $firstExpiration = $value->validUntil;
+                    }
+
     				if (array_key_exists($value->groupID, $groupIDs)) {
     					unset($groupIDs[$value->groupID]);
     				}
@@ -850,6 +865,8 @@ class DefaultController extends Controller {
  			        //$etherpadlite->deleteSession($sessionID); // Throws an error on server side o.O?
 			    }
 			}
+            $firstExpiration = $firstExpiration - $now;
+            if($firstExpiration<0) $firstExpiration = 0;
 		}
 
 		foreach ($groupIDs as $groupID => $value) {
@@ -875,7 +892,7 @@ class DefaultController extends Controller {
         $cookie = new Cookie("sessionID", $sessionIDs, $validUntil, '/', $this->container->getParameter('cookie_domain'), $ssl);
         $response->headers->setCookie($cookie);
 
-        return $response;
+        return array($response, $firstExpiration);
 	}
 	
 	private function updateCookieIfNecessary() {
@@ -888,7 +905,8 @@ class DefaultController extends Controller {
          *
 	     */
  	    if(empty($_COOKIE['sessionID'])) {
-	        return $this->updateCookie();
+            $response = $this->updateCookie();
+	        return $response[0];
  	    }
         return new Response();
 	}
