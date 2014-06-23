@@ -9,7 +9,7 @@ Written by *Timo Welde*
 ## Table of contents
 1. [Overview](#overview)
 	* [Features](#features)
-	* [Why symfony2?](#symfony2)
+	* [Why symfony2?](#why-symfony2)
 	* [Server architecture](#server-architecture)
 2. Installation
 	* [of Etherpad Lite](#of-etherpad-lite)
@@ -54,7 +54,7 @@ After it was established, there was a demand to use this editor without the over
 	* can decide after they logged in, if they want to be in a particular group, or not
 
 
-### [Why symfony2?](id:symfony2)
+### [Why symfony2?](id:why-symfony2)
 * We used the symfony2 framework in the long-term version 2.3.x because it relies on the MVC (Model-View-Controller) pattern, so it is easier for another team to do further development on this software.
 	* The ORM in Symfony2 called `Doctrine` supports various databases
 	* The Templating Engine `Twig` makes it easy to design the website, without php knowledge
@@ -134,7 +134,7 @@ It's also recommended to use the latest stable release of nodejs
 
 	Setting		|	Explanation
 	----------- |--------------
-	database\_* | we use `pdo_mysql`, you can have a look [here](http://docs.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/configuration.html) for other databases
+	database\_* | we use `pdo_mysql`. You can have a look [here](http://docs.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/configuration.html) for other databases
 	mailer\_* | 
 	locale | this is the default locale, symfony should use
 	secret | this is a secret code, symfony uses to prevent bots from filling out forms. you can generate one [here](https://tools.brain-tower.com/en/security/passwordgenerator?template=symfony-secret)
