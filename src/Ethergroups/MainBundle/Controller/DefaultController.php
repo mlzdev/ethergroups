@@ -889,7 +889,7 @@ class DefaultController extends Controller {
         $response = new Response();
 
         // Set cookie
-        $cookie = new Cookie("sessionID", $sessionIDs, $validUntil, '/', $this->container->getParameter('cookie_domain'), $ssl, false);
+        $cookie = new Cookie("sessionID", $sessionIDs, 0, '/', $this->container->getParameter('cookie_domain'), $ssl, false);
         $response->headers->setCookie($cookie);
 
         return array($response, $firstExpiration);
