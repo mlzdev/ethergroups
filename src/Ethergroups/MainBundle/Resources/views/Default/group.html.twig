@@ -38,7 +38,7 @@ $(function() {
     <div id="pads">
     {% for pad in pads %}
         <div class="pad">
-            <a class="padname" href="{{ path('pad', {padid: pad.id}) }}" >{{ pad.name }}</a>
+            <a class="padname" href="{{ path('pad', {padid: pad.id}) }}" data-name="{{ pad.name }}">{{ pad.name }}</a>
             {% if not readonly %}
             <span class="actions" >
                 <a class="padremovelink" href="{{ path('pad_delete', {padid: pad.id}) }}"> <img title="{{ 'deletePad'|trans }}" src="{{ asset('bundles/ethergroupsmain/images/delete.png') }}" /> </a>

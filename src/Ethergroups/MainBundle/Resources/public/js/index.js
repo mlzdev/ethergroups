@@ -36,8 +36,35 @@ function initIndex(pathRemovePic) {
     // show action icons when mouseover groupname
     showActionsHandler($('#groups .group-name'))
 
-    // Trigger click for first group
-    $('.group:first .group-link').click();
+    if(typeof(Storage) !== "undefined" && sessionStorage.hash) {
+        location.hash = sessionStorage.hash;
+        sessionStorage.removeItem('hash');
+    }
+
+    var hash = location.hash;
+    if(!hash) {
+        // Trigger click for first group
+        $('.group:first .group-link').click();
+    }
+    else {
+        openFromHash(hash)
+    }
+
+    window.onhashchange = function() {
+        var hash = location.hash
+        openFromHash(hash)
+    }
+
+    function openFromHash(hash) {
+        // Try to open pad and group from hash
+        hash = hash.split('/')
+        var groupid = hash[0].slice(1);
+        var group = $('#group-'+groupid);
+        expandGroup(group, newpadform, uploadGroupPicture, function(padscontent) {
+            group.find('[data-name="'+hash[2]+'"]').click();
+
+        })
+    }
 
     // Show group_edit button (This functionality is hidden, when js is disabled)
     var editgroup = $('.group .editgroup').show();

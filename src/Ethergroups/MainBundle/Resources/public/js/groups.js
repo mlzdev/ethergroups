@@ -311,6 +311,13 @@ function clickedPadHandler (obj) {
 	// deselect other pads & select this
 	otherOpenPad.removeClass('selected');
 	obj.addClass('selected');
+
+    var group = obj.closest('.group')
+    var groupid = group.attr('id');
+    groupid = groupid.split('-')[1];
+    var groupname = group.find('.group-link').text()
+
+    location.hash = groupid+'/'+groupname+'/'+ obj.text();
 	
 	var pad = $('#pad');
 	pad.block({

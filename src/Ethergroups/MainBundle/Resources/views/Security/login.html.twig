@@ -10,6 +10,9 @@
 <script type="text/javascript">
 $(function() {
     $('#username').focus();
+    if(location.hash && typeof(Storage) !== "undefined") {
+        sessionStorage.hash = location.hash;
+    }
 });
 </script>
 {% endblock %}
