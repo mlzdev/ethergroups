@@ -37,12 +37,12 @@ function initIndex(pathRemovePic) {
     showActionsHandler($('#groups .group-name'))
 
     var search = location.search.substring(1).split('=')[1];
-    search = decodeURIComponent(search)
     if(!search) {
         // Trigger click for first group
         $('.group:first .group-link').click();
     }
     else {
+        search = decodeURIComponent(search)
         openFromSearch(search)
         history.replaceState(true, '', null);
     }
