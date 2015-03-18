@@ -10,9 +10,6 @@
 <script type="text/javascript">
 $(function() {
     $('#username').focus();
-    if(location.hash && typeof(Storage) !== "undefined") {
-        sessionStorage.hash = location.hash;
-    }
 });
 </script>
 {% endblock %}
@@ -29,7 +26,7 @@ $(function() {
 <div id="loginwrapper">
     <div id="loginpanel">
     	<div class="login">
-    		<form action="{{ path('login_check') }}" method="post">
+    		<form action="{{ path('login_check', {'pad':query}) }}" method="post">
     			<div class="loginform">
     				<label for="username">{{ 'username'|trans }}</label><br />
     				<input type="text" id="username" name="_username" value="{{ last_username }}" /><br />

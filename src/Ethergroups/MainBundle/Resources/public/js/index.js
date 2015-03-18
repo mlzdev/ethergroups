@@ -36,32 +36,32 @@ function initIndex(pathRemovePic) {
     // show action icons when mouseover groupname
     showActionsHandler($('#groups .group-name'))
 
-    if(typeof(Storage) !== "undefined" && sessionStorage.hash) {
-        location.hash = sessionStorage.hash;
-        sessionStorage.removeItem('hash');
-    }
-
-    var hash = location.hash;
-    if(!hash) {
+    var search = location.search.substring(1).split('=')[1];
+    search = decodeURIComponent(search)
+    if(!search) {
         // Trigger click for first group
         $('.group:first .group-link').click();
     }
     else {
-        openFromHash(hash)
+        openFromSearch(search)
+        history.replaceState(true, '', null);
     }
 
-    window.onhashchange = function() {
-        var hash = location.hash
-        openFromHash(hash)
+    window.onpopstate = function(event) {
+        if(event.state) {
+            var search = location.search.substring(1).split('=')[1];
+            search = decodeURIComponent(search)
+            openFromSearch(search)
+        }
     }
 
-    function openFromHash(hash) {
+    function openFromSearch(search) {
         // Try to open pad and group from hash
-        hash = hash.split('/')
-        var groupid = hash[0].slice(1);
+        search = search.split('/')
+        var groupid = search[0];
         var group = $('#group-'+groupid);
         expandGroup(group, newpadform, uploadGroupPicture, function(padscontent) {
-            group.find('[data-name="'+hash[2]+'"]').click();
+            group.find('[data-name="'+search[1]+'"]').click();
 
         })
     }

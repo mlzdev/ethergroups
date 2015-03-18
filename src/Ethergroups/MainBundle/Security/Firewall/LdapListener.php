@@ -75,13 +75,13 @@ class LdapListener implements ListenerInterface
 		
 		try {
 			$returnValue = $this->attemptAuthentication($request);
-				
+            if($query = $request->getQueryString()) $query = '?'.$query;
 			if ($returnValue == null) {
-				$response = new RedirectResponse('/login');
+				$response = new RedirectResponse('/login'.$query);
 				return $event->setResponse($response);
 			} elseif ($returnValue instanceof TokenInterface) {
 				$this->securityContext->setToken($returnValue);
-				$response = new RedirectResponse('/');
+				$response = new RedirectResponse('/'.$query);
 				return $event->setResponse($response);
         	} elseif ($returnValue instanceof Response) {
 				return $event->setResponse($returnValue);

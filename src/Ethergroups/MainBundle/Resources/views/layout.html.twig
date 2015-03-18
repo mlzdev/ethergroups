@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
-        <title>{% block title %}{{ 'name'|trans }}{% endblock %}</title>
+        <title data-orig="{{ 'name'|trans }}">{% block title %}{{ 'name'|trans }}{% endblock %}</title>
         <link rel="icon" sizes="16x16" href="{{ asset('favicon.ico') }}" />
         {% block stylesheets %}
         <link rel="stylesheet" href="{{ asset('bundles/ethergroupsmain/css/base.css') }}" />

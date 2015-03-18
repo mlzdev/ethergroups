@@ -312,13 +312,8 @@ function clickedPadHandler (obj) {
 	otherOpenPad.removeClass('selected');
 	obj.addClass('selected');
 
-    var group = obj.closest('.group')
-    var groupid = group.attr('id');
-    groupid = groupid.split('-')[1];
-    var groupname = group.find('.group-link').text()
+    changeUrlAndTitle(obj)
 
-    location.hash = groupid+'/'+groupname+'/'+ obj.text();
-	
 	var pad = $('#pad');
 	pad.block({
 		message: $('#loader-bar'),
@@ -340,6 +335,22 @@ function clickedPadHandler (obj) {
 			initPad();
 			}
 		});
+}
+
+function changeUrlAndTitle(obj) {
+    var group = obj.closest('.group');
+    var groupid = group.attr('id');
+    groupid = groupid.split('-')[1];
+    var groupname = group.find('.group-link').text();
+    var padname = obj.text();
+
+    var query = groupid+'/'+padname;
+    var encoded = '?pad='+encodeURIComponent(query);
+    if(encoded != location.search) {
+        history.pushState(true, '', encoded)
+    }
+
+    document.title = $('title').data('orig')+': '+groupname+'/'+padname;
 }
 
 function usernamesHandler() {

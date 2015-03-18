@@ -20,10 +20,14 @@ class SecurityController extends Controller
             $session->remove(SecurityContext::AUTHENTICATION_ERROR);
         }
 
+
+        $query = $request->query->get('pad');
+
         return $this->render('EthergroupsMainBundle:Security:login.html.twig', array(
             // last username entered by the user
             'last_username' => $session->get(SecurityContext::LAST_USERNAME),
             'error'         => $error,
-        ));	
+            'query'         => $query
+        ));
 	}
 }
