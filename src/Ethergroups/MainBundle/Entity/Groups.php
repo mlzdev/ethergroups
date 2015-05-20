@@ -59,6 +59,13 @@ class Groups
      * @ORM\ManyToMany(targetEntity="Users", indexBy="uid", mappedBy="groupRequests")
      */
     private $userRequests;
+
+    /**
+     * @var Invitation $invitations
+     *
+     * @ORM\OneToMany(targetEntity="Invitation", mappedBy="group")
+     */
+    private $invitations;
     
     /**
      * @var Pads $pads
@@ -342,5 +349,38 @@ public function upload()
     public function getUserRequests()
     {
         return $this->userRequests;
+    }
+
+    /**
+     * Add invitations
+     *
+     * @param \Ethergroups\MainBundle\Entity\Invitation $invitations
+     * @return Groups
+     */
+    public function addInvitation(\Ethergroups\MainBundle\Entity\Invitation $invitations)
+    {
+        $this->invitations[] = $invitations;
+    
+        return $this;
+    }
+
+    /**
+     * Remove invitations
+     *
+     * @param \Ethergroups\MainBundle\Entity\Invitation $invitations
+     */
+    public function removeInvitation(\Ethergroups\MainBundle\Entity\Invitation $invitations)
+    {
+        $this->invitations->removeElement($invitations);
+    }
+
+    /**
+     * Get invitations
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getInvitations()
+    {
+        return $this->invitations;
     }
 }

@@ -107,6 +107,13 @@ class Users implements UserInterface
      */
     private $groupRequests;
 
+    /**
+     * @var Invitation $invitations
+     *
+     * @ORM\OneToMany(targetEntity="Invitation", mappedBy="user")
+     */
+    private $invitations;
+
     // LDAP Attributes
     protected $attributes;
     
@@ -501,5 +508,38 @@ class Users implements UserInterface
     public function getGroupRequests()
     {
         return $this->groupRequests;
+    }
+
+    /**
+     * Add invitations
+     *
+     * @param \Ethergroups\MainBundle\Entity\Invitation $invitations
+     * @return Users
+     */
+    public function addInvitation(\Ethergroups\MainBundle\Entity\Invitation $invitations)
+    {
+        $this->invitations[] = $invitations;
+    
+        return $this;
+    }
+
+    /**
+     * Remove invitations
+     *
+     * @param \Ethergroups\MainBundle\Entity\Invitation $invitations
+     */
+    public function removeInvitation(\Ethergroups\MainBundle\Entity\Invitation $invitations)
+    {
+        $this->invitations->removeElement($invitations);
+    }
+
+    /**
+     * Get invitations
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getInvitations()
+    {
+        return $this->invitations;
     }
 }
