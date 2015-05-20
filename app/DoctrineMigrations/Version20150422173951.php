@@ -59,7 +59,7 @@ class Version20150422173951 extends AbstractMigration implements ContainerAwareI
             $em->persist($invitation);
         }
 
-//        $em->flush();
+        $em->flush();
     }
 
     /**
