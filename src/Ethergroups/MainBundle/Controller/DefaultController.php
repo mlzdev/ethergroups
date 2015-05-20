@@ -2,6 +2,7 @@
 
 namespace Ethergroups\MainBundle\Controller;
 
+use Ethergroups\MainBundle\Entity\Invitation;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Ethergroups\MainBundle\Entity\Groups;
 use Symfony\Component\HttpFoundation\Cookie;
@@ -68,13 +69,13 @@ class DefaultController extends Controller {
 		}
 
 		$groups = $user->getGroups();
-		$groupRequests = $user->getGroupRequests();
+        $invitations = $user->getInvitations();
 
 		list($response, $firstExpiration) = $this->updateCookie($etherpadlite, $groups, $user);
 
 		return $this->render(
             'EthergroupsMainBundle:Default:index.html.twig',
-            array('form' => $form->createView(), 'groups' => $groups, 'groupRequests'=>$groupRequests, 'firstExpiration'=>$firstExpiration),
+            array('form' => $form->createView(), 'groups' => $groups, 'invitations'=>$invitations, 'firstExpiration'=>$firstExpiration),
             $response
         );
 	}
@@ -330,14 +331,18 @@ class DefaultController extends Controller {
 	                 $userProvider->updateUser($user);
 
 	                 // Is the user already a member of this group?
-	                 if($group->getUsers()->contains($user) || $group->getUserRequests()->contains($user)) {
+	                 if($group->getUsers()->contains($user) || $group->getInvitations()->contains($user)) {
 	                     $this->get('session')
 	                     ->getFlashBag()->set('notice', $translator->trans('userExistsInGroup', array(), 'notifications'));
                          $logger->info('add user failed: user already exists in group,'.$group->getGroupid().(($logUserData)?',"'.$username.'",'.$this->getUser()->getAuthorid():''));
 	                 }
 	                 else {
-	                     // Make the request
-	                     $user->addGroupRequest($group);
+	                     // Add an Invitation
+                         $invitation = new Invitation();
+                         $invitation->setUser($user);
+                         $invitation->setGroup($group);
+                         $invitation->setCreated(time());
+                         $em->persist($invitation);
                          $em->flush();
 
                          //Write a mail to the added user

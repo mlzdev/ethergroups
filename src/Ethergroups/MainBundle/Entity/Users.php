@@ -100,14 +100,6 @@ class Users implements UserInterface
     private $groups;
     
     /**
-     * @var Groups $groupRequests
-     * 
-     * @ORM\ManyToMany(targetEntity="Groups", indexBy="id", inversedBy="userRequests")
-     * @ORM\OrderBy({"name" = "ASC", "id" = "ASC"})
-     */
-    private $groupRequests;
-
-    /**
      * @var Invitation $invitations
      *
      * @ORM\OneToMany(targetEntity="Invitation", mappedBy="user")
@@ -475,39 +467,6 @@ class Users implements UserInterface
     public function getPolicyagreed()
     {
         return $this->policyagreed;
-    }
-
-    /**
-     * Add groupRequests
-     *
-     * @param \Ethergroups\MainBundle\Entity\Groups $groupRequests
-     * @return User
-     */
-    public function addGroupRequest(\Ethergroups\MainBundle\Entity\Groups $groupRequests)
-    {
-        $this->groupRequests[] = $groupRequests;
-    
-        return $this;
-    }
-
-    /**
-     * Remove groupRequests
-     *
-     * @param \Ethergroups\MainBundle\Entity\Groups $groupRequests
-     */
-    public function removeGroupRequest(\Ethergroups\MainBundle\Entity\Groups $groupRequests)
-    {
-        $this->groupRequests->removeElement($groupRequests);
-    }
-
-    /**
-     * Get groupRequests
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getGroupRequests()
-    {
-        return $this->groupRequests;
     }
 
     /**

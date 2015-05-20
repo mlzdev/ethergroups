@@ -2,6 +2,7 @@
 
 namespace Ethergroups\MainBundle\Controller;
 
+use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -18,15 +19,17 @@ class GroupController extends Controller {
                 ->getFlashBag()->set('notice', $translator->trans('invalidID', array(), 'notifications'));
             return $this->redirect($this->generateUrl('base'));
         }
-        
+
+        /** @var EntityManager $em */
         $em = $this->getDoctrine()->getManager();
         $group = $em->getRepository('EthergroupsMainBundle:Groups')->find($id);
-        
+
         $user = $this->getUser();
-        $groupRequests = $user->getGroupRequests();
-        
-        if($groupRequests->containsKey($id)) {
-            $user->removeGroupRequest($group);
+        $invitation = $em->find('EthergroupsMainBundle:Invitation', array('user'=>$user->getId(), 'group'=>$group->getId()));
+
+        if(isset($invitation)) {
+
+            $em->remove($invitation);
             $group->addUser($user);
             
             $em->flush();
@@ -49,16 +52,16 @@ class GroupController extends Controller {
                 ->getFlashBag()->set('notice', $translator->trans('invalidID', array(), 'notifications'));
             return $this->redirect($this->generateUrl('base'));
         }
-        
+
+        /** @var EntityManager $em */
         $em = $this->getDoctrine()->getManager();
         
         $group = $em->getRepository('EthergroupsMainBundle:Groups')->find($id);
         $user = $this->getUser();
+        $invitation = $em->find('EthergroupsMainBundle:Invitation', array('user'=>$user->getId(), 'group'=>$group->getId()));
         
-        $groupRequests = $user->getGroupRequests();
-        
-        if($groupRequests->containsKey($id)) {
-            $user->removeGroupRequest($group);
+        if(isset($invitation)) {
+            $em->remove($invitation);
             $em->flush();
         }
         else {
