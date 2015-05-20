@@ -2,7 +2,9 @@
 
 namespace Ethergroups\MainBundle\Controller;
 
+use Entities\User;
 use Ethergroups\MainBundle\Entity\Invitation;
+use Ethergroups\MainBundle\Helper\EtherpadLiteClient;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Ethergroups\MainBundle\Entity\Groups;
 use Symfony\Component\HttpFoundation\Cookie;
@@ -810,10 +812,11 @@ class DefaultController extends Controller {
      * Updates the sessionID cookie, to authorise against the etherpad server
      * This method tries to create sessions as few as possible
      *
-     * @param null $etherpadlite
-     * @param null $groups
-     * @param null $user
-     * @return Response
+     * @param EtherpadLiteClient $etherpadlite
+     * @param Groups             $groups
+     * @param User               $user
+     * @return array [0] Response new response object with cookie set<br>
+     *          [1] int the time in seconds when the first session expires
      */
     private function updateCookie($etherpadlite=null, $groups = null, $user = null) {
 	    if(!isset($etherpadlite)) {
