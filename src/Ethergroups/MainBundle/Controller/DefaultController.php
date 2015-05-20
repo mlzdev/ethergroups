@@ -384,8 +384,8 @@ class DefaultController extends Controller {
 	    }
 	    else {
 	        $this->get('session')
-	        ->getFlashBag()->set('notice', $translator->trans(groupNotExistent));
-            $logger->info('add user failed: group not existent,'.$group->getGroupid().(($logUserData)?','.$this->getUser()->getAuthorid():''));
+	        ->getFlashBag()->set('notice', $translator->trans('groupNotExistent', array(), 'notifications'));
+            $logger->info('add user failed: group not existent,'.$id.(($logUserData)?','.$this->getUser()->getAuthorid():''));
 	    }
 
 
