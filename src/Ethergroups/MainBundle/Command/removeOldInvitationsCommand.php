@@ -34,16 +34,18 @@ class RemoveOldInvitationsCommand extends ContainerAwareCommand {
 
         $daysAgo = strtotime("today midnight -$days days");
 
+        $count = 0;
         foreach ($invitations as $invitation) {
             if($invitation->getCreated() < $daysAgo) {
                 $output->writeln(
                     'Invitation for user: '.$invitation->getUser()->getUid().' and group: '.$invitation->getGroup()->getGroupid().' removed'
                 );
                 $em->remove($invitation);
+                $count++;
             }
         }
         $em->flush();
         
-        $output->writeln('successful');
+        $output->writeln('successfuly removed '.$count.' invitations');
     }
 }

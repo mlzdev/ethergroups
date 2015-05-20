@@ -29,7 +29,8 @@ class LDAPCommand extends ContainerAwareCommand {
         
         // Get all local users
         $localusers = $em->getRepository('EthergroupsMainBundle:Users')->findAll();
-        
+
+        $count = 0;
         foreach ($localusers as $localuser) {
             // Is the user in ldap yet?
             $ldapuser = $ldap->getUserRecord($localuser->getUid());
@@ -40,11 +41,13 @@ class LDAPCommand extends ContainerAwareCommand {
                 foreach ($groups as $group) {
                     $grouphandler->removeUser($group, $localuser);
                 }
+                $output->writeln('Removed user: '.$localuser->getUid());
                 $em->remove($localuser);
+                $count++;
             }
         }
         $em->flush();
         
-        $output->writeln('successful');
+        $output->writeln('successfuly removed '.$count.' users');
     }
 }
