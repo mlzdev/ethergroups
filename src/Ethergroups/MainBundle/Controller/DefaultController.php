@@ -520,8 +520,8 @@ class DefaultController extends Controller {
 	        $user = array();
 	        foreach ($ldapuser as $key => $value) {
 	            if($key !== 'count') {
-	                $user[$key]['value'] = $value['uid']['0'];
-	                $user[$key]['label'] = $value['cn']['0'].' ('.$value['uid']['0'].')';
+	                $user[$key]['value'] = $value['mail']['0'];
+	                $user[$key]['label'] = $value['cn']['0'].' ('.$value['mail']['0'].')';
 	            }
 	        }
 	        
