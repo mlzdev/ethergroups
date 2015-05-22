@@ -70,7 +70,7 @@ group_isLast:
 
 group_searchUserAjax:
     pattern:    /user/search/ajax
-    defaults:   { _controller: HUBerlinEPLiteProBundle:Default:searchUserAjax }
+    defaults:   { _controller: EthergroupsMainBundle:Default:searchUserAjax }
     
 pad:
     pattern:  /pad/{padid}
