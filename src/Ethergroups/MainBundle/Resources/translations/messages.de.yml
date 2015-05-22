@@ -45,6 +45,7 @@ yes: Ja
 no: Nein
 add: hinzufügen
 requestmailsubject: "Ethergroups: Sie wurden zu einer Gruppe hinzugefügt"
+removemailsubject: "Ethergroups: Sie wurden aus einer Gruppe ausgetragen"
 firstgroupname: Meine erste Gruppe
 firstpadname: Mein erstes Blatt
 firstpadtext: |

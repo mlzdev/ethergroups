@@ -2,6 +2,7 @@
 
 namespace Ethergroups\MainBundle\Controller;
 
+use Doctrine\ORM\EntityManager;
 use Entities\User;
 use Ethergroups\MainBundle\Entity\Invitation;
 use Ethergroups\MainBundle\Helper\EtherpadLiteClient;
@@ -392,6 +393,73 @@ class DefaultController extends Controller {
 
 	    return $this->redirect($this->generateUrl('base'));
 	}
+
+    /**
+     * Remove a user form a group
+     * @param Request $request
+     * @param int     $id groupid
+     * @param null    $username
+     * @return RedirectResponse
+     */
+    public function removeUserAction(Request $request, $id=0, $username=null) {
+        /** @var EntityManager $em */
+        $em = $this->getDoctrine()->getManager();
+        /** @var $logger \Symfony\Bridge\Monolog\Logger*/
+        $logger = $this->get('statLogger');
+        $logUserData = $this->container->getParameter('loguserdata');
+        $translator = $this->get('translator');
+
+        if(!$id || !$username) {
+            // TODO: seperate between id and username
+            $this->get('session')
+                ->getFlashBag()->set('notice', $translator->trans('invalidID', array(), 'notifications'));
+            return $this->redirect($this->generateUrl('base'));
+        }
+
+        $group = $em->getRepository('EthergroupsMainBundle:Groups')->find($id);
+        $user = $em->getRepository('EthergroupsMainBundle:Users')->findBy(array('uid'=>$username));
+        $groupUsers = $group->getUsers();
+
+        if($group && $user) {
+            $user = reset($user);
+            if($groupUsers->containsKey($username)) {
+
+                $invitation = new Invitation();
+                $invitation->setUser($user);
+                $invitation->setGroup($group);
+                $invitation->setCreated(time());
+
+                $em->persist($invitation);
+
+                $group->removeUser($user);
+
+                $em->flush();
+
+                //Write a mail to the removed user
+                $message = \Swift_Message::newInstance()
+                    ->setSubject($translator->trans('removemailsubject'))
+                    ->setFrom($this->container->getParameter('mailer_noreply_address'))
+                    ->setTo($user->getMail())
+                    ->setBody(
+                        $this->renderView(
+                            'EthergroupsMainBundle:Mails:userremove.txt.twig',
+                            array('group' => $group, 'user' => $this->getUser())
+                        )
+                    );
+                $this->get('mailer')->send($message);
+            }
+            else {
+                // TODO: User is not in this group
+            }
+
+        }
+        else {
+            // TODO: seperate between group and user
+            $this->get('session')->getFlashBag()->set('notice', $translator->trans('groupNotExistent', array(), 'notifications'));
+        }
+
+        return $this->redirect($this->generateUrl('base'));
+    }
 
     /**
      * Add a picture to a group and return the url to the picture
@@ -870,7 +938,7 @@ class DefaultController extends Controller {
     				}
 			    }
 			    else {
- 			        //$etherpadlite->deleteSession($sessionID); // Throws an error on server side o.O?
+ 			        $etherpadlite->deleteSession($sessionID);
 			    }
 			}
             $firstExpiration = $firstExpiration - $now;

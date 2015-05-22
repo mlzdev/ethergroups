@@ -48,6 +48,10 @@ group_addUser:
     pattern:  /group/add/user/{id}
     defaults: { _controller: EthergroupsMainBundle:Default:addUser, id: 0 }
 
+group_removeUser:
+    pattern:  /group/{id}/remove/user/{username}
+    defaults: { _controller: EthergroupsMainBundle:Default:removeUser, id: 0, username: null }
+
 group_addPicture:
     pattern:  /group/add/picture/{id}
     defaults: { _controller: EthergroupsMainBundle:Default:addPicture, id: 0  }

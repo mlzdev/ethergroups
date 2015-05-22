@@ -59,7 +59,7 @@
                 <div class="usernames">
                     <div>
                         {% for user in group.users %} 
-                            <span title="{{ user.uid }}">{{ user.name }}</span>&nbsp;
+                            <span title="{{ user.uid }}">{{ user.name }}&nbsp;<a href="{{ path('group_removeUser', {'id': group.id, 'username': user.uid}) }}">X</a></span>&nbsp;
                         {% endfor %}
                         {% for invitation in group.invitations %}
                             <span class="notactivated" title="{{ invitation.user.uid }} (not activated)">{{ invitation.user.name }}</span>&nbsp;
