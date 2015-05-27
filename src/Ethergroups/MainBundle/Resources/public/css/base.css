@@ -239,7 +239,7 @@ ul li
 input[type=text], input[type=password]
 {
     border:      1px solid #DADADA;
-    background:  white /*url(../images/field-background.gif) repeat-x left top*/;
+    /*background:  white url(../images/field-background.gif) repeat-x left top;*/
     padding:     5px 6px;
     color:       #565656;
     font-family: 'Lucida Sans Unicode', 'Lucida Grande', Verdana, Arial, Helvetica, sans-serif;

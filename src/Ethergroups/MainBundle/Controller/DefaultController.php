@@ -509,6 +509,47 @@ class DefaultController extends Controller {
 
 	    return new JsonResponse(array('success'=>true));
 	}
+	
+	public function searchUserAjaxAction (Request $request) {
+	    if($request->isXmlHttpRequest()) {
+	        $ldap = $this->get('ldap.data.provider');
+
+            $translator = $this->get('translator');
+	        
+	        $term = $request->query->get('term');
+	        $ldapuser = $ldap->getUserRecordExtended($term, null, true);
+	        
+	        $user = array();
+            $i = 0;
+            $maxUser = 8;
+	        foreach ($ldapuser as $key => $value) {
+	            if($key !== 'count') {
+	                $user[$key]['value'] = $value['mail']['0'];
+	                $user[$key]['label'] = $value['cn']['0'].' ('.$value['mail']['0'].')';
+	            }
+                if($i >= $maxUser) break;
+                $i++;
+	        }
+
+            $count = $ldapuser['count'] - $maxUser;
+            if($count > 0) {
+                $user[] = array(
+                    'value'=>'xxxcount',
+                    'label'=>$translator->trans('usersfound', array('%amount%'=>$count))
+                );
+	        }
+	        
+	        $json = new JsonResponse($user);
+	         
+	        return $json; 
+	    }
+	    else {
+	        $this->get('session')
+	        ->setFlash('notice', 'Diese Url darf nur über ein Ajax Request aufgerufen werden');
+	        return $this->redirect($this->generateUrl('base'));
+	    }
+	}
+
 
     /**
      * Show the pad | Add Password

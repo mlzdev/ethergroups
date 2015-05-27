@@ -39,6 +39,7 @@ showPass: Passwort anzeigen
 hidePass: Passwort verbergen
 user: Mitglieder
 newuser: Neues Mitglied
+usersfound: %amount% weitere Nutzer gefunden.<br>Bitte spezifizieren Sie ihre Suche mit dem HU-Benutzernamen oder der HU-Mailadresse
 removePassword: Passwort entfernen
 changePassword: Passwort ändern
 yes: Ja
