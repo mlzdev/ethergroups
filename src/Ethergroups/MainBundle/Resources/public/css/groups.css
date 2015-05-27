@@ -1,7 +1,7 @@
 @CHARSET "UTF-8";
 
 .notactivated {
-	color: red;
+	color: #808080;
 }
 
 #groups-menu {
