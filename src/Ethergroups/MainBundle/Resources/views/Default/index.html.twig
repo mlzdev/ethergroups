@@ -12,6 +12,21 @@
     background: white url('{{ asset('bundles/ethergroupsmain/images/loader.gif') }}') right center no-repeat;
     background-size: 18px;
   }
+  .ui-menu li.deactivated {
+      margin: 0;
+      padding: 0;
+      zoom: 1;
+      width: 100%;
+  }
+  .ui-menu li.deactivated span {
+      color: #808080;
+      text-decoration: none;
+      display: block;
+      padding: 2px .4em;
+      line-height: 1.5;
+      zoom: 1;
+      font-weight: normal;
+  }
   </style>
 {% endblock %}
 
@@ -32,6 +47,21 @@
 <script type="text/javascript">
     $(function() {
         initIndex("{{ asset('bundles/ethergroupsmain/images/delete_red.png') }}");
+
+        $.widget("ui.autocomplete", $.ui.autocomplete, {
+            _renderItem: function( ul, item ) {
+                if(item.value === 'xxxcount') {
+                    return $( '<li class="deactivated">')
+                            .append( $( "<span>" ).html( item.label) )
+                            .appendTo( ul );
+                }
+                else {
+                    return $( "<li>" )
+                            .append( $( "<a>" ).text( item.label ) )
+                            .appendTo( ul );
+                }
+            }
+        })
 
     	// Autocomplete for the user forms
     	$('.adduserform input[type="text"]').autocomplete({
