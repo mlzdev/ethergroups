@@ -35,6 +35,7 @@ class LDAPCommand extends ContainerAwareCommand {
             // Is the user in ldap yet?
             $ldapuser = $ldap->getUserRecord($localuser->getUid());
             // User is not in ldap
+            // TODO: this has to be checked more deeply (when connection fails, user would also be removed in this scenario)
             if(!$ldapuser) {
                 $groups = $localuser->getGroups();
                 // Go through all groups and remove him (if necessary delete the group)
