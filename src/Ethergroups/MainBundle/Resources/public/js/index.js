@@ -14,6 +14,8 @@ function initIndex(pathRemovePic) {
     // Add Submithandler to the newuser form
     newUserHandler();
 
+    removeUserHandler($('.remove-user'));
+
     // Hide flash messages with a click
     flashmessages.clickHandler();
 

@@ -101,7 +101,7 @@
                 <div class="usernames">
                     <div>
                         {% for user in group.users %} 
-                            <span title="{{ user.uid }}">{{ user.name }}{% if user.uid != app.user.uid %}&nbsp;<a href="{{ path('group_removeUser', {'id': group.id, 'username': user.uid}) }}"><img title="{{ 'removeGroup'|trans }}" src="{{ asset('bundles/ethergroupsmain/images/delete.png') }}" /></a>{% endif %}</span>&nbsp;
+                            <span title="{{ user.uid }}">{{ user.name }}{% if user.uid != app.user.uid %}&nbsp;<a class="remove-user" href="{{ path('group_removeUser', {'id': group.id, 'username': user.uid}) }}"><img title="{{ 'removeGroup'|trans }}" src="{{ asset('bundles/ethergroupsmain/images/delete.png') }}" /></a>{% endif %}</span>&nbsp;
                         {% endfor %}
                         {% for invitation in group.invitations %}
                             <span class="notactivated" title="{{ invitation.user.uid }} (not activated)">{{ invitation.user.name }}</span>&nbsp;
@@ -176,6 +176,7 @@
         <div id="removeGroupDialog" style="display: none">{{ 'removeGroupDialog'|trans({}, 'dialogs') }}</div>
         <div id="removeGroupLastDialog" style="display: none">{{ 'removeGroupLastDialog'|trans({}, 'dialogs') }}</div>
         <div id="removePadDialog" style="display: none">{{ 'removePadDialog'|trans({}, 'dialogs') }}</div>
+        <div id="removeUserDialog" style="display: none;">{{ 'removeUserDialog' |trans({"%days%": invitation_maxdays}, 'dialogs') |raw }}</div>
         <input type="button" class="yes" value="{{ 'yes'|trans }}"/>
         <input type="button" class="no" value="{{ 'no'|trans }}"/>
     </div>

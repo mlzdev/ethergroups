@@ -1,3 +1,4 @@
 removeGroupDialog: Möchten Sie sich wirklich aus dieser Gruppe austragen?
 removeGroupLastDialog: Sie sind das letzte Mitglied dieser Gruppe. Wenn Sie sich austragen, wird die Gruppe mit allen Blättern gelöscht. Möchten Sie das wirklich?
 removePadDialog: ACHTUNG! Hiermit löschen Sie unwiderruflich dieses Blatt für ALLE Mitglieder!
+removeUserDialog: 'Wenn Sie fortfahren, tragen Sie dieses Gruppenmitglied aus.<br>%user% wird darüber informiert und kann sich innerhalb von %days% Tagen wieder hinzufügen.'

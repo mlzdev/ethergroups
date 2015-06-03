@@ -112,3 +112,7 @@
 #invitations .group-link {
 	color: #999;
 }
+
+#removeUserDialog .user {
+    font-weight: bold;
+}
