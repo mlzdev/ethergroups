@@ -44,6 +44,8 @@ removePassword: Remove password
 changePassword: Change password
 yes: yes
 no: no
+ok: ok
+cancel: cancel
 add: add
 firstgroupname: My first group
 firstpadname: My first sheet

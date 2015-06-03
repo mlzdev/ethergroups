@@ -44,6 +44,8 @@ removePassword: Passwort entfernen
 changePassword: Passwort ändern
 yes: Ja
 no: Nein
+ok: OK
+cancel: Abbrechen
 add: hinzufügen
 requestmailsubject: "Ethergroups: Sie wurden zu einer Gruppe hinzugefügt"
 removemailsubject: "Ethergroups: Sie wurden aus einer Gruppe ausgetragen"
