@@ -26,6 +26,7 @@ twig:
         forgotpasswordurl:  %forgotpasswordurl%
         readonly: %readonly%
         support_address: %support_address%
+        invitation_maxdays: %invitation.maxdays%
 
 # Assetic Configuration
 assetic:

@@ -26,3 +26,4 @@ parameters:
     admin_pass: ch4ng3ME!!
     loguserdata: false
     readonly: false
+    invitation.maxdays: 21
