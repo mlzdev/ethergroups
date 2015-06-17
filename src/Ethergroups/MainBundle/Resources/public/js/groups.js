@@ -375,6 +375,9 @@ function changeUrlAndTitle(obj) {
     var groupname = group.find('.group-link').text();
     var padname = obj.text();
 
+    // https://github.com/devote/HTML5-History-API Polyfill
+    var location = window.history.location || window.location;
+
     var query = groupid+'/'+padname;
     var encoded = '?pad='+encodeURIComponent(query);
     if(encoded != location.search) {

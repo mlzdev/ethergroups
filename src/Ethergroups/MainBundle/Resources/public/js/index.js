@@ -38,6 +38,9 @@ function initIndex(pathRemovePic) {
     // show action icons when mouseover groupname
     showActionsHandler($('#groups .group-name'))
 
+    // https://github.com/devote/HTML5-History-API Polyfill
+    var location = window.history.location || window.location;
+
     var search = location.search.substring(1).split('=')[1];
     if(!search) {
         // Trigger click for first group
