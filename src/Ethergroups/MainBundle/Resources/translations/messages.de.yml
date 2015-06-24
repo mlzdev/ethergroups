@@ -39,10 +39,13 @@ showPass: Passwort anzeigen
 hidePass: Passwort verbergen
 user: Mitglieder
 newuser: Neues Mitglied
+usersfound: %amount% weitere Nutzer gefunden.<br>Bitte spezifizieren Sie ihre Suche mit dem HU-Benutzernamen oder der HU-Mailadresse
 removePassword: Passwort entfernen
 changePassword: Passwort ändern
 yes: Ja
 no: Nein
+ok: OK
+cancel: Abbrechen
 add: hinzufügen
 requestmailsubject: "Ethergroups: Sie wurden zu einer Gruppe hinzugefügt"
 removemailsubject: "Ethergroups: Sie wurden aus einer Gruppe ausgetragen"

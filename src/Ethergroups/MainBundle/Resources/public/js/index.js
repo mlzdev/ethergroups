@@ -14,6 +14,8 @@ function initIndex(pathRemovePic) {
     // Add Submithandler to the newuser form
     newUserHandler();
 
+    removeUserHandler($('.remove-user'));
+
     // Hide flash messages with a click
     flashmessages.clickHandler();
 
@@ -35,6 +37,9 @@ function initIndex(pathRemovePic) {
 
     // show action icons when mouseover groupname
     showActionsHandler($('#groups .group-name'))
+
+    // https://github.com/devote/HTML5-History-API Polyfill
+    var location = window.history.location || window.location;
 
     var search = location.search.substring(1).split('=')[1];
     if(!search) {
@@ -73,14 +78,6 @@ function initIndex(pathRemovePic) {
 
     // groupname form submit handler
     renameGroupFormHandler($('.group .editform'));
-
-    // show/hide groups
-    $('#togglegroups').click(function(e){
-        e.preventDefault();
-        $('#groups-menu').toggle();
-        $('#pad').toggleClass('fullwidth');
-        $(this).find('img').toggle();
-    });
 
     // renew cookie every x seconds
     renewCookieHandler()

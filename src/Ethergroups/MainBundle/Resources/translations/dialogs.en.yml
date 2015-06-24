@@ -1,3 +1,4 @@
 removeGroupDialog: Do you really want to sign out of this group?
 removeGroupLastDialog: You are the last one in this group. If you decide to sign out of this group, it will be deleted with all sheets. Do you want to continue?
 removePadDialog: ATTENTION! You're about to delete this sheet for ALL members irreversible!
+removeUserDialog: 'If you continue, you will sign out this groupmember. %user% will be notified and can sign himself back in, within %days% days.'

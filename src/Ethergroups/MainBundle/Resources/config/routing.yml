@@ -67,6 +67,10 @@ group_rename:
 group_isLast:
     pattern:  /group/islast/{id}
     defaults: { _controller: EthergroupsMainBundle:Group:isLast, id: 0 }
+
+group_searchUserAjax:
+    pattern:    /user/search/ajax
+    defaults:   { _controller: EthergroupsMainBundle:Default:searchUserAjax }
     
 pad:
     pattern:  /pad/{padid}

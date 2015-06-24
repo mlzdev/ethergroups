@@ -5,12 +5,13 @@ var flashmessages = {
 			}
 			flashTimeout = setTimeout(function() {
 				$('#flash-messages').slideUp();
-			}, 5000);
+			}, 10000);
 		},
 		show: function(obj) {
 		    $('#flash-messages').slideUp();
 		    $('#flash-messages').empty().append(obj);
 		    $('#flash-messages').slideDown();
+            $('html, body').animate({ scrollTop: 0 })
 		    this.timeout();
 		},
 		clickHandler: function() {

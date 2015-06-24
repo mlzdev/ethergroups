@@ -7,6 +7,27 @@
 <link rel="stylesheet" href="{{ asset('bundles/ethergroupsmain/css/pad.css') }}" />
 <link rel="stylesheet" href="{{ asset('bundles/ethergroupsmain/css/onoffswitch.css') }}" />
 <link rel="stylesheet" href="{{ asset('bundles/ethergroupsmain/css/onoffswitch_custom.css') }}" />
+<style>
+  .ui-autocomplete-loading {
+    background: white url('{{ asset('bundles/ethergroupsmain/images/loader.gif') }}') right center no-repeat;
+    background-size: 18px;
+  }
+  .ui-menu li.deactivated {
+      margin: 0;
+      padding: 0;
+      zoom: 1;
+      width: 100%;
+  }
+  .ui-menu li.deactivated span {
+      color: #808080;
+      text-decoration: none;
+      display: block;
+      padding: 2px .4em;
+      line-height: 1.5;
+      zoom: 1;
+      font-weight: normal;
+  }
+  </style>
 {% endblock %}
 
 {% block javascript %}
@@ -16,6 +37,7 @@
 <script src="{{ asset('bundles/ethergroupsmain/js/libs/strnatcmp.js') }}" ></script>
 <script src="{{ asset('bundles/ethergroupsmain/js/libs/strcmp.js') }}" ></script>
 <script src="{{ asset('bundles/ethergroupsmain/js/libs/modernizr-build.min.js') }}" ></script>
+<script src="{{ asset('bundles/ethergroupsmain/js/libs/history.min.js') }}" ></script>
 
 <script src="{{ asset('bundles/ethergroupsmain/js/uploadGroupPicture.js') }}"></script>
 <script src="{{ asset('bundles/ethergroupsmain/js/flashmessages.js') }}"></script>
@@ -26,6 +48,27 @@
 <script type="text/javascript">
     $(function() {
         initIndex("{{ asset('bundles/ethergroupsmain/images/delete_red.png') }}");
+
+        $.widget("ui.autocomplete", $.ui.autocomplete, {
+            _renderItem: function( ul, item ) {
+                if(item.value === 'xxxcount') {
+                    return $( '<li class="deactivated">')
+                            .append( $( "<span>" ).html( item.label) )
+                            .appendTo( ul );
+                }
+                else {
+                    return $( "<li>" )
+                            .append( $( "<a>" ).text( item.label ) )
+                            .appendTo( ul );
+                }
+            }
+        })
+
+    	// Autocomplete for the user forms
+    	$('.adduserform input[type="text"]').autocomplete({
+        	source: "{{ path('group_searchUserAjax') }}",
+        	minLength: 3
+    	});
     })
 </script>
 {% endblock %}
@@ -59,7 +102,7 @@
                 <div class="usernames">
                     <div>
                         {% for user in group.users %} 
-                            <span title="{{ user.uid }}">{{ user.name }}&nbsp;<a href="{{ path('group_removeUser', {'id': group.id, 'username': user.uid}) }}">X</a></span>&nbsp;
+                            <span title="{{ user.uid }}">{{ user.name }}{% if user.uid != app.user.uid %}&nbsp;<a class="remove-user" href="{{ path('group_removeUser', {'id': group.id, 'username': user.uid}) }}"><img title="{{ 'removeGroup'|trans }}" src="{{ asset('bundles/ethergroupsmain/images/delete.png') }}" /></a>{% endif %}</span>&nbsp;
                         {% endfor %}
                         {% for invitation in group.invitations %}
                             <span class="notactivated" title="{{ invitation.user.uid }} (not activated)">{{ invitation.user.name }}</span>&nbsp;
@@ -134,7 +177,8 @@
         <div id="removeGroupDialog" style="display: none">{{ 'removeGroupDialog'|trans({}, 'dialogs') }}</div>
         <div id="removeGroupLastDialog" style="display: none">{{ 'removeGroupLastDialog'|trans({}, 'dialogs') }}</div>
         <div id="removePadDialog" style="display: none">{{ 'removePadDialog'|trans({}, 'dialogs') }}</div>
-        <input type="button" class="yes" value="{{ 'yes'|trans }}"/>
-        <input type="button" class="no" value="{{ 'no'|trans }}"/>
+        <div id="removeUserDialog" style="display: none;">{{ 'removeUserDialog' |trans({"%days%": invitation_maxdays}, 'dialogs') |raw }}</div>
+        <input type="button" class="yes" value="{{ 'ok'|trans }}"/>
+        <input type="button" class="no" value="{{ 'cancel'|trans }}"/>
     </div>
 {% endblock %}

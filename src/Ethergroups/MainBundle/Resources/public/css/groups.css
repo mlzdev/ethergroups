@@ -1,7 +1,7 @@
 @CHARSET "UTF-8";
 
 .notactivated {
-	color: red;
+	color: #808080;
 }
 
 #groups-menu {
@@ -111,4 +111,8 @@
 
 #invitations .group-link {
 	color: #999;
+}
+
+#removeUserDialog .user {
+    font-weight: bold;
 }

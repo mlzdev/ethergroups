@@ -188,8 +188,7 @@ function newPadFormSubmitHandler(newpadform, uploadGroupPicture) {
     });
 }
 
-function handleDialog(obj, yesFunction) {
-	
+function handleDialog(obj, yesFunction, resetFunction) {
 	obj.show();
 
 	var dialogs = $('#removeDialogs');
@@ -200,7 +199,8 @@ function handleDialog(obj, yesFunction) {
 			hideDialogs();
 			yes.off();
 			no.off();
-		}
+            if(resetFunction) resetFunction()
+        }
 	});
 	
 	var yes = dialogs.find('.yes');
@@ -244,6 +244,37 @@ function removePadHandler(obj) {
             });
         	
         });
+}
+
+function removeUserHandler(obj) {
+    obj.click(function(e) {
+        e.preventDefault()
+
+        var $this = $(this)
+
+        var dialog = $('#removeUserDialog')
+
+        var username = $this.parent().text().trim()
+        var userElem = '<span class="user">'+username+'</span>'
+
+        var html = dialog.html();
+        var orig = dialog.clone();
+        html = html.replace('%user%', userElem)
+        dialog.html(html)
+
+        handleDialog(dialog, function(pageUnblock) {
+            pageUnblock();
+
+            $.get($this.attr('href'), function(data) {
+                //TODO: check for success; Show notifications
+                $this.parent().addClass('notactivated');
+                $this.remove();
+            })
+
+        }, function() {
+            dialog.html(orig.html());
+        })
+    })
 }
 
 function openPadAndGroupHandler(obj, group, uploadGroupPicture) {
@@ -343,6 +374,9 @@ function changeUrlAndTitle(obj) {
     groupid = groupid.split('-')[1];
     var groupname = group.find('.group-link').text();
     var padname = obj.text();
+
+    // https://github.com/devote/HTML5-History-API Polyfill
+    var location = window.history.location || window.location;
 
     var query = groupid+'/'+padname;
     var encoded = '?pad='+encodeURIComponent(query);
