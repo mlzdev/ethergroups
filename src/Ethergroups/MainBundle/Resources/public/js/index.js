@@ -79,14 +79,6 @@ function initIndex(pathRemovePic) {
     // groupname form submit handler
     renameGroupFormHandler($('.group .editform'));
 
-    // show/hide groups
-    $('#togglegroups').click(function(e){
-        e.preventDefault();
-        $('#groups-menu').toggle();
-        $('#pad').toggleClass('fullwidth');
-        $(this).find('img').toggle();
-    });
-
     // renew cookie every x seconds
     renewCookieHandler()
 }
