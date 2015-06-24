@@ -72,7 +72,7 @@ class LdapDataSource
 	        $result = $this->searchRecords('(|('.$this->ldapUserAttribute . "=" . $user.')(sn='.$user.')(cn='.$user.')(givenName='.$user.')(mail='.$user.'))', array("uid", "sn", "cn", "mail", "givenName"), $resourceLink);
 	    }
 	    else {
-	        $result = $this->searchRecords('(|('.$this->ldapUserAttribute . "=" . $user.')(cn='.$user.'*)(sn='.$user.'*)(givenName='.$user.'*)(mail='.$user.'*))', array("uid", "sn", "cn", "mail", "givenName"), $resourceLink, null, 1);
+	        $result = $this->searchRecords('(|('.$this->ldapUserAttribute . "=" . $user.')(cn='.$user.'*)(sn='.$user.'*)(givenName='.$user.'*)(mail='.$user.'*))', array("uid", "sn", "cn", "mail", "givenName"), $resourceLink, null, 5);
 	    }
 	    
 	    if(!$returnall) {
