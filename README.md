@@ -21,6 +21,7 @@ Written by *Timo Welde*
 5. [Customizing](#customizing)
 6. [Security](#security)
 7. [Components & Licenses](#components--licenses)
+8. [Sponsors](#sponsors)
 
 
 ## [Overview](id:overview)
@@ -252,3 +253,6 @@ Component						| Version	| License		| Usage
 [Modernizr](http://modernizr.com/)						| 3.0.0pre (Custom Build) | MIT  			| to find out browser features (disabling css3 switch)
 Icons (from Moodle)				|| GPL  			| the Icons
 Ethergroups				|| GPL			| this application
+
+## [Sponsors](id:sponsors)
+Browsertesting is kindly provided by [BrowserStack](https://browserstack.com)
