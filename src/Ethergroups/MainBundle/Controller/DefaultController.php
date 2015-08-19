@@ -979,7 +979,7 @@ class DefaultController extends Controller {
     				}
 			    }
 			    else {
-						//$etherpadlite->deleteSession($sessionID); // Throws an error on server side o.O?
+						$etherpadlite->deleteSession($sessionID); // Throws an error on server side o.O?
 			    }
 			}
             $firstExpiration = $firstExpiration - $now;
