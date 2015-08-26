@@ -688,6 +688,8 @@ class DefaultController extends Controller {
 	public function deletePadAction($padid = 0) {
 	    $translator = $this->get('translator');
 	    $eplite = $this->get('etherpadlite');
+		$fs = new Filesystem();
+		$root = $this->get('kernel')->getRootDir();
         $logger = $this->get('statLogger');
         $logUserData = $this->container->getParameter('loguserdata');
 
@@ -698,6 +700,9 @@ class DefaultController extends Controller {
 	    }
 
 	    try {
+			$now = date("YmdHis");
+			$padHTML = $eplite->getHTML($padid)->html;
+			$fs->dumpFile($root.'/backups/'.$now.'$'.$padid.'.html', $padHTML);
 	        $eplite->deletePad($padid);
 	        $this->removePasswordFromDatabase($padid);
             $logger->info('pad removed,'.$padid.(($logUserData)?','.$this->getUser()->getAuthorid():''));
