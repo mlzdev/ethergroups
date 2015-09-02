@@ -30,7 +30,7 @@ class RemoveOldInvitationsCommand extends ContainerAwareCommand {
 
         $days = $input->getArgument('days');
 
-        $days = (isset($days))?$days:21;
+        $days = (isset($days)) ? $days : $this->getContainer()->getParameter('invitation.maxdays');
 
         $daysAgo = strtotime("today midnight -$days days");
 
