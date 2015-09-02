@@ -4,17 +4,20 @@ namespace Ethergroups\MainBundle\Helper;
 
 use Doctrine\ORM\EntityManager;
 use Symfony\Bridge\Monolog\Logger;
+use Symfony\Component\Filesystem\Filesystem;
 
 class GroupHandler {
     
     private $em;
     private $etherpadlite;
+    private $rootDir;
     private $logger;
     private $logUserData;
     
-    public function __construct(EntityManager $em, EtherpadLiteClient $etherpadlite, Logger $logger, $logUserData) {
+    public function __construct(EntityManager $em, EtherpadLiteClient $etherpadlite, $rootDir, Logger $logger, $logUserData) {
         $this->em = $em;
         $this->etherpadlite = $etherpadlite;
+        $this->rootDir = $rootDir;
         $this->logger = $logger;
         $this->logUserData = $logUserData;
     }
@@ -55,6 +58,15 @@ class GroupHandler {
     public function deleteGroup($group) {
 	    
 	    try {
+            $fs = new Filesystem();
+            $now = date("YmdHis");
+            $padIDs = $this->etherpadlite->listPads($group->getGroupid())->padIDs;
+
+            foreach ($padIDs as $padID) {
+                $padHTML = $this->etherpadlite->getHTML($padID)->html;
+                $fs->dumpFile($this->rootDir.'/backups/'.$now.'$'.$padID.'.html', $padHTML);
+            }
+
 	        $this->etherpadlite->deleteGroup($group->getGroupid());
 	        $this->em->remove($group);
 

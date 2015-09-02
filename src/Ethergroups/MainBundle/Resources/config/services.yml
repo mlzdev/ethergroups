@@ -33,7 +33,7 @@ services:
             
     grouphandler:
         class: Ethergroups\MainBundle\Helper\GroupHandler
-        arguments: [ @doctrine.orm.entity_manager, @etherpadlite, @statLogger, %loguserdata% ]
+        arguments: [ @doctrine.orm.entity_manager, @etherpadlite, %kernel.root_dir%, @statLogger, %loguserdata% ]
         
     etherpadlite:
         class: %etherpadlite.class%
